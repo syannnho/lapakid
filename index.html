@@ -173,6 +173,29 @@ mark{background:rgba(70,95,255,.15);color:var(--purple);border-radius:2px;paddin
 /* FOOTER */
 footer{border-top:1px solid var(--border);padding:20px 32px;text-align:center;background:var(--card);color:var(--muted);font-size:.62rem}
 footer a{color:var(--purple);text-decoration:none;font-weight:600}
+
+/* ── MUSIC PLAYER ── */
+.music-player{position:fixed;left:16px;bottom:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:8px 14px 8px 10px;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;transform:translateX(0);opacity:1;min-width:220px}
+.music-player.hidden{transform:translateX(calc(-100% - 32px));opacity:0;pointer-events:none}
+.music-album{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:spin 8s linear infinite;animation-play-state:paused}
+.music-album.playing{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+.music-album svg{width:16px;height:16px;stroke:#fff;fill:none}
+.music-info{flex:1;min-width:0;overflow:hidden}
+.music-title{font-size:.62rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music-sub{font-size:.52rem;color:rgba(255,255,255,.5);margin-top:1px}
+.music-controls{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.mc-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.15s;color:rgba(255,255,255,.7)}
+.mc-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
+.mc-btn svg{width:14px;height:14px;stroke:currentColor;fill:none}
+.mc-play{background:rgba(70,95,255,.8)!important;color:#fff!important;width:28px;height:28px;border-radius:50%}
+.mc-play:hover{background:var(--purple)!important}
+.mc-play svg{width:12px;height:12px}
+.music-progress{position:absolute;bottom:0;left:10px;right:14px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.music-progress-bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2));border-radius:2px;width:0%;transition:width .5s linear}
+.music-toggle{position:fixed;left:16px;bottom:24px;z-index:9998;background:rgba(20,20,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.8);pointer-events:none}
+.music-toggle.show{opacity:1;transform:scale(1);pointer-events:all}
+.music-toggle svg{width:18px;height:18px;stroke:#fff;fill:none}
 </style>
 </head>
 <body>
@@ -530,6 +553,147 @@ function showToast(msg) {
 
 init();
 window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(); });
+
+// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
+(function() {
+  const TRACKS = [
+    { title: 'Lofi Vibes', src: 'https://files.catbox.moe/d0y6ho.mp3' },
+  ];
+
+  let trackIdx = 0;
+  let hideTimer = null;
+  let isHidden = false;
+  let progressInterval = null;
+
+  const player  = document.getElementById('musicPlayer');
+  const toggle  = document.getElementById('musicToggle');
+  const album   = document.getElementById('musicAlbum');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const playIcon= document.getElementById('playIcon');
+  const bar     = document.getElementById('musicBar');
+  const titleEl = document.getElementById('musicTitle');
+  const subEl   = document.getElementById('musicSub');
+
+  const audio = new Audio();
+  audio.loop = false;
+  audio.volume = 0.6;
+
+  function loadTrack(idx, autoplay) {
+    trackIdx = ((idx % TRACKS.length) + TRACKS.length) % TRACKS.length;
+    const t = TRACKS[trackIdx];
+    audio.src = t.src;
+    titleEl.textContent = t.title;
+    subEl.textContent = 'Track ' + (trackIdx + 1) + ' / ' + TRACKS.length;
+    bar.style.width = '0%';
+    if (autoplay) audio.play().catch(function(){});
+  }
+
+  function updatePlayUI() {
+    var playing = !audio.paused;
+    album.classList.toggle('playing', playing);
+    playIcon.innerHTML = playing
+      ? '<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>'
+      : '<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
+  }
+
+  function startProgress() {
+    clearInterval(progressInterval);
+    progressInterval = setInterval(function() {
+      if (!audio.duration) return;
+      bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    }, 500);
+  }
+
+  function showPlayer() {
+    isHidden = false;
+    player.classList.remove('hidden');
+    toggle.classList.remove('show');
+    resetHideTimer();
+  }
+
+  function hidePlayer() {
+    isHidden = true;
+    player.classList.add('hidden');
+    toggle.classList.add('show');
+    clearTimeout(hideTimer);
+  }
+
+  function resetHideTimer() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function() {
+      hidePlayer();
+      setTimeout(showPlayer, 20000);
+    }, 20000);
+  }
+
+  audio.addEventListener('play', function() { updatePlayUI(); startProgress(); });
+  audio.addEventListener('pause', function() { updatePlayUI(); clearInterval(progressInterval); });
+  audio.addEventListener('ended', function() { loadTrack(trackIdx + 1, true); });
+
+  btnPlay.addEventListener('click', function() {
+    if (audio.paused) audio.play().catch(function(){});
+    else audio.pause();
+    resetHideTimer();
+  });
+  btnPrev.addEventListener('click', function() { loadTrack(trackIdx - 1, !audio.paused); resetHideTimer(); });
+  btnNext.addEventListener('click', function() { loadTrack(trackIdx + 1, !audio.paused); resetHideTimer(); });
+
+  toggle.addEventListener('click', showPlayer);
+
+  player.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+  player.addEventListener('mouseleave', resetHideTimer);
+  player.addEventListener('touchstart', function() {
+    clearTimeout(hideTimer);
+    setTimeout(resetHideTimer, 3000);
+  }, {passive:true});
+
+  loadTrack(0, false);
+
+  var started = false;
+  function tryStart() {
+    if (started) return;
+    started = true;
+    audio.play().catch(function(){});
+    document.removeEventListener('click', tryStart);
+    document.removeEventListener('touchstart', tryStart);
+  }
+  document.addEventListener('click', tryStart);
+  document.addEventListener('touchstart', tryStart, {passive:true});
+
+  resetHideTimer();
+})();
+
 </script>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player" id="musicPlayer">
+  <div class="music-album" id="musicAlbum">
+    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  </div>
+  <div class="music-info">
+    <div class="music-title" id="musicTitle">Loading...</div>
+    <div class="music-sub" id="musicSub">lapakID Music</div>
+  </div>
+  <div class="music-controls">
+    <button class="mc-btn" id="btnPrev" title="Sebelumnya">
+      <svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+    </button>
+    <button class="mc-btn mc-play" id="btnPlay" title="Play/Pause">
+      <svg id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="mc-btn" id="btnNext" title="Berikutnya">
+      <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+    </button>
+  </div>
+  <div class="music-progress"><div class="music-progress-bar" id="musicBar"></div></div>
+</div>
+
+<!-- Toggle button (muncul saat player hidden) -->
+<div class="music-toggle" id="musicToggle" title="Buka musik">
+  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</div>
+
 </body>
 </html>
