@@ -88,6 +88,31 @@ module.exports = async function handler(req, res) {
   setCORS(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
+  // ── Root "/" — serve OG meta redirect page ─────────────────────────────────
+  const rawPath = req.url.split('?')[0];
+  if (rawPath === '/' || rawPath === '') {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.status(200).end(`<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>lapakID — Koleksi ID Premium</title>
+<meta property="og:title" content="lapakID — Koleksi ID Premium"/>
+<meta property="og:description" content="Koleksi ID premium pilihan. Tersedia dalam 4 tier: Low, Medium, High, dan Legend. Beli dengan aman, bergaransi, dan proses cepat."/>
+<meta property="og:image" content="https://files.catbox.moe/em51di.png"/>
+<meta property="og:url" content="https://nataza.vercel.app/"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://files.catbox.moe/em51di.png"/>
+<link rel="icon" type="image/png" href="https://files.catbox.moe/em51di.png"/>
+<meta http-equiv="refresh" content="0;url=/index.html"/>
+<script>window.location.replace('/index.html');</script>
+</head>
+<body></body>
+</html>`);
+  }
+
   let db;
   try {
     db = await getDB();
