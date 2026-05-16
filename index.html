@@ -27,7 +27,7 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .nav-logo{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.3px}
 .logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center}
 .logo-mark svg{width:14px;height:14px;stroke:#fff;fill:none}
-.logo-img{width:28px;height:28px;object-fit:contain;flex-shrink:0}
+.logo-img{height:36px;width:auto;object-fit:contain;flex-shrink:0}
 .nav-links{display:flex;align-items:center;gap:6px}
 .nav-link{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.7rem;font-weight:600;color:var(--muted2);text-decoration:none;transition:.15s}
 .nav-link:hover,.nav-link.active{background:var(--bg2);color:var(--text)}
@@ -71,8 +71,8 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .id-card:hover{border-color:var(--purple);transform:translateY(-2px);box-shadow:0 8px 24px rgba(70,95,255,.12)}
 .id-card.is-sold{opacity:.55;cursor:default;pointer-events:none}
 .sold-badge{position:absolute;top:8px;right:8px;background:var(--sold);color:#fff;font-size:.45rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
-.id-num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--text);word-break:break-all;line-height:1.4;display:flex;align-items:center;gap:5px}
-.id-icon{width:14px;height:14px;object-fit:contain;flex-shrink:0;opacity:.85}
+.id-num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--text);word-break:break-all;line-height:1.4;display:flex;align-items:center;gap:6px}
+.id-icon{width:20px;height:20px;object-fit:contain;flex-shrink:0}
 .id-card.is-sold .id-num{text-decoration:line-through;color:var(--muted)}
 .id-bottom{display:flex;align-items:center;justify-content:space-between}
 .id-tier{font-size:.5rem;font-weight:700;padding:2px 7px;border-radius:99px;letter-spacing:.3px;text-transform:uppercase}
@@ -160,7 +160,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 <nav>
   <a href="index.html" class="nav-logo">
     <img id="logoImg" src="https://files.catbox.moe/j4ittw.png" alt="lapakID" class="logo-img"/>
-    lapakID
   </a>
   <div class="nav-links">
     <div class="theme-btn" id="themeBtn"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
