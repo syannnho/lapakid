@@ -466,8 +466,8 @@ function renderIdTable(ids) {
       <td>${dateStr(id.addedAt)}</td>
       <td>
         <div class="td-actions">
-          <button class="btn btn-sm ${id.sold?'btn-success':'btn-danger'}" style="${id.sold?'':'background:rgba(239,68,68,.1);color:var(--sold);border:1px solid rgba(239,68,68,.2)'}" onclick="toggleSold(this.dataset.num, this.dataset.sold==='true')" data-num="${id.number}" data-sold="${!id.sold}">${id.sold?'Batalkan':'Tandai Terjual'}</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteId(this.dataset.num)" data-num="${id.number}"><svg viewBox="0 0 24 24" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+          <button class="btn btn-sm ${id.sold?'btn-success':'btn-danger'}" style="${id.sold?'':'background:rgba(239,68,68,.1);color:var(--sold);border:1px solid rgba(239,68,68,.2)'}" data-number="${id.number}" data-newsold="${!id.sold}" onclick="toggleSold(this.getAttribute('data-number'), this.getAttribute('data-newsold')==='true')">${id.sold?'Batalkan':'Tandai Terjual'}</button>
+          <button class="btn btn-sm btn-danger" data-number="${id.number}" onclick="deleteId(this.getAttribute('data-number'))"><svg viewBox="0 0 24 24" width="12" height="12"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
         </div>
       </td>
     </tr>
@@ -569,7 +569,7 @@ async function loadPayments() {
           <td><span class="badge badge-${p.status==='confirmed'?'confirmed':'pending'}">${p.status==='confirmed'?'CONFIRMED':'PENDING'}</span></td>
           <td>${dateStr(p.createdAt)}</td>
           <td>${p.status==='pending'
-            ? `<button class="btn btn-sm btn-success" onclick="confirmPayment('${pid}')">Konfirmasi</button>`
+            ? `<button class="btn btn-sm btn-success" data-pid="${pid}" onclick="confirmPayment(this.getAttribute('data-pid'))">Konfirmasi</button>`
             : '<span style="color:var(--muted);font-size:.6rem">Selesai</span>'}</td>
         </tr>
       `;
