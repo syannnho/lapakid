@@ -564,6 +564,7 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   var trackIdx = 0;
   var hideTimer = null;
   var progressInterval = null;
+  var isLoading = false;
 
   var player  = document.getElementById('musicPlayer');
   var toggle  = document.getElementById('musicToggle');
@@ -576,30 +577,73 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   var titleEl = document.getElementById('musicTitle');
   var subEl   = document.getElementById('musicSub');
 
-  // Pakai <audio> HTML tag supaya lebih stabil di mobile
-  var audio = document.getElementById('musicAudio');
-  if (!audio) {
-    audio = document.createElement('audio');
-    audio.id = 'musicAudio';
-    audio.preload = 'none';
-    audio.volume = 0.7;
-    document.body.appendChild(audio);
+  var audio = new Audio();
+  audio.preload = 'metadata';
+  audio.volume = 0.7;
+
+  function setTitle(t) {
+    titleEl.textContent = t;
   }
 
   function loadTrack(idx, autoplay) {
     trackIdx = ((idx % TRACKS.length) + TRACKS.length) % TRACKS.length;
     var t = TRACKS[trackIdx];
+
+    // Reset
     audio.pause();
-    audio.src = t.src;
+    audio.removeAttribute('src');
     audio.load();
-    titleEl.textContent = t.title;
-    subEl.textContent = 'Track ' + (trackIdx + 1) + ' / ' + TRACKS.length;
     bar.style.width = '0%';
+    isLoading = autoplay;
+
+    // Update info langsung — tidak tunggu audio
+    setTitle(t.title);
+    subEl.textContent = 'Track ' + (trackIdx + 1) + ' / ' + TRACKS.length;
+
     if (autoplay) {
-      audio.addEventListener('canplay', function onReady() {
-        audio.removeEventListener('canplay', onReady);
+      setTitle('⏳ ' + t.title);
+      audio.src = t.src;
+      audio.load();
+
+      function onCanPlay() {
+        audio.removeEventListener('canplaythrough', onCanPlay);
+        isLoading = false;
+        setTitle(t.title);
         audio.play().catch(function(){});
-      });
+      }
+      audio.addEventListener('canplaythrough', onCanPlay);
+
+      // Fallback: kalau 8 detik tidak canplay, coba play paksa
+      setTimeout(function() {
+        if (isLoading) {
+          isLoading = false;
+          setTitle(t.title);
+          audio.play().catch(function(){});
+        }
+      }, 8000);
+    }
+
+    updatePlayUI();
+  }
+
+  function playCurrentTrack() {
+    var t = TRACKS[trackIdx];
+    if (!audio.src || audio.src === '' || audio.src === window.location.href) {
+      setTitle('⏳ ' + t.title);
+      audio.src = t.src;
+      audio.load();
+      function onReady() {
+        audio.removeEventListener('canplaythrough', onReady);
+        setTitle(t.title);
+        audio.play().catch(function(){});
+      }
+      audio.addEventListener('canplaythrough', onReady);
+      setTimeout(function() {
+        setTitle(t.title);
+        audio.play().catch(function(){});
+      }, 5000);
+    } else {
+      audio.play().catch(function(){});
     }
   }
 
@@ -624,13 +668,11 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
     toggle.classList.remove('show');
     resetHideTimer();
   }
-
   function hidePlayer() {
     player.classList.add('hidden');
     toggle.classList.add('show');
     clearTimeout(hideTimer);
   }
-
   function resetHideTimer() {
     clearTimeout(hideTimer);
     hideTimer = setTimeout(function() {
@@ -642,21 +684,17 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   audio.addEventListener('play',  function() { updatePlayUI(); startProgress(); });
   audio.addEventListener('pause', function() { updatePlayUI(); clearInterval(progressInterval); });
   audio.addEventListener('ended', function() { loadTrack(trackIdx + 1, true); });
-  audio.addEventListener('error', function() {
-    titleEl.textContent = 'Error - skip...';
-    setTimeout(function(){ loadTrack(trackIdx + 1, true); }, 1500);
+  audio.addEventListener('error', function(e) {
+    console.log('Audio error:', e);
+    setTitle('Gagal load, coba next');
+    isLoading = false;
   });
 
   btnPlay.addEventListener('click', function() {
-    if (audio.paused) {
-      if (!audio.src || audio.src === window.location.href) loadTrack(trackIdx, false);
-      audio.play().catch(function(){});
-    } else {
-      audio.pause();
-    }
+    if (audio.paused) { playCurrentTrack(); }
+    else { audio.pause(); }
     resetHideTimer();
   });
-
   btnPrev.addEventListener('click', function() { loadTrack(trackIdx - 1, !audio.paused); resetHideTimer(); });
   btnNext.addEventListener('click', function() { loadTrack(trackIdx + 1, !audio.paused); resetHideTimer(); });
   toggle.addEventListener('click', showPlayer);
@@ -668,8 +706,9 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
     setTimeout(resetHideTimer, 3000);
   }, {passive:true});
 
-  // Load track pertama tapi tidak autoplay
-  loadTrack(0, false);
+  // Init — set judul tanpa load audio
+  setTitle(TRACKS[0].title);
+  subEl.textContent = 'Track 1 / ' + TRACKS.length;
   resetHideTimer();
 })();
 
