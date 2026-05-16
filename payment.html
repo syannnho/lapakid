@@ -24,103 +24,105 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .nav-logo{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.3px}
 .logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center}
 .logo-mark svg{width:14px;height:14px;stroke:#fff;fill:none}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-link{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.7rem;font-weight:600;color:var(--muted2);text-decoration:none;transition:.15s}
-.nav-link:hover,.nav-link.active{background:var(--bg2);color:var(--text)}
-.nav-link svg{width:13px;height:13px;stroke:currentColor;fill:none;flex-shrink:0}
+.nav-back{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.7rem;font-weight:600;color:var(--muted2);text-decoration:none;background:var(--bg2);border:1px solid var(--border)}
+.nav-back svg{width:13px;height:13px;stroke:currentColor;fill:none}
 .theme-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .theme-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
+.nav-right{display:flex;align-items:center;gap:8px}
 
-.page-wrap{max-width:900px;margin:0 auto;padding:32px 16px 60px}
-@media(min-width:768px){.page-wrap{padding:40px 32px 80px}}
+.page-wrap{max-width:860px;margin:0 auto;padding:28px 16px 80px}
+@media(min-width:768px){.page-wrap{padding:36px 32px 80px}}
 
-.page-title{font-size:1.6rem;font-weight:900;color:var(--text);letter-spacing:-.4px;margin-bottom:4px}
-.page-sub{color:var(--muted);font-size:.75rem;margin-bottom:28px}
-
-/* TIER PRICE CARDS */
-.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px}
-@media(min-width:640px){.price-grid{grid-template-columns:repeat(4,1fr)}}
-.price-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.price-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(70,95,255,.1)}
-.price-card.selected{border-color:var(--purple);box-shadow:0 0 0 4px rgba(70,95,255,.12)}
-.price-card.selected-low{border-color:var(--low)}
-.price-card.selected-medium{border-color:var(--medium)}
-.price-card.selected-high{border-color:var(--high)}
-.price-card.selected-legend{border-color:var(--legend);box-shadow:0 0 0 4px rgba(234,179,8,.12)}
-.pc-tier{font-size:.55rem;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px;display:inline-block;margin-bottom:8px}
-.tier-low{background:rgba(107,114,128,.1);color:var(--low);border-color:rgba(107,114,128,.2)}
-.tier-medium{background:rgba(59,130,246,.1);color:var(--medium);border-color:rgba(59,130,246,.2)}
-.tier-high{background:rgba(249,115,22,.1);color:var(--high);border-color:rgba(249,115,22,.2)}
-.tier-legend{background:rgba(234,179,8,.1);color:var(--legend);border-color:rgba(234,179,8,.2)}
-.pc-price{font-size:1rem;font-weight:800;color:var(--text);font-family:var(--mono);margin-bottom:4px}
-.pc-label{font-size:.55rem;color:var(--muted)}
-.pc-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--purple);display:none;align-items:center;justify-content:center}
-.price-card.selected .pc-check{display:flex}
-.pc-check svg{width:10px;height:10px;stroke:#fff;fill:none}
+/* ID INFO BANNER */
+.id-banner{background:linear-gradient(135deg,rgba(70,95,255,.07),rgba(124,142,255,.04));border:1px solid rgba(70,95,255,.18);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.id-banner-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.id-banner-icon svg{width:20px;height:20px;stroke:#fff;fill:none}
+.id-banner-num{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:1px}
+.id-banner-meta{display:flex;align-items:center;gap:8px;margin-top:4px}
+.id-tier-pill{font-size:.55rem;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px}
+.tier-low{background:rgba(107,114,128,.1);color:var(--low);border-color:rgba(107,114,128,.25)}
+.tier-medium{background:rgba(59,130,246,.1);color:var(--medium);border-color:rgba(59,130,246,.25)}
+.tier-high{background:rgba(249,115,22,.1);color:var(--high);border-color:rgba(249,115,22,.25)}
+.tier-legend{background:rgba(234,179,8,.1);color:var(--legend);border-color:rgba(234,179,8,.25)}
+.id-base-price{font-size:.72rem;font-weight:700;font-family:var(--mono);color:var(--purple)}
+.id-banner-loading{color:var(--muted);font-size:.75rem}
 
 /* FORM */
-.form-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
-.form-section h3{font-size:.85rem;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.form-section h3 svg{width:15px;height:15px;stroke:var(--purple);fill:none}
-.field{margin-bottom:14px}
-.field label{display:block;font-size:.65rem;font-weight:700;color:var(--muted2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
-.field input,.field select{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;color:var(--text);font-family:var(--font);font-size:.78rem;outline:none;transition:.15s}
+.form-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px}
+.form-section h3{font-size:.82rem;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.form-section h3 svg{width:14px;height:14px;stroke:var(--purple);fill:none}
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:.6rem;font-weight:700;color:var(--muted2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
+.field input,.field select{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;color:var(--text);font-family:var(--font);font-size:.76rem;outline:none;transition:.15s}
 .field input:focus,.field select:focus{border-color:var(--purple);background:var(--card);box-shadow:0 0 0 3px rgba(70,95,255,.1)}
 .field input::placeholder{color:var(--muted)}
+.field input[readonly]{background:var(--bg2);color:var(--muted2);cursor:default}
+.field input[readonly]:focus{border-color:var(--border2);box-shadow:none}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:480px){.field-row{grid-template-columns:1fr}}
 
 /* PROMO */
 .promo-wrap{display:flex;gap:8px}
 .promo-wrap input{flex:1}
-.btn-promo{background:var(--purple);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap}
-.promo-result{margin-top:8px;font-size:.68rem;padding:6px 10px;border-radius:8px;display:none}
-.promo-result.ok{background:rgba(18,183,106,.1);color:var(--success);border:1px solid rgba(18,183,106,.2)}
-.promo-result.err{background:rgba(239,68,68,.1);color:var(--sold);border:1px solid rgba(239,68,68,.2)}
+.btn-promo{background:var(--purple);color:#fff;border:none;padding:9px 14px;border-radius:10px;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--font)}
+.promo-result{margin-top:8px;font-size:.65rem;padding:6px 10px;border-radius:8px;display:none}
+.promo-result.ok{background:rgba(18,183,106,.08);color:var(--success);border:1px solid rgba(18,183,106,.2)}
+.promo-result.err{background:rgba(239,68,68,.08);color:var(--sold);border:1px solid rgba(239,68,68,.2)}
 
-/* PAYMENT METHOD */
-.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.method-card{background:var(--bg2);border:2px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px}
+/* PAYMENT METHODS */
+.method-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media(max-width:480px){.method-grid{grid-template-columns:1fr}}
+.method-card{background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
 .method-card:hover{border-color:var(--border2)}
-.method-card.active{border-color:var(--purple);background:rgba(70,95,255,.05)}
-.method-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.method-icon svg{width:16px;height:16px;fill:none;stroke:currentColor}
-.method-icon.google{background:rgba(234,67,53,.1);color:#ea4335}
-.method-icon.file{background:rgba(18,183,106,.1);color:var(--success)}
-.method-info-name{font-size:.72rem;font-weight:700;color:var(--text)}
-.method-info-fee{font-size:.58rem;color:var(--muted);font-family:var(--mono)}
+.method-card.active{border-color:var(--purple);background:rgba(70,95,255,.04)}
+.method-card.active.qris-active{border-color:#e60000;background:rgba(230,0,0,.04)}
+.method-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.method-icon svg{width:17px;height:17px;fill:none;stroke:currentColor}
+.mi-google{background:rgba(234,67,53,.1);color:#ea4335}
+.mi-qris{background:rgba(230,0,0,.08);color:#e60000}
+.mi-file{background:rgba(18,183,106,.1);color:var(--success)}
+.method-name{font-size:.7rem;font-weight:700;color:var(--text)}
+.method-fee{font-size:.58rem;color:var(--muted);font-family:var(--mono)}
+
+/* QRIS BOX */
+.qris-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;display:none;text-align:center}
+.qris-box.show{display:block}
+.qris-title{font-size:.8rem;font-weight:800;color:var(--text);margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:6px}
+.qris-title svg{width:14px;height:14px;stroke:#e60000;fill:none}
+.qris-sub{font-size:.62rem;color:var(--muted);margin-bottom:16px}
+.qris-img-wrap{display:inline-block;background:#fff;border-radius:16px;padding:16px;border:2px solid #e60000;margin-bottom:12px}
+.qris-img-wrap img{width:200px;height:200px;display:block}
+.qris-amount{font-family:var(--mono);font-size:1.1rem;font-weight:900;color:#e60000;margin-bottom:6px}
+.qris-note{font-size:.6rem;color:var(--muted);line-height:1.5}
+.qris-string{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:.55rem;color:var(--muted2);word-break:break-all;text-align:left;margin-top:10px;line-height:1.5}
 
 /* SUMMARY */
-.summary-box{background:linear-gradient(135deg,rgba(70,95,255,.06),rgba(124,142,255,.04));border:1px solid rgba(70,95,255,.15);border-radius:14px;padding:16px;margin-bottom:16px}
-.sum-row{display:flex;justify-content:space-between;font-size:.72rem;padding:5px 0;border-bottom:1px solid rgba(70,95,255,.1)}
-.sum-row:last-child{border:none;padding-top:8px;margin-top:4px}
+.summary-box{background:linear-gradient(135deg,rgba(70,95,255,.05),rgba(124,142,255,.03));border:1px solid rgba(70,95,255,.14);border-radius:14px;padding:16px;margin-bottom:14px}
+.sum-row{display:flex;justify-content:space-between;font-size:.72rem;padding:5px 0;border-bottom:1px solid rgba(70,95,255,.08)}
+.sum-row:last-child{border:none;padding-top:10px;margin-top:4px}
 .sum-row:last-child .sum-label{font-weight:800;font-size:.78rem;color:var(--text)}
-.sum-row:last-child .sum-val{font-weight:800;font-size:.85rem;color:var(--purple);font-family:var(--mono)}
+.sum-row:last-child .sum-val{font-weight:900;font-size:.88rem;color:var(--purple);font-family:var(--mono)}
 .sum-label{color:var(--muted)}
 .sum-val{font-weight:600;color:var(--text);font-family:var(--mono)}
-.sum-discount{color:var(--success)}
+.sum-green{color:var(--success)}
 
-.btn-submit{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:13px;border-radius:12px;font-size:.82rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
-.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:13px;border-radius:12px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;font-family:var(--font)}
+.btn-submit:disabled{opacity:.45;cursor:not-allowed}
 .btn-submit svg{width:15px;height:15px;stroke:#fff;fill:none}
 
-/* ADMIN FEE NOTE */
-.fee-note{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:.62rem;color:var(--muted);margin-top:8px;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
-.fee-note svg{width:12px;height:12px;stroke:var(--warning);fill:none;flex-shrink:0;margin-top:1px}
-
-/* SUCCESS */
+/* SUCCESS OVERLAY */
 .success-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
 .success-overlay.open{opacity:1;pointer-events:all}
 .success-box{background:var(--card);border:1px solid var(--border);border-radius:20px;max-width:380px;width:90%;padding:28px;text-align:center}
-.success-icon{width:56px;height:56px;border-radius:50%;background:rgba(18,183,106,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success-icon{width:56px;height:56px;border-radius:50%;background:rgba(18,183,106,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
 .success-icon svg{width:26px;height:26px;stroke:var(--success);fill:none}
-.success-box h3{font-size:1.1rem;font-weight:800;margin-bottom:8px}
-.success-box p{font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.success-box h3{font-size:1rem;font-weight:800;margin-bottom:8px}
+.success-box p{font-size:.7rem;color:var(--muted);line-height:1.6;margin-bottom:18px}
 .btn-back{display:inline-block;background:var(--bg2);border:1px solid var(--border);padding:9px 20px;border-radius:99px;font-size:.7rem;font-weight:700;color:var(--text);text-decoration:none}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 18px;border-radius:99px;font-size:.68rem;font-weight:600;z-index:9999;white-space:nowrap;animation:fadeUp .25s}
 @keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
 footer{border-top:1px solid var(--border);padding:16px 32px;text-align:center;background:var(--card);color:var(--muted);font-size:.62rem}
 footer a{color:var(--purple);text-decoration:none;font-weight:600}
 </style>
@@ -131,47 +133,21 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
     lapakID
   </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
-    <a href="about.html" class="nav-link"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About</a>
-    <a href="payment.html" class="nav-link active"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Beli ID</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Kembali</a>
     <div class="theme-btn" id="themeBtn"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
   </div>
 </nav>
 
 <div class="page-wrap">
-  <div class="page-title">Pembelian ID</div>
-  <div class="page-sub">Pilih tier, masukkan nomor ID, dan selesaikan pembayaran</div>
 
-  <!-- TIER PRICES -->
-  <div class="price-grid" id="priceGrid">
-    <div class="price-card" data-tier="low" onclick="selectTier('low')">
-      <div class="pc-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pc-tier tier-low">LOW</div>
-      <div class="pc-price" id="price-low">—</div>
-      <div class="pc-label">Tier Low</div>
-    </div>
-    <div class="price-card" data-tier="medium" onclick="selectTier('medium')">
-      <div class="pc-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pc-tier tier-medium">MEDIUM</div>
-      <div class="pc-price" id="price-medium">—</div>
-      <div class="pc-label">Tier Medium</div>
-    </div>
-    <div class="price-card" data-tier="high" onclick="selectTier('high')">
-      <div class="pc-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pc-tier tier-high">HIGH</div>
-      <div class="pc-price" id="price-high">—</div>
-      <div class="pc-label">Tier High</div>
-    </div>
-    <div class="price-card" data-tier="legend" onclick="selectTier('legend')">
-      <div class="pc-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pc-tier tier-legend">LEGEND</div>
-      <div class="pc-price" id="price-legend">—</div>
-      <div class="pc-label">Tier Legend</div>
-    </div>
+  <!-- ID BANNER -->
+  <div class="id-banner" id="idBanner">
+    <div class="id-banner-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M16 8l-8 0M8 12l8 0M8 16l5 0"/></svg></div>
+    <div id="idBannerContent"><div class="id-banner-loading">Memuat data ID...</div></div>
   </div>
 
-  <!-- FORM DATA DIRI -->
+  <!-- DATA PEMBELI -->
   <div class="form-section">
     <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Data Pembeli</h3>
     <div class="field-row">
@@ -184,13 +160,9 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
         <input type="email" id="buyerEmail" placeholder="email@domain.com"/>
       </div>
     </div>
-    <div class="field">
-      <label>Nomor ID yang Dibeli</label>
-      <input type="text" id="idNumber" placeholder="Contoh: 15699999999" style="font-family:var(--mono)"/>
-    </div>
   </div>
 
-  <!-- PROMO CODE -->
+  <!-- PROMO -->
   <div class="form-section">
     <h3><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Kode Promo</h3>
     <div class="promo-wrap">
@@ -200,31 +172,50 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <div class="promo-result" id="promoResult"></div>
   </div>
 
-  <!-- PAYMENT METHOD -->
+  <!-- METODE BAYAR -->
   <div class="form-section">
     <h3><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Metode Pembayaran</h3>
     <div class="method-grid">
+      <div class="method-card" data-method="qris" onclick="selectMethod('qris')">
+        <div class="method-icon mi-qris"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/></svg></div>
+        <div class="method-name">QRIS</div>
+        <div class="method-fee" id="fee-qris">Gratis</div>
+      </div>
       <div class="method-card active" data-method="google" onclick="selectMethod('google')">
-        <div class="method-icon google"><svg viewBox="0 0 24 24"><path d="M21.35 11.1H12.18v2.73h5.51c-.48 2.49-2.65 4.27-5.51 4.27a6.1 6.1 0 0 1 0-12.2c1.59 0 3.02.59 4.1 1.55l2.04-2.04A10.05 10.05 0 0 0 12.18 2C6.54 2 2 6.54 2 12.18c0 5.63 4.54 10.18 10.18 10.18 5.8 0 9.69-4.08 9.69-9.82 0-.65-.07-1.28-.17-1.9z"/></svg></div>
-        <div><div class="method-info-name">Google Pay</div><div class="method-info-fee" id="fee-google">Biaya admin: —</div></div>
+        <div class="method-icon mi-google"><svg viewBox="0 0 24 24"><path d="M21.35 11.1H12.18v2.73h5.51c-.48 2.49-2.65 4.27-5.51 4.27a6.1 6.1 0 0 1 0-12.2c1.59 0 3.02.59 4.1 1.55l2.04-2.04A10.05 10.05 0 0 0 12.18 2C6.54 2 2 6.54 2 12.18c0 5.63 4.54 10.18 10.18 10.18 5.8 0 9.69-4.08 9.69-9.82 0-.65-.07-1.28-.17-1.9z"/></svg></div>
+        <div class="method-name">Google Pay</div>
+        <div class="method-fee" id="fee-google">+Rp 5.000</div>
       </div>
       <div class="method-card" data-method="file" onclick="selectMethod('file')">
-        <div class="method-icon file"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <div><div class="method-info-name">Transfer File</div><div class="method-info-fee" id="fee-file">Biaya admin: Gratis</div></div>
+        <div class="method-icon mi-file"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="method-name">Transfer File</div>
+        <div class="method-fee">Gratis</div>
       </div>
-    </div>
-    <div class="fee-note">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Biaya admin Google Pay: <b>Rp 5.000</b>. Transfer File: <b>Gratis</b>. Biaya admin tidak termasuk diskon promo.</span>
     </div>
   </div>
 
+  <!-- QRIS BOX (tampil jika QRIS dipilih) -->
+  <div class="qris-box" id="qrisBox">
+    <div class="qris-title"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Scan QRIS untuk Membayar</div>
+    <div class="qris-sub">Scan kode QR di bawah menggunakan aplikasi e-wallet atau m-banking apapun</div>
+    <div class="qris-img-wrap">
+      <img id="qrisImg" src="" alt="QRIS Code"/>
+    </div>
+    <div class="qris-amount" id="qrisAmount">—</div>
+    <div class="qris-note">
+      Nama penerima: <b>Aestroshop, GREGED</b><br/>
+      Pastikan nominal sesuai sebelum konfirmasi pembayaran
+    </div>
+    <div class="qris-string" id="qrisString" title="QRIS String"></div>
+  </div>
+
   <!-- SUMMARY -->
-  <div class="summary-box" id="summaryBox">
-    <div class="sum-row"><div class="sum-label">Tier dipilih</div><div class="sum-val" id="sumTier">—</div></div>
+  <div class="summary-box">
+    <div class="sum-row"><div class="sum-label">ID</div><div class="sum-val td-mono" id="sumId">—</div></div>
+    <div class="sum-row"><div class="sum-label">Tier</div><div class="sum-val" id="sumTier">—</div></div>
     <div class="sum-row"><div class="sum-label">Harga dasar</div><div class="sum-val" id="sumBase">—</div></div>
-    <div class="sum-row" id="sumDiscountRow" style="display:none"><div class="sum-label">Diskon promo</div><div class="sum-val sum-discount" id="sumDiscount">—</div></div>
-    <div class="sum-row"><div class="sum-label">Biaya admin</div><div class="sum-val" id="sumAdmin">—</div></div>
+    <div class="sum-row" id="sumDiscountRow" style="display:none"><div class="sum-label">Diskon promo</div><div class="sum-val sum-green" id="sumDiscount">—</div></div>
+    <div class="sum-row"><div class="sum-label">Biaya admin</div><div class="sum-val" id="sumAdmin">Gratis</div></div>
     <div class="sum-row"><div class="sum-label">Total Pembayaran</div><div class="sum-val" id="sumTotal">—</div></div>
   </div>
 
@@ -239,109 +230,208 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <div class="success-box">
     <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <h3>Pesanan Berhasil!</h3>
-    <p id="successMsg">Pesanan kamu telah diterima. Admin akan menghubungi kamu segera setelah pembayaran dikonfirmasi.</p>
+    <p id="successMsg">Pesanan kamu telah diterima.</p>
     <a href="index.html" class="btn-back">Kembali ke Beranda</a>
   </div>
 </div>
 
-<footer>
-  &copy; 2026 <a href="index.html">lapakID</a> &mdash; Koleksi ID Premium Terpercaya
-</footer>
+<footer>&copy; 2026 <a href="index.html">lapakID</a> — Koleksi ID Premium Terpercaya</footer>
 
 <script>
 const API = '/api';
+
+// QRIS static string
+const QRIS_STATIC = '00020101021126610014COM.GO-JEK.WWW01189360091438891755300210G8891755300303UMI51440014ID.CO.QRIS.WWW0215ID10243566855930303UMI5204573253033605802ID5918Aestroshop, GREGED6007CIREBON61054518162070703A016304C52D';
+
 let settings = {};
-let selectedTier = null;
+let idDoc = null;          // data ID dari server
 let selectedMethod = 'google';
 let promoDiscount = 0;
 let promoCode = '';
+
 const fmt = n => 'Rp ' + Number(n).toLocaleString('id-ID');
+const TIER_CLS = { low:'tier-low', medium:'tier-medium', high:'tier-high', legend:'tier-legend' };
+
+// ── QRIS UTILS ────────────────────────────────────────────────────────────────
+function qrisWithAmount(baseString, amount) {
+  // Strip existing CRC (last 4 chars) and transaction amount field if any
+  let s = baseString;
+  // Remove CRC trailer
+  if (s.length >= 4) s = s.slice(0, s.length - 4);
+  // Remove existing 54 (Transaction Amount) field if present
+  s = s.replace(/54\d{2}[\d.]+/, '');
+  // Insert amount field 54 before field 58 (country code)
+  const amountStr = String(Math.round(amount));
+  const amountField = '54' + String(amountStr.length).padStart(2, '0') + amountStr;
+  const insertAt = s.indexOf('5802');
+  if (insertAt !== -1) {
+    s = s.slice(0, insertAt) + amountField + s.slice(insertAt);
+  } else {
+    s = s + amountField;
+  }
+  // Recalculate CRC-16
+  s = s + '6304';
+  const crc = crc16(s);
+  return s + crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function crc16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+    }
+  }
+  return crc & 0xFFFF;
+}
+
+function qrisToDataURL(qrString) {
+  // Use Google Chart API to generate QR
+  return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrString)}`;
+}
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 async function init() {
   initTheme();
-  const r = await fetch(`${API}/settings`).catch(()=>null);
-  if (r && r.ok) {
-    const d = await r.json();
-    settings = d.data || {};
-  }
-  // populate prices
-  const prices = settings.prices || { low:125000, medium:450000, high:850000, legend:1350000 };
-  const fees = settings.adminFee || { google:5000, file:0 };
-  ['low','medium','high','legend'].forEach(t => {
-    const el = document.getElementById(`price-${t}`);
-    if (el) el.textContent = fmt(prices[t]);
-  });
-  document.getElementById('fee-google').textContent = `Biaya admin: ${fmt(fees.google)}`;
-  document.getElementById('fee-file').textContent = `Biaya admin: ${fees.file ? fmt(fees.file) : 'Gratis'}`;
 
-  // pre-select ID from URL
   const params = new URLSearchParams(window.location.search);
-  const preId = params.get('id');
-  if (preId) document.getElementById('idNumber').value = preId;
+  const preId  = params.get('id');
 
+  // Load settings
+  const r = await fetch(`${API}/settings`).catch(() => null);
+  if (r && r.ok) { const d = await r.json(); settings = d.data || {}; }
+
+  const fees = settings.adminFee || { google: 5000, file: 0, qris: 0 };
+  document.getElementById('fee-google').textContent = fees.google ? `+${fmt(fees.google)}` : 'Gratis';
+
+  // If ID is provided in URL, load it and lock fields
+  if (preId) {
+    await loadIdInfo(preId);
+  } else {
+    document.getElementById('idBannerContent').innerHTML = `<div class="id-banner-loading">Tidak ada ID dipilih. <a href="index.html" style="color:var(--purple);font-weight:700">Pilih ID dulu</a></div>`;
+  }
+
+  selectMethod('google');
   updateSummary();
 }
 
-function selectTier(tier) {
-  selectedTier = tier;
-  document.querySelectorAll('.price-card').forEach(c => {
-    c.classList.remove('selected','selected-low','selected-medium','selected-high','selected-legend');
-  });
-  const card = document.querySelector(`[data-tier="${tier}"]`);
-  if (card) { card.classList.add('selected', `selected-${tier}`); }
+async function loadIdInfo(number) {
+  const r = await fetch(`${API}/ids/${encodeURIComponent(number)}`).catch(() => null);
+  if (!r || !r.ok) {
+    document.getElementById('idBannerContent').innerHTML = `<div class="id-banner-loading" style="color:var(--sold)">ID tidak ditemukan</div>`;
+    return;
+  }
+  const { data } = await r.json();
+  idDoc = data;
+
+  const prices = settings.prices || { low: 125000, medium: 450000, high: 850000, legend: 1350000 };
+  const price = prices[data.tier] || 0;
+
+  document.getElementById('idBannerContent').innerHTML = `
+    <div class="id-banner-num">${data.number}</div>
+    <div class="id-banner-meta">
+      <span class="id-tier-pill ${TIER_CLS[data.tier]}">${data.tier.toUpperCase()}</span>
+      <span class="id-base-price">${fmt(price)}</span>
+      ${data.sold ? '<span style="font-size:.6rem;color:var(--sold);font-weight:700">SUDAH TERJUAL</span>' : ''}
+    </div>
+  `;
+
+  if (data.sold) {
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = 'ID Sudah Terjual';
+  }
+
   updateSummary();
   checkSubmit();
 }
 
+// ── METHOD SELECT ─────────────────────────────────────────────────────────────
 function selectMethod(method) {
   selectedMethod = method;
-  document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
-  document.querySelector(`[data-method="${method}"]`)?.classList.add('active');
+  document.querySelectorAll('.method-card').forEach(c => {
+    c.classList.remove('active', 'qris-active');
+  });
+  const card = document.querySelector(`[data-method="${method}"]`);
+  if (card) {
+    card.classList.add('active');
+    if (method === 'qris') card.classList.add('qris-active');
+  }
+
+  const qrisBox = document.getElementById('qrisBox');
+  if (method === 'qris') {
+    qrisBox.classList.add('show');
+    refreshQRIS();
+  } else {
+    qrisBox.classList.remove('show');
+  }
+
   updateSummary();
 }
 
+function refreshQRIS() {
+  const total = calcTotal();
+  if (!total) return;
+  const qrStr = qrisWithAmount(QRIS_STATIC, total);
+  document.getElementById('qrisImg').src = qrisToDataURL(qrStr);
+  document.getElementById('qrisAmount').textContent = fmt(total);
+  document.getElementById('qrisString').textContent = qrStr;
+}
+
+// ── PROMO ─────────────────────────────────────────────────────────────────────
 async function validatePromo() {
   const code = document.getElementById('promoInput').value.trim();
   const result = document.getElementById('promoResult');
-  if (!code) { result.style.display='block'; result.className='promo-result err'; result.textContent='Masukkan kode promo terlebih dahulu'; return; }
+  if (!code) { result.style.display = 'block'; result.className = 'promo-result err'; result.textContent = 'Masukkan kode promo terlebih dahulu'; return; }
   const r = await fetch(`${API}/promo/validate`, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({ code, tier: selectedTier })
-  }).catch(()=>null);
-  if (!r) { result.style.display='block'; result.className='promo-result err'; result.textContent='Gagal memvalidasi promo'; return; }
-  const d = await r.json();
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code }),
+  }).catch(() => null);
   result.style.display = 'block';
+  if (!r) { result.className = 'promo-result err'; result.textContent = 'Gagal memvalidasi promo'; return; }
+  const d = await r.json();
   if (d.success) {
     result.className = 'promo-result ok';
-    result.textContent = `Promo berhasil! Diskon ${d.discount}% diterapkan`;
+    result.textContent = `Promo aktif! Diskon ${d.discount}% diterapkan`;
     promoDiscount = d.discount;
     promoCode = d.code;
   } else {
     result.className = 'promo-result err';
     result.textContent = d.message;
-    promoDiscount = 0;
-    promoCode = '';
+    promoDiscount = 0; promoCode = '';
   }
   updateSummary();
+  if (selectedMethod === 'qris') refreshQRIS();
+}
+
+// ── SUMMARY ───────────────────────────────────────────────────────────────────
+function calcTotal() {
+  if (!idDoc) return 0;
+  const prices = settings.prices || { low: 125000, medium: 450000, high: 850000, legend: 1350000 };
+  const fees   = settings.adminFee || { google: 5000, file: 0, qris: 0 };
+  const base = prices[idDoc.tier] || 0;
+  const discountAmt = Math.round(base * promoDiscount / 100);
+  const adminFee = fees[selectedMethod] || 0;
+  return base - discountAmt + adminFee;
 }
 
 function updateSummary() {
-  const prices = settings.prices || { low:125000, medium:450000, high:850000, legend:1350000 };
-  const fees = settings.adminFee || { google:5000, file:0 };
-  const tier = selectedTier;
-  const base = tier ? (prices[tier] || 0) : 0;
-  const adminFee = fees[selectedMethod] || 0;
+  if (!idDoc) return;
+  const prices = settings.prices || { low: 125000, medium: 450000, high: 850000, legend: 1350000 };
+  const fees   = settings.adminFee || { google: 5000, file: 0, qris: 0 };
+  const base = prices[idDoc.tier] || 0;
   const discountAmt = Math.round(base * promoDiscount / 100);
+  const adminFee = fees[selectedMethod] || 0;
   const total = base - discountAmt + adminFee;
 
-  document.getElementById('sumTier').textContent = tier ? tier.charAt(0).toUpperCase()+tier.slice(1) : '—';
-  document.getElementById('sumBase').textContent = base ? fmt(base) : '—';
+  document.getElementById('sumId').textContent   = idDoc.number;
+  document.getElementById('sumTier').textContent  = idDoc.tier.charAt(0).toUpperCase() + idDoc.tier.slice(1);
+  document.getElementById('sumBase').textContent  = fmt(base);
   document.getElementById('sumAdmin').textContent = adminFee ? fmt(adminFee) : 'Gratis';
-  document.getElementById('sumTotal').textContent = base ? fmt(total) : '—';
+  document.getElementById('sumTotal').textContent = fmt(total);
+
   const discRow = document.getElementById('sumDiscountRow');
-  if (promoDiscount > 0 && base) {
+  if (promoDiscount > 0) {
     discRow.style.display = 'flex';
     document.getElementById('sumDiscount').textContent = `-${fmt(discountAmt)} (${promoDiscount}%)`;
   } else {
@@ -350,36 +440,39 @@ function updateSummary() {
 }
 
 function checkSubmit() {
-  const name = document.getElementById('buyerName').value.trim();
+  const name  = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
-  const id = document.getElementById('idNumber').value.trim();
-  document.getElementById('submitBtn').disabled = !(name && email && id && selectedTier);
+  const ok = name && email && idDoc && !idDoc.sold;
+  document.getElementById('submitBtn').disabled = !ok;
 }
 
-document.querySelectorAll('#buyerName,#buyerEmail,#idNumber').forEach(el => {
-  el.addEventListener('input', checkSubmit);
-});
+document.querySelectorAll('#buyerName,#buyerEmail').forEach(el => el.addEventListener('input', checkSubmit));
 
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
 async function submitPayment() {
-  const name = document.getElementById('buyerName').value.trim();
+  const name  = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
-  const id = document.getElementById('idNumber').value.trim();
-  if (!name || !email || !id || !selectedTier) { showToast('Lengkapi semua data'); return; }
+  if (!name || !email || !idDoc) { showToast('Lengkapi data nama dan email'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Memproses...';
+  btn.innerHTML = 'Memproses...';
 
   const r = await fetch(`${API}/payment`, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({ idNumber:id, method:selectedMethod, buyer:name, email, promoCode, tier:selectedTier })
-  }).catch(()=>null);
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idNumber: idDoc.number, method: selectedMethod, buyer: name, email, promoCode }),
+  }).catch(() => null);
 
-  if (!r) { btn.disabled=false; btn.innerHTML='<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;fill:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Konfirmasi Pembelian'; showToast('Gagal terhubung ke server'); return; }
+  if (!r) {
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;fill:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Konfirmasi Pembelian';
+    showToast('Gagal terhubung ke server');
+    return;
+  }
   const d = await r.json();
   if (d.success) {
-    document.getElementById('successMsg').textContent = `Pesanan ID ${id} berhasil dibuat. Admin akan menghubungi ${email} untuk konfirmasi pembayaran.`;
+    document.getElementById('successMsg').textContent = `Pesanan ID ${idDoc.number} berhasil dibuat. Admin akan menghubungi ${email} untuk konfirmasi.`;
     document.getElementById('successOverlay').classList.add('open');
   } else {
     btn.disabled = false;
@@ -388,17 +481,9 @@ async function submitPayment() {
   }
 }
 
-function initTheme() {
-  if (localStorage.getItem('lapakid_dark')==='1') document.body.classList.add('dark');
-}
-function showToast(msg) {
-  const t = document.createElement('div'); t.className='toast'; t.textContent=msg;
-  document.body.appendChild(t); setTimeout(()=>t.remove(),2500);
-}
-document.getElementById('themeBtn').addEventListener('click', () => {
-  const d = document.body.classList.toggle('dark');
-  localStorage.setItem('lapakid_dark', d?'1':'0');
-});
+function initTheme() { if (localStorage.getItem('lapakid_dark') === '1') document.body.classList.add('dark'); }
+function showToast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
+document.getElementById('themeBtn').addEventListener('click', () => { const d = document.body.classList.toggle('dark'); localStorage.setItem('lapakid_dark', d ? '1' : '0'); });
 
 init();
 </script>
