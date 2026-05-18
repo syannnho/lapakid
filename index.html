@@ -11,7 +11,6 @@
 <meta property="og:url" content="https://nataza.vercel.app/"/>
 <meta property="og:type" content="website"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -31,15 +30,8 @@ nav{position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:cente
 @media(min-width:768px){nav{height:68px;padding:0 32px}}
 body.dark nav{background:rgba(13,13,13,.95)}
 .nav-logo{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-.3px}
-.logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center}
-.logo-mark svg{width:14px;height:14px;stroke:#fff;fill:none}
 .logo-img{height:36px;width:auto;object-fit:contain;flex-shrink:0}
 .nav-links{display:flex;align-items:center;gap:6px}
-.nav-link{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.7rem;font-weight:600;color:var(--muted2);text-decoration:none;transition:.15s}
-.nav-link:hover,.nav-link.active{background:var(--bg2);color:var(--text)}
-.nav-link svg{width:13px;height:13px;stroke:currentColor;fill:none;flex-shrink:0}
-.btn-primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:7px 16px;border-radius:99px;font-size:.7rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-.btn-primary svg{width:13px;height:13px;stroke:#fff;fill:none}
 .theme-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .theme-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
 
@@ -52,10 +44,6 @@ body.dark nav{background:rgba(13,13,13,.95)}
 @media(min-width:768px){.hero h1{font-size:3rem}}
 .hero h1 span{background:linear-gradient(135deg,var(--purple),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{color:var(--muted);font-size:.8rem;margin-bottom:24px;max-width:500px;line-height:1.6}
-.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
-.hero-stat{display:flex;flex-direction:column}
-.hero-stat-val{font-size:1.3rem;font-weight:800;color:var(--text);line-height:1}
-.hero-stat-label{font-size:.6rem;color:var(--muted);font-family:var(--mono);margin-top:2px}
 
 /* POPULAR SECTION */
 .section{max-width:1400px;margin:0 auto;padding:0 16px 32px}
@@ -66,17 +54,14 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .section-link{font-size:.65rem;color:var(--purple);font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px}
 .section-link svg{width:11px;height:11px;stroke:var(--purple);fill:none}
 
-/* POPULAR GRID */
+/* POPULAR 2x2 SLIDER */
 .popular-scroll-wrap{position:relative;overflow:hidden}
-.popular-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;user-select:none}
+.popular-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;user-select:none}
 .popular-grid::-webkit-scrollbar{display:none}
 .popular-grid:active{cursor:grabbing}
-/* Setiap slide = 2x2 grid */
-.popular-slide{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px}
-.popular-slide .id-card{width:100%}
-/* Dots indicator */
+.popular-slide{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px}
 .popular-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
-.popular-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:.3s;cursor:pointer}
+.popular-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:.3s;cursor:pointer;border:none;padding:0}
 .popular-dot.active{background:var(--purple);width:18px;border-radius:3px}
 
 /* ID CARD */
@@ -97,10 +82,10 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .like-btn:hover{color:var(--purple)}
 .like-btn.liked{color:var(--purple)}
 
-/* FILTER BAR */
+/* FILTER BAR - STICKY */
 .filter-section{margin:0;padding:0}
-.filter-sticky{position:sticky;top:60px;z-index:100;background:var(--bg);padding:10px 16px 10px;border-bottom:1px solid var(--border)}
-@media(min-width:768px){.filter-sticky{top:68px;padding:12px 32px 12px}}
+.filter-sticky{position:sticky;top:60px;z-index:100;background:var(--bg);padding:10px 16px;border-bottom:1px solid var(--border)}
+@media(min-width:768px){.filter-sticky{top:68px;padding:12px 32px}}
 body.dark .filter-sticky{background:var(--bg)}
 .filter-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px}
 .filter-bar{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:var(--bg2);border-radius:10px;padding:6px}
@@ -117,20 +102,16 @@ body.dark .filter-sticky{background:var(--bg)}
 .result-info span{color:var(--text);font-weight:700}
 
 /* TIER SECTION */
-.ids-section{max-width:1400px;margin:0 auto;padding:12px 16px 60px}
-@media(min-width:768px){.ids-section{padding:0 32px 60px}}
-.tier-block{margin-bottom:32px}
+.ids-section{max-width:1400px;margin:0 auto;padding:12px 16px 80px}
+@media(min-width:768px){.ids-section{padding:0 32px 80px}}
+.tier-block{margin-bottom:32px;position:relative}
 .tier-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 0;border-bottom:2px solid var(--border);background:var(--bg);transition:background .3s,opacity .2s,transform .2s}
 .tier-head.is-stuck{position:fixed;left:0;right:0;z-index:90;padding:10px 16px;border-bottom:2px solid var(--border);background:var(--bg);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 @media(min-width:768px){.tier-head.is-stuck{padding:10px 32px}}
 body.dark .tier-head{background:var(--bg)}
 body.dark .tier-head.is-stuck{background:var(--bg)}
 .tier-head.hide-head{opacity:0;pointer-events:none;transform:translateY(-6px)}
-.tier-block{margin-bottom:32px;position:relative}
-.tier-head-placeholder{display:none;height:0}
-.tier-head.is-stuck + .tier-head-placeholder,.tier-head.is-stuck ~ .id-grid{margin-top:0}
 .tier-name{font-size:1.1rem;font-weight:800;color:var(--text)}
-.tier-badge{font-size:.5rem;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px}
 .tier-count{font-size:.62rem;color:var(--muted);font-family:var(--mono);margin-left:auto}
 .id-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(min-width:480px){.id-grid{grid-template-columns:repeat(2,1fr)}}
@@ -139,7 +120,7 @@ body.dark .tier-head.is-stuck{background:var(--bg)}
 @media(min-width:1100px){.id-grid{grid-template-columns:repeat(5,1fr)}}
 mark{background:rgba(70,95,255,.15);color:var(--purple);border-radius:2px;padding:0 1px}
 
-/* Card appear animation */
+/* Card animation */
 @keyframes cardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .id-card{animation:cardIn .35s ease both}
 
@@ -180,27 +161,30 @@ footer{border-top:1px solid var(--border);padding:20px 32px;text-align:center;ba
 footer a{color:var(--purple);text-decoration:none;font-weight:600}
 
 /* ── MUSIC PLAYER ── */
-.music-player{position:fixed;left:16px;bottom:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:8px 14px 8px 10px;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;transform:translateX(0);opacity:1;min-width:220px}
+.music-player{position:fixed;left:16px;bottom:24px;z-index:9999;display:flex;align-items:center;gap:12px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:8px 18px 8px 12px;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;min-width:240px}
 .music-player.hidden{transform:translateX(calc(-100% - 32px));opacity:0;pointer-events:none}
-.music-album{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:spin 8s linear infinite;animation-play-state:paused}
+.music-album-container{position:relative;width:44px;height:44px;flex-shrink:0}
+.circular-progress{position:absolute;top:0;left:0;width:44px;height:44px;transform:rotate(-90deg)}
+.circular-progress circle{fill:none;stroke-width:3}
+.circular-progress .bg-circle{stroke:rgba(255,255,255,.15)}
+.circular-progress .progress-circle{stroke:url(#grad);stroke-linecap:round;stroke-dasharray:125.6;stroke-dashoffset:125.6;transition:stroke-dashoffset .3s linear}
+.music-album{position:absolute;top:4px;left:4px;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;animation:spin 8s linear infinite;animation-play-state:paused}
 .music-album.playing{animation-play-state:running}
 @keyframes spin{to{transform:rotate(360deg)}}
-.music-album svg{width:16px;height:16px;stroke:#fff;fill:none}
+.music-album svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.5}
 .music-info{flex:1;min-width:0;overflow:hidden}
-.music-title{font-size:.62rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.music-sub{font-size:.52rem;color:rgba(255,255,255,.5);margin-top:1px}
-.music-controls{display:flex;align-items:center;gap:4px;flex-shrink:0}
-.mc-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.15s;color:rgba(255,255,255,.7)}
+.music-title{font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music-sub{font-size:.55rem;color:rgba(255,255,255,.5);margin-top:2px}
+.music-controls{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.mc-btn{background:none;border:none;cursor:pointer;padding:5px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.15s;color:rgba(255,255,255,.7)}
 .mc-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
-.mc-btn svg{width:14px;height:14px;stroke:currentColor;fill:none}
-.mc-play{background:rgba(70,95,255,.8)!important;color:#fff!important;width:28px;height:28px;border-radius:50%}
+.mc-btn svg{width:16px;height:16px;stroke:currentColor;fill:none}
+.mc-play{background:rgba(70,95,255,.8)!important;color:#fff!important;width:32px;height:32px;border-radius:50%}
 .mc-play:hover{background:var(--purple)!important}
-.mc-play svg{width:12px;height:12px}
-.music-progress{position:absolute;bottom:0;left:10px;right:14px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
-.music-progress-bar{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple2));border-radius:2px;width:0%;transition:width .5s linear}
-.music-toggle{position:fixed;left:16px;bottom:24px;z-index:9998;background:rgba(20,20,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.8);pointer-events:none}
+.mc-play svg{width:14px;height:14px}
+.music-toggle{position:fixed;left:16px;bottom:24px;z-index:9998;background:rgba(20,20,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.8);pointer-events:none}
 .music-toggle.show{opacity:1;transform:scale(1);pointer-events:all}
-.music-toggle svg{width:18px;height:18px;stroke:#fff;fill:none}
+.music-toggle svg{width:20px;height:20px;stroke:#fff;fill:none}
 </style>
 </head>
 <body>
@@ -214,7 +198,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </nav>
 
-
 <div class="hero">
   <div class="hero-label"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>ID PREMIUM TERPERCAYA</div>
   <h1>Temukan ID <span>Impianmu</span></h1>
@@ -227,8 +210,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <div class="section-title"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Banyak Disukai</div>
     <a href="#semua" class="section-link">Lihat semua <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
   </div>
-  <div class="popular-scroll-wrap"><div class="popular-scroll-wrap"><div class="popular-grid" id="popularGrid"><div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Memuat...</p></div></div></div>
-  <div class="popular-dots" id="popularDots"></div>
+  <div class="popular-scroll-wrap">
+    <div class="popular-grid" id="popularGrid"><div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Memuat...</p></div></div>
+    <div class="popular-dots" id="popularDots"></div>
+  </div>
 </div>
 
 <!-- FILTER -->
@@ -252,7 +237,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 <!-- ID LIST -->
 <div class="ids-section" id="gridContainer"></div>
 
-<!-- ID DETAIL MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-header">
@@ -272,6 +257,40 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   &copy; 2026 <a href="index.html">lapakID</a> &mdash; Koleksi ID Premium Terpercaya &mdash; <a href="about.html">Tentang Kami</a> &mdash; <a href="dashboard.html">Admin</a>
 </footer>
 
+<!-- MUSIC PLAYER -->
+<audio id="musicAudio" preload="none"></audio>
+
+<div class="music-player" id="musicPlayer">
+  <div class="music-album-container">
+    <svg class="circular-progress" viewBox="0 0 44 44">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#465fff"/>
+          <stop offset="100%" stop-color="#7c8eff"/>
+        </linearGradient>
+      </defs>
+      <circle class="bg-circle" cx="22" cy="22" r="20"></circle>
+      <circle class="progress-circle" cx="22" cy="22" r="20" id="progressCircle"></circle>
+    </svg>
+    <div class="music-album" id="musicAlbum">
+      <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </div>
+  </div>
+  <div class="music-info">
+    <div class="music-title" id="musicTitle">Lofi Chill</div>
+    <div class="music-sub" id="musicSub">Track 1 / 2</div>
+  </div>
+  <div class="music-controls">
+    <button class="mc-btn" id="btnPrev"><svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
+    <button class="mc-btn mc-play" id="btnPlay"><svg id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg></button>
+    <button class="mc-btn" id="btnNext"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
+  </div>
+</div>
+
+<div class="music-toggle" id="musicToggle">
+  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</div>
+
 <script>
 const API = '/api';
 let allIds = [];
@@ -285,10 +304,11 @@ const PRICE_LABELS = { low:'Low', medium:'Medium', high:'High', legend:'Legend' 
 const TIER_BADGE_CLS = { low:'tier-low', medium:'tier-medium', high:'tier-high', legend:'tier-legend' };
 const fmt = n => 'Rp ' + Number(n).toLocaleString('id-ID');
 
-// ── INIT ────────────────────────────────────────────────────────────────────
 async function init() {
   initTheme();
   await Promise.all([loadSettings(), loadPopular(), loadIds()]);
+  updateFilterHeight();
+  setupTierSticky();
 }
 
 async function loadSettings() {
@@ -304,25 +324,22 @@ async function loadPopular() {
   if (!r || !r.ok) { grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Gagal memuat</p></div>'; return; }
   const { data } = await r.json();
   if (!data.length) { grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Belum ada data</p></div>'; return; }
-  // Bagi data ke slide 2x2 (4 card per slide)
+
+  // Bagi ke slide 2x2
   const slides = [];
-  for (let i = 0; i < data.length; i += 4) {
-    slides.push(data.slice(i, i + 4));
-  }
+  for (let i = 0; i < data.length; i += 4) slides.push(data.slice(i, i + 4));
   grid.innerHTML = slides.map((group, si) =>
     `<div class="popular-slide" data-slide="${si}">${group.map(id => buildCard(id, true)).join('')}</div>`
   ).join('');
 
   // Dots
   const dotsEl = document.getElementById('popularDots');
-  if (dotsEl) {
-    dotsEl.innerHTML = slides.map((_, i) =>
-      `<div class="popular-dot${i===0?' active':''}" data-idx="${i}"></div>`
-    ).join('');
-    dotsEl.querySelectorAll('.popular-dot').forEach(dot => {
-      dot.addEventListener('click', () => scrollToSlide(grid, parseInt(dot.dataset.idx), dotsEl));
-    });
-  }
+  dotsEl.innerHTML = slides.map((_, i) =>
+    `<button class="popular-dot${i===0?' active':''}" data-idx="${i}"></button>`
+  ).join('');
+  dotsEl.querySelectorAll('.popular-dot').forEach(dot => {
+    dot.addEventListener('click', () => scrollToSlide(grid, parseInt(dot.dataset.idx), dotsEl));
+  });
 
   attachCardEvents(grid);
   initPopularScroll(grid, slides.length, dotsEl);
@@ -330,46 +347,38 @@ async function loadPopular() {
 
 function scrollToSlide(grid, idx, dotsEl) {
   grid.scrollTo({ left: idx * grid.clientWidth, behavior: 'smooth' });
-  if (dotsEl) {
-    dotsEl.querySelectorAll('.popular-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
+  dotsEl.querySelectorAll('.popular-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
 }
 
 function initPopularScroll(grid, totalSlides, dotsEl) {
-  var currentSlide = 0;
+  var current = 0;
   var paused = false;
-  var autoTimer = null;
+  var timer = null;
 
   function goNext() {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    scrollToSlide(grid, currentSlide, dotsEl);
+    current = (current + 1) % totalSlides;
+    scrollToSlide(grid, current, dotsEl);
   }
 
-  function startAuto() {
-    clearInterval(autoTimer);
-    autoTimer = setInterval(function() { if (!paused) goNext(); }, 3000);
+  function start() {
+    clearInterval(timer);
+    timer = setInterval(function() { if (!paused) goNext(); }, 3000);
   }
 
-  // Update dot saat scroll manual
   grid.addEventListener('scroll', function() {
-    var idx = Math.round(grid.scrollLeft / grid.clientWidth);
-    if (idx !== currentSlide) {
-      currentSlide = idx;
-      if (dotsEl) {
-        dotsEl.querySelectorAll('.popular-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
+    var idx = Math.round(grid.scrollLeft / (grid.clientWidth || 1));
+    if (idx !== current) {
+      current = idx;
+      dotsEl.querySelectorAll('.popular-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
     }
   }, {passive:true});
 
-  // Pause saat disentuh
-  grid.addEventListener('touchstart', function() { paused = true; clearInterval(autoTimer); }, {passive:true});
-  grid.addEventListener('touchend', function() {
-    setTimeout(function() { paused = false; startAuto(); }, 3000);
-  }, {passive:true});
+  grid.addEventListener('touchstart', function() { paused = true; clearInterval(timer); }, {passive:true});
+  grid.addEventListener('touchend', function() { setTimeout(function(){ paused = false; start(); }, 3000); }, {passive:true});
   grid.addEventListener('mouseenter', function() { paused = true; });
   grid.addEventListener('mouseleave', function() { paused = false; });
 
-  startAuto();
+  start();
 }
 
 async function loadIds() {
@@ -380,7 +389,6 @@ async function loadIds() {
   render();
 }
 
-// ── RENDER ───────────────────────────────────────────────────────────────────
 function render() {
   const filtered = filter();
   let total = 0;
@@ -410,71 +418,11 @@ function render() {
   }
   container.innerHTML = html;
   attachCardEvents(container);
-
-  // Stagger animation per card
   container.querySelectorAll('.id-card').forEach((card, i) => {
     card.style.animationDelay = `${Math.min(i * 0.04, 0.6)}s`;
   });
-
   updateFilterHeight();
   setupTierSticky();
-}
-
-function updateFilterHeight() {
-  const sticky = document.getElementById('filterSticky');
-  if (!sticky) return;
-  const h = sticky.getBoundingClientRect().height;
-  const navH = document.querySelector('nav')?.getBoundingClientRect().height || 60;
-  document.documentElement.style.setProperty('--filter-height', `${navH + h + 2}px`);
-}
-
-// Tier header sticky: nempel saat masuk viewport, hilang saat tier habis
-let tierScrollHandler = null;
-function setupTierSticky() {
-  if (tierScrollHandler) window.removeEventListener('scroll', tierScrollHandler, {passive:true});
-
-  tierScrollHandler = () => {
-    const filterBar = document.getElementById('filterSticky');
-    if (!filterBar) return;
-    const filterBottom = filterBar.getBoundingClientRect().bottom;
-
-    document.querySelectorAll('.tier-block').forEach(block => {
-      const tier = block.dataset.tier;
-      const head = block.querySelector('.tier-head');
-      if (!head) return;
-
-      const blockRect = block.getBoundingClientRect();
-      const headRect  = head.getBoundingClientRect();
-
-      // Tier block sudah masuk dari atas = sticky aktif
-      const shouldStick = blockRect.top < filterBottom && blockRect.bottom > filterBottom;
-
-      if (shouldStick) {
-        if (!head.classList.contains('is-stuck')) {
-          // Simpan lebar asli
-          head.style.top = filterBottom + 'px';
-          head.classList.add('is-stuck');
-          head.classList.remove('hide-head');
-          // Beri spacer agar konten tidak loncat
-          block.style.paddingTop = head.offsetHeight + 'px';
-        } else {
-          // Update top realtime (filter bisa resize)
-          head.style.top = filterBottom + 'px';
-        }
-        // Sembunyikan saat sudah hampir keluar (10px sebelum akhir block)
-        const nearEnd = blockRect.bottom < filterBottom + head.offsetHeight + 10;
-        head.classList.toggle('hide-head', nearEnd);
-      } else {
-        if (head.classList.contains('is-stuck')) {
-          head.classList.remove('is-stuck','hide-head');
-          block.style.paddingTop = '';
-        }
-      }
-    });
-  };
-
-  window.addEventListener('scroll', tierScrollHandler, {passive:true});
-  tierScrollHandler(); // run sekali saat render
 }
 
 function filter() {
@@ -498,7 +446,6 @@ function highlight(text) {
 
 function buildCard(id, mini) {
   const liked = likedSet.has(id.number);
-  const price = settings.prices ? fmt(settings.prices[id.tier] || 0) : '—';
   const likeCount = id.likes || 0;
   const likeText = likeCount === 0 ? 'Belum ada suka' : likeCount + ' orang suka';
   return `<div class="id-card${id.sold?' is-sold':''}" data-num="${id.number}" data-tier="${id.tier}">
@@ -522,7 +469,6 @@ function attachCardEvents(container) {
   });
 }
 
-// ── LIKE ─────────────────────────────────────────────────────────────────────
 async function doLike(number, btn) {
   if (likedSet.has(number)) { showToast('Kamu sudah menyukai ID ini'); return; }
   btn.disabled = true;
@@ -550,7 +496,6 @@ async function doLike(number, btn) {
   }
 }
 
-// ── MODAL ─────────────────────────────────────────────────────────────────────
 async function openModal(number) {
   const id = allIds.find(i => i.number === number);
   if (!id) return;
@@ -576,9 +521,8 @@ async function openModal(number) {
 }
 
 document.getElementById('modalClose').addEventListener('click', () => { document.getElementById('modalOverlay').classList.remove('open'); currentModal = null; });
-document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target === document.getElementById('modalOverlay')) { document.getElementById('modalOverlay').classList.remove('open'); currentModal=null; } });
+document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===document.getElementById('modalOverlay')){document.getElementById('modalOverlay').classList.remove('open');currentModal=null;} });
 
-// ── FILTER BAR ───────────────────────────────────────────────────────────────
 document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
   btn.addEventListener('click', () => {
     activeFilter = btn.dataset.f;
@@ -589,7 +533,6 @@ document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
 });
 document.getElementById('searchInput').addEventListener('input', e => { searchQ = e.target.value.trim(); render(); });
 
-// ── THEME ────────────────────────────────────────────────────────────────────
 function initTheme() {
   const dark = localStorage.getItem('lapakid_dark') === '1';
   if (dark) document.body.classList.add('dark');
@@ -601,8 +544,7 @@ function updateLogo(dark) {
   if (logo) logo.src = dark ? 'https://files.catbox.moe/6esihc.png' : 'https://files.catbox.moe/j4ittw.png';
 }
 function updateThemeIcon(dark) {
-  const icon = document.getElementById('themeIcon');
-  icon.innerHTML = dark
+  document.getElementById('themeIcon').innerHTML = dark
     ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
     : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 }
@@ -613,28 +555,61 @@ document.getElementById('themeBtn').addEventListener('click', () => {
   updateLogo(dark);
 });
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
+  t.className = 'toast'; t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2500);
 }
 
-init();
+function updateFilterHeight() {
+  const sticky = document.getElementById('filterSticky');
+  if (!sticky) return;
+  const navH = document.querySelector('nav')?.getBoundingClientRect().height || 60;
+  const h = sticky.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--filter-height', `${navH + h + 2}px`);
+}
+
+let tierScrollHandler = null;
+function setupTierSticky() {
+  if (tierScrollHandler) window.removeEventListener('scroll', tierScrollHandler, {passive:true});
+  tierScrollHandler = () => {
+    const filterBar = document.getElementById('filterSticky');
+    if (!filterBar) return;
+    const filterBottom = filterBar.getBoundingClientRect().bottom;
+    document.querySelectorAll('.tier-block').forEach(block => {
+      const head = block.querySelector('.tier-head');
+      if (!head) return;
+      const blockRect = block.getBoundingClientRect();
+      const shouldStick = blockRect.top < filterBottom && blockRect.bottom > filterBottom;
+      if (shouldStick) {
+        head.style.top = filterBottom + 'px';
+        head.classList.add('is-stuck');
+        block.style.paddingTop = head.offsetHeight + 'px';
+        const nearEnd = blockRect.bottom < filterBottom + head.offsetHeight + 10;
+        head.classList.toggle('hide-head', nearEnd);
+      } else {
+        head.classList.remove('is-stuck','hide-head');
+        block.style.paddingTop = '';
+      }
+    });
+  };
+  window.addEventListener('scroll', tierScrollHandler, {passive:true});
+  tierScrollHandler();
+}
+
 window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(); });
 
-// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
+init();
+
+// ── MUSIC PLAYER ──
 (function() {
   var songs = [
-    { title: 'Track 1', src: 'https://files.catbox.moe/3syoqj.mp3' },
-    { title: 'Track 2', src: 'https://files.catbox.moe/d0y6ho.mp3' },
+    { title: 'Lofi Chill', src: 'https://files.catbox.moe/3syoqj.mp3' },
+    { title: 'Midnight Vibes', src: 'https://files.catbox.moe/d0y6ho.mp3' },
   ];
-
   var currentSong = 0;
   var hideTimer = null;
-
   var player  = document.getElementById('musicPlayer');
   var toggle  = document.getElementById('musicToggle');
   var album   = document.getElementById('musicAlbum');
@@ -642,18 +617,23 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   var btnPrev = document.getElementById('btnPrev');
   var btnNext = document.getElementById('btnNext');
   var playIcon= document.getElementById('playIcon');
-  var bar     = document.getElementById('musicBar');
   var titleEl = document.getElementById('musicTitle');
   var subEl   = document.getElementById('musicSub');
-  var audio = document.getElementById('musicAudio');
-  audio.volume = 0.7;
+  var audio   = document.getElementById('musicAudio');
+  var progressCircle = document.getElementById('progressCircle');
+  var circumference = 2 * Math.PI * 20;
+  progressCircle.style.strokeDasharray = circumference;
+
+  function setProgress(pct) {
+    progressCircle.style.strokeDashoffset = circumference - (pct / 100) * circumference;
+  }
 
   function loadSong(index) {
     currentSong = index;
     audio.src = songs[index].src;
     titleEl.textContent = songs[index].title;
     subEl.textContent = 'Track ' + (index + 1) + ' / ' + songs.length;
-    bar.style.width = '0%';
+    setProgress(0);
   }
 
   function togglePlay() {
@@ -670,8 +650,7 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   }
 
   function nextSong() {
-    currentSong++;
-    if (currentSong >= songs.length) currentSong = 0;
+    currentSong = (currentSong + 1) % songs.length;
     loadSong(currentSong);
     audio.play();
     album.classList.add('playing');
@@ -680,8 +659,7 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   }
 
   function prevSong() {
-    currentSong--;
-    if (currentSong < 0) currentSong = songs.length - 1;
+    currentSong = (currentSong - 1 + songs.length) % songs.length;
     loadSong(currentSong);
     audio.play();
     album.classList.add('playing');
@@ -691,26 +669,16 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
 
   audio.addEventListener('timeupdate', function() {
     if (!audio.duration) return;
-    bar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    setProgress((audio.currentTime / audio.duration) * 100);
   });
-
-  audio.addEventListener('ended', function() { nextSong(); });
-
+  audio.addEventListener('ended', nextSong);
   audio.addEventListener('pause', function() {
     album.classList.remove('playing');
     playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
   });
 
-  function showPlayer() {
-    player.classList.remove('hidden');
-    toggle.classList.remove('show');
-    resetHideTimer();
-  }
-  function hidePlayer() {
-    player.classList.add('hidden');
-    toggle.classList.add('show');
-    clearTimeout(hideTimer);
-  }
+  function showPlayer() { player.classList.remove('hidden'); toggle.classList.remove('show'); resetHideTimer(); }
+  function hidePlayer() { player.classList.add('hidden'); toggle.classList.add('show'); clearTimeout(hideTimer); }
   function resetHideTimer() {
     clearTimeout(hideTimer);
     hideTimer = setTimeout(function() {
@@ -723,49 +691,13 @@ window.addEventListener('resize', () => { updateFilterHeight(); setupTierSticky(
   btnPrev.addEventListener('click', prevSong);
   btnNext.addEventListener('click', nextSong);
   toggle.addEventListener('click', showPlayer);
-
   player.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
   player.addEventListener('mouseleave', resetHideTimer);
-  player.addEventListener('touchstart', function() {
-    clearTimeout(hideTimer);
-    setTimeout(resetHideTimer, 3000);
-  }, {passive:true});
+  player.addEventListener('touchstart', function() { clearTimeout(hideTimer); setTimeout(resetHideTimer, 3000); }, {passive:true});
 
   loadSong(0);
   resetHideTimer();
 })();
-
 </script>
-
-<audio id="musicAudio" preload="none"></audio>
-
-<!-- MUSIC PLAYER -->
-<div class="music-player" id="musicPlayer">
-  <div class="music-album" id="musicAlbum">
-    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-  </div>
-  <div class="music-info">
-    <div class="music-title" id="musicTitle">Loading...</div>
-    <div class="music-sub" id="musicSub">lapakID Music</div>
-  </div>
-  <div class="music-controls">
-    <button class="mc-btn" id="btnPrev" title="Sebelumnya">
-      <svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
-    </button>
-    <button class="mc-btn mc-play" id="btnPlay" title="Play/Pause">
-      <svg id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>
-    </button>
-    <button class="mc-btn" id="btnNext" title="Berikutnya">
-      <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
-    </button>
-  </div>
-  <div class="music-progress"><div class="music-progress-bar" id="musicBar"></div></div>
-</div>
-
-<!-- Toggle button (muncul saat player hidden) -->
-<div class="music-toggle" id="musicToggle" title="Buka musik">
-  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-</div>
-
 </body>
 </html>
