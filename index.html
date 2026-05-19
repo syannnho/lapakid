@@ -69,6 +69,8 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .id-card:hover{border-color:var(--purple);transform:translateY(-2px);box-shadow:0 8px 24px rgba(70,95,255,.12)}
 .id-card.is-sold{opacity:.55;cursor:default;pointer-events:none}
 .sold-badge{position:absolute;top:8px;right:8px;background:var(--sold);color:#fff;font-size:.45rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+.new-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#12b76a,#05966a);color:#fff;font-size:.45rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px;animation:newPulse 2s ease-in-out infinite}
+@keyframes newPulse{0%,100%{box-shadow:0 0 0 0 rgba(18,183,106,.4)}50%{box-shadow:0 0 0 4px rgba(18,183,106,0)}}
 .id-num{font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--text);word-break:break-all;line-height:1.4;display:flex;align-items:center;gap:6px}
 .id-icon{width:20px;height:20px;object-fit:contain;flex-shrink:0}
 .id-card.is-sold .id-num{text-decoration:line-through;color:var(--muted)}
@@ -242,13 +244,13 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <p class="hero-sub">Koleksi ID premium pilihan. Tersedia dalam 4 tier: Low, Medium, High, dan Legend. Beli dengan aman, bergaransi, dan proses cepat.</p>
 </div>
 
-
 <!-- BANNER SLIDER -->
 <div class="banner-section">
   <div class="banner-wrap" id="bannerWrap">
     <div class="banner-track" id="bannerTrack">
       <div class="banner-slide"><img src="https://files.catbox.moe/kv3k51.png" alt="Banner 1" loading="lazy"/></div>
       <div class="banner-slide"><img src="https://files.catbox.moe/l28ii6.png" alt="Banner 2" loading="lazy"/></div>
+      <div class="banner-slide"><img src="https://files.catbox.moe/5bm0fq.png" alt="Banner 3" loading="lazy"/></div>
     </div>
     <button class="banner-prev" id="bannerPrev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <button class="banner-next" id="bannerNext"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -256,6 +258,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <div class="banner-dots" id="bannerDots">
     <button class="banner-dot active" data-idx="0"></button>
     <button class="banner-dot" data-idx="1"></button>
+    <button class="banner-dot" data-idx="2"></button>
   </div>
 </div>
 
@@ -283,7 +286,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
         <button class="fb" data-f="legend">Legend</button>
         <button class="fb" data-f="sold">Terjual</button>
       </div>
-      <div class="search-wrap"><div class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><input type="text" id="searchInput" placeholder="Cari nomor ID..."/></div>
+      <div class="search-wrap">
+        <div class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <input type="text" id="searchInput" placeholder="Cari nomor ID..."/>
+      </div>
     </div>
     <div class="result-info" id="resultInfo">Memuat data...</div>
   </div>
@@ -311,7 +317,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 <footer>
   &copy; 2026 <a href="index.html">lapakID</a> &mdash; Koleksi ID Premium Terpercaya &mdash; <a href="about.html">Tentang Kami</a> &mdash; <a href="dashboard.html">Admin</a>
 </footer>
-
 
 <!-- POPUP PROMO -->
 <div class="popup-overlay" id="promoPopup">
@@ -399,18 +404,22 @@ async function loadSettings() {
 async function loadPopular() {
   const r = await fetch(`${API}/ids/popular`).catch(()=>null);
   const grid = document.getElementById('popularGrid');
-  if (!r || !r.ok) { grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Gagal memuat</p></div>'; return; }
+  if (!r || !r.ok) {
+    grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Gagal memuat</p></div>';
+    return;
+  }
   const { data } = await r.json();
-  if (!data.length) { grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Belum ada data</p></div>'; return; }
+  if (!data.length) {
+    grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Belum ada data</p></div>';
+    return;
+  }
 
-  // Bagi ke slide 2x2
   const slides = [];
   for (let i = 0; i < data.length; i += 4) slides.push(data.slice(i, i + 4));
   grid.innerHTML = slides.map((group, si) =>
     `<div class="popular-slide" data-slide="${si}">${group.map(id => buildCard(id, true)).join('')}</div>`
   ).join('');
 
-  // Dots
   const dotsEl = document.getElementById('popularDots');
   dotsEl.innerHTML = slides.map((_, i) =>
     `<button class="popular-dot${i===0?' active':''}" data-idx="${i}"></button>`
@@ -437,7 +446,6 @@ function initPopularScroll(grid, totalSlides, dotsEl) {
     current = (current + 1) % totalSlides;
     scrollToSlide(grid, current, dotsEl);
   }
-
   function start() {
     clearInterval(timer);
     timer = setInterval(function() { if (!paused) goNext(); }, 3000);
@@ -461,7 +469,10 @@ function initPopularScroll(grid, totalSlides, dotsEl) {
 
 async function loadIds() {
   const r = await fetch(`${API}/ids`).catch(()=>null);
-  if (!r || !r.ok) { document.getElementById('gridContainer').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Gagal memuat ID</p></div>'; return; }
+  if (!r || !r.ok) {
+    document.getElementById('gridContainer').innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>Gagal memuat ID</p></div>';
+    return;
+  }
   const { data } = await r.json();
   allIds = data || [];
   render();
@@ -522,12 +533,22 @@ function highlight(text) {
   return text.replace(regex, '<mark>$1</mark>');
 }
 
+function isNewId(id) {
+  if (id.sold || !id.addedAt) return false;
+  return (Date.now() - new Date(id.addedAt).getTime()) < 7 * 24 * 60 * 60 * 1000;
+}
+
 function buildCard(id, mini) {
   const liked = likedSet.has(id.number);
   const likeCount = id.likes || 0;
   const likeText = likeCount === 0 ? 'Belum ada suka' : likeCount + ' orang suka';
+  const isNew = isNewId(id);
   return `<div class="id-card${id.sold?' is-sold':''}" data-num="${id.number}" data-tier="${id.tier}">
-    ${id.sold ? '<div class="sold-badge">SOLD</div>' : ''}
+    ${id.sold
+      ? '<div class="sold-badge">SOLD</div>'
+      : isNew
+        ? '<div class="new-badge">NEW</div>'
+        : ''}
     <div class="id-num"><img src="https://files.catbox.moe/em51di.png" class="id-icon" alt=""/>${highlight(id.number)}</div>
     <div class="id-bottom">
       <span class="id-tier ${TIER_BADGE_CLS[id.tier]}">${id.tier.toUpperCase()}</span>
@@ -580,13 +601,32 @@ async function openModal(number) {
   currentModal = id;
   const price = settings.prices ? fmt(settings.prices[id.tier] || 0) : '—';
   const liked = likedSet.has(number);
+  const isNew = isNewId(id);
   document.getElementById('modalIdNum').textContent = number;
   document.getElementById('modalRows').innerHTML = `
-    <div class="modal-row"><div class="modal-row-label"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Tier</div><div class="modal-row-val"><span class="id-tier ${TIER_BADGE_CLS[id.tier]}">${id.tier.toUpperCase()}</span></div></div>
-    <div class="modal-row"><div class="modal-row-label"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Harga</div><div class="modal-row-val">${price}</div></div>
-    <div class="modal-row"><div class="modal-row-label"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Suka</div><div class="modal-row-val">${id.likes || 0}</div></div>
-    <div class="modal-row"><div class="modal-row-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Ditambahkan</div><div class="modal-row-val">${id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID') : '—'}</div></div>
-    ${id.note ? `<div class="modal-row"><div class="modal-row-label"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Catatan</div><div class="modal-row-val">${id.note}</div></div>` : ''}
+    <div class="modal-row">
+      <div class="modal-row-label"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Tier</div>
+      <div class="modal-row-val"><span class="id-tier ${TIER_BADGE_CLS[id.tier]}">${id.tier.toUpperCase()}</span></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-row-label"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Harga</div>
+      <div class="modal-row-val">${price}</div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-row-label"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Suka</div>
+      <div class="modal-row-val">${id.likes || 0}</div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-row-label"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Ditambahkan</div>
+      <div class="modal-row-val" style="display:flex;align-items:center;gap:6px">
+        ${id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID') : '—'}
+        ${isNew ? '<span style="background:linear-gradient(135deg,#12b76a,#05966a);color:#fff;font-size:.45rem;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px">NEW</span>' : ''}
+      </div>
+    </div>
+    ${id.note ? `<div class="modal-row">
+      <div class="modal-row-label"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Catatan</div>
+      <div class="modal-row-val">${id.note}</div>
+    </div>` : ''}
   `;
   document.getElementById('modalLikeCount').textContent = id.likes || 0;
   const likeBtn = document.getElementById('modalLikeBtn');
@@ -598,8 +638,16 @@ async function openModal(number) {
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-document.getElementById('modalClose').addEventListener('click', () => { document.getElementById('modalOverlay').classList.remove('open'); currentModal = null; });
-document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===document.getElementById('modalOverlay')){document.getElementById('modalOverlay').classList.remove('open');currentModal=null;} });
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('modalOverlay').classList.remove('open');
+  currentModal = null;
+});
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    currentModal = null;
+  }
+});
 
 document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -609,7 +657,10 @@ document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
     render();
   });
 });
-document.getElementById('searchInput').addEventListener('input', e => { searchQ = e.target.value.trim(); render(); });
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQ = e.target.value.trim();
+  render();
+});
 
 function initTheme() {
   const dark = localStorage.getItem('lapakid_dark') === '1';
@@ -635,7 +686,8 @@ document.getElementById('themeBtn').addEventListener('click', () => {
 
 function showToast(msg) {
   const t = document.createElement('div');
-  t.className = 'toast'; t.textContent = msg;
+  t.className = 'toast';
+  t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2500);
 }
@@ -688,16 +740,16 @@ init();
   ];
   var currentSong = 0;
   var hideTimer = null;
-  var player  = document.getElementById('musicPlayer');
-  var toggle  = document.getElementById('musicToggle');
-  var album   = document.getElementById('musicAlbum');
-  var btnPlay = document.getElementById('btnPlay');
-  var btnPrev = document.getElementById('btnPrev');
-  var btnNext = document.getElementById('btnNext');
-  var playIcon= document.getElementById('playIcon');
-  var titleEl = document.getElementById('musicTitle');
-  var subEl   = document.getElementById('musicSub');
-  var audio   = document.getElementById('musicAudio');
+  var player   = document.getElementById('musicPlayer');
+  var toggle   = document.getElementById('musicToggle');
+  var album    = document.getElementById('musicAlbum');
+  var btnPlay  = document.getElementById('btnPlay');
+  var btnPrev  = document.getElementById('btnPrev');
+  var btnNext  = document.getElementById('btnNext');
+  var playIcon = document.getElementById('playIcon');
+  var titleEl  = document.getElementById('musicTitle');
+  var subEl    = document.getElementById('musicSub');
+  var audio    = document.getElementById('musicAudio');
   var progressCircle = document.getElementById('progressCircle');
   var circumference = 2 * Math.PI * 20;
   progressCircle.style.strokeDasharray = circumference;
@@ -705,7 +757,6 @@ init();
   function setProgress(pct) {
     progressCircle.style.strokeDashoffset = circumference - (pct / 100) * circumference;
   }
-
   function loadSong(index) {
     currentSong = index;
     audio.src = songs[index].src;
@@ -713,7 +764,6 @@ init();
     subEl.textContent = 'Track ' + (index + 1) + ' / ' + songs.length;
     setProgress(0);
   }
-
   function togglePlay() {
     if (audio.paused) {
       audio.play();
@@ -726,7 +776,6 @@ init();
     }
     resetHideTimer();
   }
-
   function nextSong() {
     currentSong = (currentSong + 1) % songs.length;
     loadSong(currentSong);
@@ -735,7 +784,6 @@ init();
     playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>';
     resetHideTimer();
   }
-
   function prevSong() {
     currentSong = (currentSong - 1 + songs.length) % songs.length;
     loadSong(currentSong);
@@ -777,11 +825,11 @@ init();
   resetHideTimer();
 })();
 
-// ── BANNER SLIDER ──────────────────────────────────────────────────────────
+// ── BANNER SLIDER ──
 (function() {
   var track = document.getElementById('bannerTrack');
   var dots  = document.querySelectorAll('.banner-dot');
-  var total = 2;
+  var total = 3;
   var cur   = 0;
   var timer = null;
 
@@ -790,14 +838,9 @@ init();
     track.style.transform = 'translateX(-' + (cur * 100) + '%)';
     dots.forEach(function(d, i) { d.classList.toggle('active', i === cur); });
   }
-
   function next() { goTo(cur + 1); }
   function prev() { goTo(cur - 1); }
-
-  function startAuto() {
-    clearInterval(timer);
-    timer = setInterval(next, 4000);
-  }
+  function startAuto() { clearInterval(timer); timer = setInterval(next, 4000); }
 
   document.getElementById('bannerNext').addEventListener('click', function() { next(); startAuto(); });
   document.getElementById('bannerPrev').addEventListener('click', function() { prev(); startAuto(); });
@@ -809,7 +852,6 @@ init();
   wrap.addEventListener('mouseenter', function() { clearInterval(timer); });
   wrap.addEventListener('mouseleave', startAuto);
 
-  // Touch swipe
   var tx = 0;
   wrap.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; clearInterval(timer); }, {passive:true});
   wrap.addEventListener('touchend', function(e) {
@@ -821,12 +863,12 @@ init();
   startAuto();
 })();
 
-// ── POPUP PROMO ────────────────────────────────────────────────────────────
+// ── POPUP PROMO ──
 (function() {
   var STORAGE_KEY = 'lapakid_popup_hide';
   if (localStorage.getItem(STORAGE_KEY) === '1') return;
 
-  var overlay = document.getElementById('promoPopup');
+  var overlay  = document.getElementById('promoPopup');
   var closeBtn = document.getElementById('popupClose');
   var okBtn    = document.getElementById('popupOk');
   var check    = document.getElementById('dontShowAgain');
@@ -840,7 +882,6 @@ init();
   okBtn.addEventListener('click', closePopup);
   overlay.addEventListener('click', function(e) { if (e.target === overlay) closePopup(); });
 
-  // Tampil setelah 1.5 detik
   setTimeout(function() { overlay.classList.add('open'); }, 1500);
 })();
 
@@ -852,7 +893,6 @@ function copyPromoCode() {
     showToast('Kode: ' + code);
   });
 }
-
 </script>
 </body>
 </html>
