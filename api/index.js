@@ -178,7 +178,14 @@ module.exports = async function handler(req, res) {
         if (!b.number || !b.tier) return fail(res, 400, 'number dan tier wajib');
         if (await db.collection('ids').findOne({ number: String(b.number) }))
           return fail(res, 409, 'ID sudah ada');
-        const doc = { number:String(b.number), tier:b.tier, sold:false, likes:0, note:b.note||'', addedAt:new Date() };
+        const doc = {
+          number: String(b.number),
+          tier: b.tier,
+          sold: false,
+          likes: 0,
+          note: b.note || '',
+          addedAt: new Date(),
+        };
         await db.collection('ids').insertOne(doc);
         return created(res, { data: doc });
       }
@@ -187,7 +194,14 @@ module.exports = async function handler(req, res) {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
         if (!Array.isArray(b.ids) || !b.tier) return fail(res, 400, 'ids[] dan tier wajib');
-        const docs = b.ids.map(n => ({ number:String(n).trim(), tier:b.tier, sold:false, likes:0, note:b.note||'', addedAt:new Date() }));
+        const docs = b.ids.map(n => ({
+          number: String(n).trim(),
+          tier: b.tier,
+          sold: false,
+          likes: 0,
+          note: b.note || '',
+          addedAt: new Date(),
+        }));
         const ex = await db.collection('ids').find({ number:{$in:docs.map(d=>d.number)} }).toArray();
         const exSet = new Set(ex.map(e=>e.number));
         const ins = docs.filter(d => !exSet.has(d.number));
@@ -244,7 +258,11 @@ module.exports = async function handler(req, res) {
         const since = new Date(Date.now() - 5*60*1000);
         const cnt = await db.collection('likes').countDocuments({ ip, likedAt:{ $gte:since } });
         if (cnt >= 10) {
-          await db.collection('bans').updateOne({ ip }, { $set:{ ip, bannedAt:new Date(), reason:'spam_like', active:true } }, { upsert:true });
+          await db.collection('bans').updateOne(
+            { ip },
+            { $set:{ ip, bannedAt:new Date(), reason:'spam_like', active:true } },
+            { upsert:true }
+          );
           return fail(res, 429, 'Spam terdeteksi. IP kamu diblokir.');
         }
 
@@ -283,8 +301,9 @@ module.exports = async function handler(req, res) {
           code: b.code.toUpperCase().trim(),
           discount: Math.min(88, Math.max(1, Number(b.discount))),
           maxUses: b.maxUses ? Number(b.maxUses) : null,
-          uses: 0, active: true,
-          description: b.description||'',
+          uses: 0,
+          active: true,
+          description: b.description || '',
           expiresAt: b.expiresAt ? new Date(b.expiresAt) : null,
           createdAt: new Date(),
         };
@@ -295,10 +314,10 @@ module.exports = async function handler(req, res) {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
         const upd = {};
-        if (b.discount!=null) upd.discount = Math.min(88,Math.max(1,Number(b.discount)));
-        if (b.active!=null)   upd.active = Boolean(b.active);
-        if (b.maxUses!=null)  upd.maxUses = Number(b.maxUses);
-        if (b.expiresAt!=null) upd.expiresAt = new Date(b.expiresAt);
+        if (b.discount!=null)   upd.discount = Math.min(88,Math.max(1,Number(b.discount)));
+        if (b.active!=null)     upd.active = Boolean(b.active);
+        if (b.maxUses!=null)    upd.maxUses = Number(b.maxUses);
+        if (b.expiresAt!=null)  upd.expiresAt = new Date(b.expiresAt);
         if (b.description!=null) upd.description = b.description;
         let oid; try { oid=new ObjectId(r1); } catch { return fail(res,400,'ID tidak valid'); }
         await db.collection('promos').updateOne({ _id:oid }, { $set:upd });
@@ -349,10 +368,22 @@ module.exports = async function handler(req, res) {
           await db.collection('promos').updateOne({ code:pr.code }, { $inc:{ uses:1 } });
         }
       }
-      const adminFee  = fees[pMethod] || 0;
+      const adminFee   = fees[pMethod] || 0;
       const finalPrice = Math.round(base*(1-disc/100)) + adminFee;
-      const payment = { idNumber:String(idNumber), tier:idDoc.tier, price:base, method:pMethod,
-        status:'pending', buyer, email, promoCode:promoUsed, discount:disc, adminFee, finalPrice, createdAt:new Date() };
+      const payment = {
+        idNumber: String(idNumber),
+        tier: idDoc.tier,
+        price: base,
+        method: pMethod,
+        status: 'pending',
+        buyer,
+        email,
+        promoCode: promoUsed,
+        discount: disc,
+        adminFee,
+        finalPrice,
+        createdAt: new Date(),
+      };
       const ins = await db.collection('payments').insertOne(payment);
       return created(res, { data:{ ...payment, _id:ins.insertedId } });
     }
