@@ -34,6 +34,29 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .nav-links{display:flex;align-items:center;gap:6px}
 .theme-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .theme-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
+/* NOTIF BELL */
+.notif-btn{position:relative;background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;text-decoration:none}
+.notif-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--sold);border-radius:50%;border:2px solid var(--bg);display:none}
+.notif-dot.show{display:block}
+.notif-panel{position:fixed;top:62px;right:12px;width:300px;max-height:360px;background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:300;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-8px) scale(.97);transition:.2s}
+.notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.notif-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+.notif-head-title{font-size:.75rem;font-weight:800;color:var(--text)}
+.notif-mark-read{font-size:.6rem;color:var(--purple);font-weight:600;cursor:pointer;background:none;border:none;font-family:var(--font)}
+.notif-list{overflow-y:auto;max-height:280px}
+.notif-item{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.notif-item:last-child{border:none}
+.notif-item.unread{background:rgba(70,95,255,.04)}
+.notif-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notif-icon-pay{background:rgba(70,95,255,.1);color:var(--purple)}
+.notif-icon-ok{background:rgba(18,183,106,.1);color:var(--success)}
+.notif-icon svg{width:13px;height:13px;stroke:currentColor;fill:none}
+.notif-body{flex:1;min-width:0}
+.notif-title{font-size:.68rem;font-weight:700;color:var(--text)}
+.notif-msg{font-size:.6rem;color:var(--muted);margin-top:2px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.notif-time{font-size:.55rem;color:var(--muted);margin-top:3px;font-family:var(--mono)}
+.notif-empty{text-align:center;padding:28px;color:var(--muted);font-size:.68rem}
 
 /* HERO */
 .hero{padding:40px 16px 24px;max-width:1400px;margin:0 auto}
@@ -122,6 +145,15 @@ body.dark .tier-head.is-stuck{background:var(--bg)}
 @media(min-width:1100px){.id-grid{grid-template-columns:repeat(5,1fr)}}
 mark{background:rgba(70,95,255,.15);color:var(--purple);border-radius:2px;padding:0 1px}
 
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap}
+.pg-btn{background:var(--card);border:1px solid var(--border);color:var(--muted2);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.7rem;font-weight:600;font-family:var(--mono);display:flex;align-items:center;justify-content:center;transition:.15s}
+.pg-btn:hover{border-color:var(--purple);color:var(--purple)}
+.pg-btn.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.pg-btn.pg-arrow svg{width:13px;height:13px;stroke:currentColor;fill:none}
+.pg-btn:disabled{opacity:.35;cursor:default;pointer-events:none}
+.pg-info{font-size:.6rem;color:var(--muted);font-family:var(--mono);padding:0 4px}
+
 /* Card animation */
 @keyframes cardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .id-card{animation:cardIn .35s ease both}
@@ -175,7 +207,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 @keyframes spin{to{transform:rotate(360deg)}}
 .music-album svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.5}
 .music-info{flex:1;min-width:0;overflow:hidden}
-.music-title{font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.music-title{font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;width:100%}
+.music-title-inner{display:inline-block;white-space:nowrap}
+.music-title-inner.marquee{animation:marquee 8s linear infinite}
+@keyframes marquee{0%{transform:translateX(0)}50%{transform:translateX(calc(-100% + 120px))}100%{transform:translateX(0)}}
 .music-sub{font-size:.55rem;color:rgba(255,255,255,.5);margin-top:2px}
 .music-controls{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .mc-btn{background:none;border:none;cursor:pointer;padding:5px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.15s;color:rgba(255,255,255,.7)}
@@ -234,9 +269,22 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <img id="logoImg" src="https://files.catbox.moe/j4ittw.png" alt="lapakID" class="logo-img"/>
   </a>
   <div class="nav-links">
+    <div class="notif-btn" id="notifBtn">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="notif-dot" id="notifDot"></div>
+    </div>
     <div class="theme-btn" id="themeBtn"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
   </div>
 </nav>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div class="notif-head-title">Notifikasi</div>
+    <button class="notif-mark-read" onclick="markAllRead()">Tandai dibaca</button>
+  </div>
+  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
+</div>
 
 <div class="hero">
   <div class="hero-label"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>ID PREMIUM TERPERCAYA</div>
@@ -250,6 +298,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <div class="banner-track" id="bannerTrack">
       <div class="banner-slide"><img src="https://files.catbox.moe/kv3k51.png" alt="Banner 1" loading="lazy"/></div>
       <div class="banner-slide"><img src="https://files.catbox.moe/l28ii6.png" alt="Banner 2" loading="lazy"/></div>
+      <div class="banner-slide"><img src="https://files.catbox.moe/5bm0fq.png" alt="Banner 3" loading="lazy"/></div>
     </div>
     <button class="banner-prev" id="bannerPrev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <button class="banner-next" id="bannerNext"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
@@ -257,6 +306,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <div class="banner-dots" id="bannerDots">
     <button class="banner-dot active" data-idx="0"></button>
     <button class="banner-dot" data-idx="1"></button>
+    <button class="banner-dot" data-idx="2"></button>
   </div>
 </div>
 
@@ -358,8 +408,8 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     </div>
   </div>
   <div class="music-info">
-    <div class="music-title" id="musicTitle">Lofi Chill</div>
-    <div class="music-sub" id="musicSub">Track 1 / 2</div>
+    <div class="music-title" id="musicTitle"><span class="music-title-inner">Memuat...</span></div>
+    <div class="music-sub" id="musicSub">—</div>
   </div>
   <div class="music-controls">
     <button class="mc-btn" id="btnPrev"><svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
@@ -380,13 +430,66 @@ let searchQ = '';
 let settings = {};
 let likedSet = new Set(JSON.parse(localStorage.getItem('lapakid_liked') || '[]'));
 let currentModal = null;
+const PER_PAGE = 20;
+let tierPages = { low:1, medium:1, high:1, legend:1 };
 
 const PRICE_LABELS = { low:'Low', medium:'Medium', high:'High', legend:'Legend' };
 const TIER_BADGE_CLS = { low:'tier-low', medium:'tier-medium', high:'tier-high', legend:'tier-legend' };
 const fmt = n => 'Rp ' + Number(n).toLocaleString('id-ID');
 
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────────────
+let notifOpen = false;
+async function loadNotifications() {
+  try {
+    const r = await fetch('/api/notifications?limit=20');
+    if (!r.ok) return;
+    const d = await r.json();
+    const dot = document.getElementById('notifDot');
+    if (d.unread > 0) dot.classList.add('show');
+    else dot.classList.remove('show');
+    const list = document.getElementById('notifList');
+    if (!d.data || !d.data.length) { list.innerHTML = '<div class="notif-empty">Belum ada notifikasi</div>'; return; }
+    list.innerHTML = d.data.map(n => {
+      const isOk = n.type === 'confirmed';
+      const t = new Date(n.createdAt);
+      const timeStr = t.toLocaleString('id-ID',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'});
+      return `<div class="notif-item${n.read?'':' unread'}">
+        <div class="notif-icon ${isOk?'notif-icon-ok':'notif-icon-pay'}">
+          <svg viewBox="0 0 24 24">${isOk?'<polyline points="20 6 9 17 4 12"/>':'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>'}</svg>
+        </div>
+        <div class="notif-body">
+          <div class="notif-title">${n.title}</div>
+          <div class="notif-msg">${n.message}</div>
+          <div class="notif-time">${timeStr}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {}
+}
+async function markAllRead() {
+  await fetch('/api/notifications/read', {method:'PUT'}).catch(()=>{});
+  document.getElementById('notifDot').classList.remove('show');
+  document.querySelectorAll('.notif-item.unread').forEach(el=>el.classList.remove('unread'));
+}
+document.getElementById('notifBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  notifOpen = !notifOpen;
+  document.getElementById('notifPanel').classList.toggle('open', notifOpen);
+  if (notifOpen) loadNotifications();
+});
+document.addEventListener('click', (e) => {
+  if (notifOpen && !document.getElementById('notifPanel').contains(e.target)) {
+    notifOpen = false;
+    document.getElementById('notifPanel').classList.remove('open');
+  }
+});
+// Poll notifikasi tiap 30 detik
+setInterval(loadNotifications, 30000);
+
+
 async function init() {
   initTheme();
+  loadNotifications();
   await Promise.all([loadSettings(), loadPopular(), loadIds()]);
   updateFilterHeight();
   setupTierSticky();
@@ -397,6 +500,9 @@ async function loadSettings() {
   if (!r || !r.ok) return;
   const d = await r.json();
   settings = d.data || {};
+  window._lapakSettings = settings; // expose untuk music player
+  // trigger musik player jika sudah siap
+  if (window._musicReadyCb) { window._musicReadyCb(settings); window._musicReadyCb = null; }
 }
 
 async function loadPopular() {
@@ -493,13 +599,18 @@ function render() {
   for (const tier of tiers) {
     const ids = filtered[tier];
     if (!ids || !ids.length) continue;
+    const totalPages = Math.ceil(ids.length / PER_PAGE);
+    if (tierPages[tier] > totalPages) tierPages[tier] = 1;
+    const page = tierPages[tier];
+    const pageIds = ids.slice((page - 1) * PER_PAGE, page * PER_PAGE);
     html += `<div class="tier-block" data-tier="${tier}">
       <div class="tier-head" id="tierhead-${tier}">
         <span class="tier-name">${PRICE_LABELS[tier]}</span>
         <span class="id-tier ${TIER_BADGE_CLS[tier]}">${tier.toUpperCase()}</span>
         <span class="tier-count"><b>${ids.length}</b> ID</span>
       </div>
-      <div class="id-grid">${ids.map(id => buildCard(id, false)).join('')}</div>
+      <div class="id-grid">${pageIds.map(id => buildCard(id, false)).join('')}</div>
+      ${totalPages > 1 ? buildPagination(tier, page, totalPages) : ''}
       <div class="tier-sentinel" data-tier="${tier}"></div>
     </div>`;
   }
@@ -508,8 +619,36 @@ function render() {
   container.querySelectorAll('.id-card').forEach((card, i) => {
     card.style.animationDelay = `${Math.min(i * 0.04, 0.6)}s`;
   });
+  // pagination click events
+  container.querySelectorAll('.pg-btn[data-tier]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = btn.dataset.tier;
+      const p = parseInt(btn.dataset.page);
+      tierPages[t] = p;
+      render();
+      setTimeout(() => {
+        const block = document.querySelector(`.tier-block[data-tier="${t}"]`);
+        if (block) block.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    });
+  });
   updateFilterHeight();
   setupTierSticky();
+}
+
+function buildPagination(tier, current, total) {
+  let html = '<div class="pagination">';
+  html += `<button class="pg-btn pg-arrow" data-tier="${tier}" data-page="${current-1}" ${current===1?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+  for (let i = 1; i <= total; i++) {
+    if (total > 5 && i > 2 && i < total - 1 && Math.abs(i - current) > 1) {
+      if (i === 3 || i === total - 2) html += `<span class="pg-info">…</span>`;
+      continue;
+    }
+    html += `<button class="pg-btn${i===current?' active':''}" data-tier="${tier}" data-page="${i}">${i}</button>`;
+  }
+  html += `<button class="pg-btn pg-arrow" data-tier="${tier}" data-page="${current+1}" ${current===total?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>`;
+  html += '</div>';
+  return html;
 }
 
 function filter() {
@@ -533,7 +672,10 @@ function highlight(text) {
 
 function isNewId(id) {
   if (id.sold || !id.addedAt) return false;
-  return (Date.now() - new Date(id.addedAt).getTime()) < 7 * 24 * 60 * 60 * 1000;
+  const added = new Date(id.addedAt).getTime();
+  if (isNaN(added)) return false;
+  const diffMs = Date.now() - added;
+  return diffMs > 0 && diffMs < 3 * 24 * 60 * 60 * 1000;
 }
 
 function buildCard(id, mini) {
@@ -650,6 +792,7 @@ document.getElementById('modalOverlay').addEventListener('click', e => {
 document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
   btn.addEventListener('click', () => {
     activeFilter = btn.dataset.f;
+    tierPages = { low:1, medium:1, high:1, legend:1 };
     document.querySelectorAll('.fb').forEach(b => b.classList.remove('act'));
     btn.classList.add('act');
     render();
@@ -657,6 +800,7 @@ document.getElementById('filterBar').querySelectorAll('.fb').forEach(btn => {
 });
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQ = e.target.value.trim();
+  tierPages = { low:1, medium:1, high:1, legend:1 };
   render();
 });
 
@@ -732,10 +876,8 @@ init();
 
 // ── MUSIC PLAYER ──
 (function() {
-  var songs = [
-    { title: 'Lofi Chill', src: 'https://files.catbox.moe/3syoqj.mp3' },
-    { title: 'Midnight Vibes', src: 'https://files.catbox.moe/d0y6ho.mp3' },
-  ];
+  var songs = [];  // will be loaded from API
+  var songsLoaded = false;
   var currentSong = 0;
   var hideTimer = null;
   var player   = document.getElementById('musicPlayer');
@@ -758,9 +900,19 @@ init();
   function loadSong(index) {
     currentSong = index;
     audio.src = songs[index].src;
-    titleEl.textContent = songs[index].title;
+    var title = songs[index].title;
+    // marquee if title too long
+    titleEl.innerHTML = '<span class="music-title-inner" id="musicTitleInner">' + title + '</span>';
     subEl.textContent = 'Track ' + (index + 1) + ' / ' + songs.length;
     setProgress(0);
+    setTimeout(function() {
+      var inner = document.getElementById('musicTitleInner');
+      if (inner && inner.scrollWidth > titleEl.clientWidth) {
+        inner.classList.add('marquee');
+      } else if (inner) {
+        inner.classList.remove('marquee');
+      }
+    }, 100);
   }
   function togglePlay() {
     if (audio.paused) {
@@ -819,7 +971,34 @@ init();
   player.addEventListener('mouseleave', resetHideTimer);
   player.addEventListener('touchstart', function() { clearTimeout(hideTimer); setTimeout(resetHideTimer, 3000); }, {passive:true});
 
-  loadSong(0);
+  function applyMusic(s) {
+    var list = (s && Array.isArray(s.music) && s.music.length) ? s.music : [];
+    songs = list;
+    if (songs.length) {
+      loadSong(0);
+    } else {
+      var ti = document.getElementById('musicTitle');
+      var su = document.getElementById('musicSub');
+      if (ti) ti.innerHTML = '<span class="music-title-inner">Belum ada musik</span>';
+      if (su) su.textContent = '—';
+    }
+  }
+
+  // Jika settings sudah tersedia (loadSettings selesai duluan)
+  if (window._lapakSettings) {
+    applyMusic(window._lapakSettings);
+  } else {
+    // Daftarkan callback, dipanggil saat loadSettings selesai
+    window._musicReadyCb = applyMusic;
+    // Timeout fallback 3 detik - fetch langsung jika loadSettings terlalu lama
+    setTimeout(function() {
+      if (songs.length === 0 && !window._lapakSettings) {
+        fetch('/api/settings').then(function(r){ return r.json(); }).then(function(d) {
+          applyMusic(d.data || {});
+        }).catch(function(){ applyMusic({}); });
+      }
+    }, 3000);
+  }
   resetHideTimer();
 })();
 
@@ -827,7 +1006,7 @@ init();
 (function() {
   var track = document.getElementById('bannerTrack');
   var dots  = document.querySelectorAll('.banner-dot');
-  var total = 2;
+  var total = 3;
   var cur   = 0;
   var timer = null;
 
