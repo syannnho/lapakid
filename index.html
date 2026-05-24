@@ -34,6 +34,44 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .nav-links{display:flex;align-items:center;gap:6px}
 .theme-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .theme-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
+/* SERVICE BUTTON */
+.service-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;position:relative}
+.service-btn img{width:18px;height:18px;object-fit:contain}
+
+/* CHAT MODAL */
+.chat-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.25s}
+@media(min-width:480px){.chat-overlay{align-items:center}}
+.chat-overlay.open{opacity:1;pointer-events:all}
+.chat-box{background:var(--card);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:420px;padding:0;overflow:hidden;transform:translateY(40px);transition:.25s;box-shadow:0 -8px 40px rgba(0,0,0,.15)}
+@media(min-width:480px){.chat-box{border-radius:20px;transform:scale(.95) translateY(0)}}
+.chat-overlay.open .chat-box{transform:translateY(0)}
+@media(min-width:480px){.chat-overlay.open .chat-box{transform:scale(1)}}
+.chat-header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border);background:var(--card)}
+.chat-header-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-header-icon svg{width:16px;height:16px;stroke:#fff;fill:none}
+.chat-header-info{flex:1}
+.chat-header-title{font-size:.82rem;font-weight:800;color:var(--text)}
+.chat-header-sub{font-size:.6rem;color:var(--success);margin-top:1px}
+.chat-close{background:var(--bg2);border:1px solid var(--border);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.chat-close svg{width:12px;height:12px;stroke:var(--muted);fill:none}
+.chat-body{padding:16px 18px}
+.chat-desc{font-size:.68rem;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.chat-field{margin-bottom:10px}
+.chat-field label{display:block;font-size:.6rem;font-weight:700;color:var(--muted2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+.chat-field input,.chat-field textarea{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;color:var(--text);font-family:var(--font);font-size:.74rem;outline:none;transition:.15s;resize:none}
+.chat-field input:focus,.chat-field textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(70,95,255,.1)}
+.chat-field input::placeholder,.chat-field textarea::placeholder{color:var(--muted)}
+.chat-field textarea{min-height:90px}
+.chat-footer{padding:0 18px 18px;display:flex;gap:8px}
+.btn-chat-send{flex:1;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:10px;border-radius:10px;font-size:.74rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font)}
+.btn-chat-send svg{width:13px;height:13px;stroke:#fff;fill:none}
+.btn-chat-send:disabled{opacity:.5;cursor:not-allowed}
+.chat-sent{text-align:center;padding:24px 18px 20px;display:none}
+.chat-sent-icon{width:48px;height:48px;border-radius:50%;background:rgba(18,183,106,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.chat-sent-icon svg{width:22px;height:22px;stroke:var(--success);fill:none}
+.chat-sent h4{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.chat-sent p{font-size:.68rem;color:var(--muted);line-height:1.5}
+
 /* NOTIF BELL */
 .notif-btn{position:relative;background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;text-decoration:none}
 .notif-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
@@ -51,6 +89,7 @@ body.dark nav{background:rgba(13,13,13,.95)}
 .notif-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .notif-icon-pay{background:rgba(70,95,255,.1);color:var(--purple)}
 .notif-icon-ok{background:rgba(18,183,106,.1);color:var(--success)}
+.notif-icon-info{background:rgba(70,95,255,.1);color:var(--purple)}
 .notif-icon svg{width:13px;height:13px;stroke:currentColor;fill:none}
 .notif-body{flex:1;min-width:0}
 .notif-title{font-size:.68rem;font-weight:700;color:var(--text)}
@@ -273,6 +312,9 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
       <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <div class="notif-dot" id="notifDot"></div>
     </div>
+    <div class="service-btn" id="serviceBtn">
+      <img id="serviceIcon" src="https://img.icons8.com/?size=100&id=hGGoQujQ1YcO&format=png&color=000000" alt="CS" width="20" height="20"/>
+    </div>
     <div class="theme-btn" id="themeBtn"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
   </div>
 </nav>
@@ -362,6 +404,44 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
+<!-- CHAT / SERVICE MODAL -->
+<div class="chat-overlay" id="chatOverlay">
+  <div class="chat-box">
+    <div class="chat-header">
+      <div class="chat-header-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="chat-header-info">
+        <div class="chat-header-title">Hubungi Admin</div>
+        <div class="chat-header-sub">● Online</div>
+      </div>
+      <div class="chat-close" id="chatClose"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    </div>
+    <div id="chatForm">
+      <div class="chat-body">
+        <div class="chat-desc">Ada pertanyaan atau butuh bantuan? Kirim pesan ke admin, kami akan segera membalas.</div>
+        <div class="chat-field">
+          <label>Nama</label>
+          <input type="text" id="chatName" placeholder="Nama kamu..."/>
+        </div>
+        <div class="chat-field">
+          <label>Pesan</label>
+          <textarea id="chatMsg" placeholder="Tulis pesanmu di sini..."></textarea>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <button class="btn-chat-send" id="btnChatSend" onclick="sendReport()">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Kirim Pesan
+        </button>
+      </div>
+    </div>
+    <div class="chat-sent" id="chatSent">
+      <div class="chat-sent-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h4>Pesan Terkirim!</h4>
+      <p>Admin sudah menerima pesanmu dan akan segera membalas. Terima kasih!</p>
+    </div>
+  </div>
+</div>
+
 <footer>
   &copy; 2026 <a href="index.html">lapakID</a> &mdash; Koleksi ID Premium Terpercaya &mdash; <a href="about.html">Tentang Kami</a> &mdash; <a href="dashboard.html">Admin</a>
 </footer>
@@ -441,25 +521,39 @@ const fmt = n => 'Rp ' + Number(n).toLocaleString('id-ID');
 let notifOpen = false;
 async function loadNotifications() {
   try {
-    const r = await fetch('/api/notifications?limit=20');
+    const r = await fetch('/api/notifications?limit=20&types=confirmed,info');
     if (!r.ok) return;
     const d = await r.json();
     const dot = document.getElementById('notifDot');
     if (d.unread > 0) dot.classList.add('show');
     else dot.classList.remove('show');
     const list = document.getElementById('notifList');
-    if (!d.data || !d.data.length) { list.innerHTML = '<div class="notif-empty">Belum ada notifikasi</div>'; return; }
+    if (!d.data || !d.data.length) {
+      list.innerHTML = '<div class="notif-empty">Belum ada aktivitas pembelian</div>';
+      return;
+    }
     list.innerHTML = d.data.map(n => {
-      const isOk = n.type === 'confirmed';
       const t = new Date(n.createdAt);
-      const timeStr = t.toLocaleString('id-ID',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'});
+      const now = Date.now();
+      const diff = now - t.getTime();
+      let timeStr;
+      if (diff < 60000) timeStr = 'Baru saja';
+      else if (diff < 3600000) timeStr = Math.floor(diff/60000) + ' menit lalu';
+      else if (diff < 86400000) timeStr = Math.floor(diff/3600000) + ' jam lalu';
+      else timeStr = t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
+      const tierColor = {low:'#6b7280',medium:'#3b82f6',high:'#f97316',legend:'#eab308'}[n.tier]||'#465fff';
+      const isInfo = n.type === 'info';
       return `<div class="notif-item${n.read?'':' unread'}">
-        <div class="notif-icon ${isOk?'notif-icon-ok':'notif-icon-pay'}">
-          <svg viewBox="0 0 24 24">${isOk?'<polyline points="20 6 9 17 4 12"/>':'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>'}</svg>
+        <div class="notif-icon ${isInfo ? 'notif-icon-info' : 'notif-icon-ok'}">
+          <svg viewBox="0 0 24 24">${isInfo
+            ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+            : '<polyline points="20 6 9 17 4 12"/>'
+          }</svg>
         </div>
         <div class="notif-body">
-          <div class="notif-title">${n.title}</div>
+          ${isInfo ? `<div class="notif-title">${n.title||'Info dari Admin'}</div>` : ''}
           <div class="notif-msg">${n.message}</div>
+          ${n.tier && !isInfo ? `<div class="notif-tier" style="margin-top:3px"><span style="font-size:.5rem;font-weight:700;padding:1px 6px;border-radius:99px;background:${tierColor}22;color:${tierColor};border:1px solid ${tierColor}44">${n.tier.toUpperCase()}</span></div>` : ''}
           <div class="notif-time">${timeStr}</div>
         </div>
       </div>`;
@@ -485,6 +579,61 @@ document.addEventListener('click', (e) => {
 });
 // Poll notifikasi tiap 30 detik
 setInterval(loadNotifications, 30000);
+
+
+// ── SERVICE / REPORT CHAT ─────────────────────────────────────────────────────
+let chatOpen = false;
+document.getElementById('serviceBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  chatOpen = !chatOpen;
+  document.getElementById('chatOverlay').classList.toggle('open', chatOpen);
+  if (chatOpen) {
+    // Reset form
+    document.getElementById('chatForm').style.display = 'block';
+    document.getElementById('chatSent').style.display = 'none';
+  }
+});
+document.getElementById('chatClose').addEventListener('click', () => {
+  chatOpen = false;
+  document.getElementById('chatOverlay').classList.remove('open');
+});
+document.getElementById('chatOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('chatOverlay')) {
+    chatOpen = false;
+    document.getElementById('chatOverlay').classList.remove('open');
+  }
+});
+
+async function sendReport() {
+  const name = document.getElementById('chatName').value.trim();
+  const msg  = document.getElementById('chatMsg').value.trim();
+  if (!name) { showToast('Masukkan nama kamu'); return; }
+  if (!msg)  { showToast('Pesan tidak boleh kosong'); return; }
+  const btn = document.getElementById('btnChatSend');
+  btn.disabled = true; btn.textContent = 'Mengirim...';
+  try {
+    const r = await fetch('/api/reports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, message: msg })
+    });
+    const d = await r.json();
+    if (d.success) {
+      document.getElementById('chatForm').style.display = 'none';
+      document.getElementById('chatSent').style.display = 'block';
+      document.getElementById('chatName').value = '';
+      document.getElementById('chatMsg').value = '';
+    } else {
+      showToast(d.message || 'Gagal mengirim pesan');
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" stroke="#fff" fill="none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Kirim Pesan';
+    }
+  } catch(e) {
+    showToast('Gagal terhubung ke server');
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" stroke="#fff" fill="none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Kirim Pesan';
+  }
+}
 
 
 async function init() {
@@ -809,10 +958,19 @@ function initTheme() {
   if (dark) document.body.classList.add('dark');
   updateThemeIcon(dark);
   updateLogo(dark);
+  // Set service icon sesuai mode
+  const svcIcon = document.getElementById('serviceIcon');
+  if (svcIcon) svcIcon.src = dark
+    ? 'https://img.icons8.com/?size=100&id=hGGoQujQ1YcO&format=png&color=FFFFFF'
+    : 'https://img.icons8.com/?size=100&id=hGGoQujQ1YcO&format=png&color=000000';
 }
 function updateLogo(dark) {
   const logo = document.getElementById('logoImg');
   if (logo) logo.src = dark ? 'https://files.catbox.moe/6esihc.png' : 'https://files.catbox.moe/j4ittw.png';
+  const svcIcon = document.getElementById('serviceIcon');
+  if (svcIcon) svcIcon.src = dark
+    ? 'https://img.icons8.com/?size=100&id=hGGoQujQ1YcO&format=png&color=FFFFFF'
+    : 'https://img.icons8.com/?size=100&id=hGGoQujQ1YcO&format=png&color=000000';
 }
 function updateThemeIcon(dark) {
   document.getElementById('themeIcon').innerHTML = dark
