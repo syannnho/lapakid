@@ -1,4 +1,4 @@
-// api/index.js — lapakID Backend v3 (FULL dengan Notifikasi per-IP)
+// api/index.js — lapakID Backend v3 (FULL dengan Notifikasi per-IP yang berfungsi)
 const { MongoClient, ObjectId } = require('mongodb');
 
 const MONGO_URI    = process.env.MONGODB_URI   || 'mongodb+srv://n4taza_db:N44E8WEKlOJLZIHQ@cluster0.pdfnlfb.mongodb.net/?appName=Cluster0';
@@ -250,24 +250,36 @@ module.exports = async function handler(req, res) {
         const limit = parseInt(qs(req.url).limit)||30;
         const userIp = getIP(req);
         
-        // Filter: notifikasi yang targetIp-nya null/undefined (broadcast) ATAU sama dengan IP user
-        const typeFilter = {
-          type: {$in:['confirmed','info','reply']},
-          $or: [
-            { targetIp: { $exists: false } },  // notifikasi lama tanpa targetIp
-            { targetIp: null },                 // broadcast
-            { targetIp: userIp }               // notifikasi khusus IP ini
-          ]
-        };
-        
-        const notifs = await db.collection('notifications')
-          .find(typeFilter)
+        // Ambil semua notifikasi
+        const allNotifs = await db.collection('notifications')
+          .find({ type: {$in:['confirmed','info','reply']} })
           .sort({createdAt:-1}).limit(limit).toArray();
-        const unread = await db.collection('notifications').countDocuments({...typeFilter, read:false});
-        return ok(res,{data:notifs, unread});
+        
+        // Filter: hanya notifikasi yang targetIp-nya null ATAU sama dengan userIp
+        const filteredNotifs = allNotifs.filter(n => {
+          if (!n.targetIp || n.targetIp === null) return true;
+          return n.targetIp === userIp;
+        });
+        
+        const unread = filteredNotifs.filter(n => !n.read).length;
+        
+        return ok(res, { data: filteredNotifs, unread });
       }
       if (r1==='read' && M==='PUT') {
-        await db.collection('notifications').updateMany({type:{$in:['confirmed','info','reply']},read:false},{$set:{read:true}});
+        const userIp = getIP(req);
+        // Tandai SEMUA notifikasi yang visible ke user sebagai read
+        await db.collection('notifications').updateMany(
+          { 
+            type: {$in:['confirmed','info','reply']},
+            read: false,
+            $or: [
+              { targetIp: { $exists: false } },
+              { targetIp: null },
+              { targetIp: userIp }
+            ]
+          },
+          { $set: { read: true } }
+        );
         return ok(res,{message:'Semua notifikasi ditandai dibaca'});
       }
       if (r1 && r2==='read' && M==='PUT') {
@@ -283,7 +295,7 @@ module.exports = async function handler(req, res) {
           type:'info',
           title: b.title||'Info dari Admin',
           message: b.message,
-          targetIp: null,  // broadcast ke semua user
+          targetIp: null,
           read:false,
           createdAt:new Date(),
         });
@@ -409,7 +421,7 @@ module.exports = async function handler(req, res) {
           phone:p.phone||'',
           finalPrice:p.finalPrice,
           tier:p.tier,
-          targetIp: null,  // broadcast ke semua user
+          targetIp: null,
           read:false,
           createdAt:new Date(),
         });
@@ -460,7 +472,7 @@ module.exports = async function handler(req, res) {
         
         await db.collection('reports').updateOne({_id:oid},{$set:{reply:b.reply,status:'replied',repliedAt:new Date()}});
         
-        // KIRIM NOTIFIKASI KE IP TERTENTU (BUKAN BROADCAST)
+        // KIRIM NOTIFIKASI KE IP TERTENTU
         await db.collection('notifications').insertOne({
           type:'reply',
           title:'💬 Balasan dari Admin',
@@ -468,7 +480,7 @@ module.exports = async function handler(req, res) {
           originalMessage: report.message,
           reply: b.reply,
           replyTo: report.name,
-          targetIp: report.ip,  // HANYA IP INI YANG BISA LIHAT NOTIF INI
+          targetIp: report.ip,
           read:false,
           createdAt:new Date(),
         });
