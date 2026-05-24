@@ -1,4 +1,4 @@
-// api/index.js — lapakID Backend v3 (FULL)
+// api/index.js — lapakID Backend v3 (FULL dengan Notifikasi per-IP)
 const { MongoClient, ObjectId } = require('mongodb');
 
 const MONGO_URI    = process.env.MONGODB_URI   || 'mongodb+srv://n4taza_db:N44E8WEKlOJLZIHQ@cluster0.pdfnlfb.mongodb.net/?appName=Cluster0';
@@ -248,7 +248,18 @@ module.exports = async function handler(req, res) {
     if (r0==='notifications') {
       if (!r1 && M==='GET') {
         const limit = parseInt(qs(req.url).limit)||30;
-        const typeFilter = {type:{$in:['confirmed','info','reply']}};
+        const userIp = getIP(req);
+        
+        // Filter: notifikasi yang targetIp-nya null/undefined (broadcast) ATAU sama dengan IP user
+        const typeFilter = {
+          type: {$in:['confirmed','info','reply']},
+          $or: [
+            { targetIp: { $exists: false } },  // notifikasi lama tanpa targetIp
+            { targetIp: null },                 // broadcast
+            { targetIp: userIp }               // notifikasi khusus IP ini
+          ]
+        };
+        
         const notifs = await db.collection('notifications')
           .find(typeFilter)
           .sort({createdAt:-1}).limit(limit).toArray();
@@ -272,6 +283,7 @@ module.exports = async function handler(req, res) {
           type:'info',
           title: b.title||'Info dari Admin',
           message: b.message,
+          targetIp: null,  // broadcast ke semua user
           read:false,
           createdAt:new Date(),
         });
@@ -397,6 +409,7 @@ module.exports = async function handler(req, res) {
           phone:p.phone||'',
           finalPrice:p.finalPrice,
           tier:p.tier,
+          targetIp: null,  // broadcast ke semua user
           read:false,
           createdAt:new Date(),
         });
@@ -447,19 +460,20 @@ module.exports = async function handler(req, res) {
         
         await db.collection('reports').updateOne({_id:oid},{$set:{reply:b.reply,status:'replied',repliedAt:new Date()}});
         
-        // KIRIM NOTIFIKASI KE SEMUA USER (broadcast reply)
+        // KIRIM NOTIFIKASI KE IP TERTENTU (BUKAN BROADCAST)
         await db.collection('notifications').insertOne({
           type:'reply',
           title:'💬 Balasan dari Admin',
-          message:`Admin membalas pesan dari ${report.name}: "${b.reply.substring(0,100)}${b.reply.length>100?'...':''}"`,
+          message:`Admin membalas pesanmu: "${b.reply.substring(0,100)}${b.reply.length>100?'...':''}"`,
           originalMessage: report.message,
           reply: b.reply,
           replyTo: report.name,
+          targetIp: report.ip,  // HANYA IP INI YANG BISA LIHAT NOTIF INI
           read:false,
           createdAt:new Date(),
         });
         
-        return ok(res,{message:'Balasan tersimpan dan notifikasi terkirim'});
+        return ok(res,{message:'Balasan tersimpan dan notifikasi terkirim ke user'});
       }
       if (r1 && r2==='read' && M==='PUT') {
         if (!isAdmin(req)) return fail(res,401,'Unauthorized');
