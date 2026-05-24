@@ -164,6 +164,102 @@ body:not(.dark) .editor-textarea{background:#1e1e1e;color:#d4d4d4}
 .drag-handle{cursor:grab;color:var(--muted);padding:0 4px}
 .drag-handle:active{cursor:grabbing}
 .drag-handle svg{width:14px;height:14px;stroke:currentColor;fill:none}
+
+/* DEBUG BUTTON STYLES */
+.debug-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1f2937;
+  color: #fbbf24;
+  border: none;
+  border-radius: 40px;
+  padding: 8px 16px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  font-family: var(--mono);
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.debug-btn:hover {
+  background: #374151;
+}
+.debug-panel {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 35px -8px rgba(0,0,0,0.3);
+  z-index: 1100;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 0.7rem;
+  font-family: var(--mono);
+}
+.debug-panel.open {
+  display: flex;
+}
+.debug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  font-weight: bold;
+}
+.debug-header button {
+  background: var(--danger);
+  border: none;
+  background: var(--sold);
+  color: white;
+  border-radius: 20px;
+  padding: 2px 10px;
+  cursor: pointer;
+  font-size: 0.65rem;
+}
+.debug-log {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 10px;
+  background: var(--bg);
+  color: var(--text);
+}
+.debug-log-entry {
+  border-bottom: 1px solid var(--border);
+  padding: 6px 0;
+  font-family: monospace;
+  font-size: 0.65rem;
+  word-break: break-word;
+}
+.debug-log-time {
+  color: var(--muted);
+  font-size: 0.55rem;
+  margin-right: 8px;
+}
+.debug-log-error {
+  color: var(--sold);
+}
+.debug-log-info {
+  color: var(--success);
+}
+.debug-status {
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.05);
+  font-size: 0.6rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
 </style>
 </head>
 <body>
@@ -240,7 +336,7 @@ body:not(.dark) .editor-textarea{background:#1e1e1e;color:#d4d4d4}
         <table id="idTable">
           <thead><tr><th>Nomor ID</th><th>Tier</th><th>Status</th><th>Suka</th><th>Ditambahkan</th><th>Aksi</th></tr></thead>
           <tbody id="idTableBody"><tr><td colspan="6" class="no-data">Memuat data...</td></tr></tbody>
-        </table>
+         </table
       </div>
     </div>
   </div>
@@ -413,7 +509,93 @@ body:not(.dark) .editor-textarea{background:#1e1e1e;color:#d4d4d4}
   </div>
 </div>
 
+<!-- DEBUG BUTTON + PANEL -->
+<button class="debug-btn" id="debugBtn">🐞 DEBUG / LOGS</button>
+<div class="debug-panel" id="debugPanel">
+  <div class="debug-header">
+    <span>🐞 Debug Console (Error & API Logs)</span>
+    <button id="clearDebugBtn">Clear</button>
+  </div>
+  <div class="debug-log" id="debugLog">
+    <div class="debug-log-entry">✨ Debug console siap. Setiap error/API akan tercatat.</div>
+  </div>
+  <div class="debug-status" id="debugStatus">
+    <span>🔌 API Base: /api</span>
+    <span id="debugTokenStat">🔑 Token: ❌ tidak ada</span>
+  </div>
+</div>
+
 <script>
+// ======================== DEBUG CORE ===========================
+let debugEntries = [];
+function addDebugLog(type, message, detail = null) {
+  const entry = {
+    time: new Date().toLocaleTimeString('id-ID'),
+    type: type, // 'error', 'info', 'api'
+    message: message,
+    detail: detail ? (typeof detail === 'object' ? JSON.stringify(detail) : String(detail)) : null
+  };
+  debugEntries.unshift(entry);
+  if (debugEntries.length > 50) debugEntries.pop();
+  renderDebugLog();
+}
+function renderDebugLog() {
+  const container = document.getElementById('debugLog');
+  if (!container) return;
+  container.innerHTML = debugEntries.map(e => `
+    <div class="debug-log-entry">
+      <span class="debug-log-time">[${e.time}]</span>
+      <span class="debug-log-${e.type}">${e.type.toUpperCase()}:</span>
+      ${e.message}
+      ${e.detail ? `<div style="font-size:0.6rem;color:var(--muted);margin-top:2px;">📎 ${e.detail.substring(0, 200)}</div>` : ''}
+    </div>
+  `).join('');
+  if (debugEntries.length === 0) container.innerHTML = '<div class="debug-log-entry">✨ Tidak ada log.</div>';
+}
+function clearDebug() {
+  debugEntries = [];
+  renderDebugLog();
+  addDebugLog('info', 'Debug console dibersihkan');
+}
+// Override console.error untuk menangkap error JS
+const originalError = console.error;
+console.error = function(...args) {
+  originalError.apply(console, args);
+  addDebugLog('error', args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
+};
+window.addEventListener('error', (e) => {
+  addDebugLog('error', `${e.message} at ${e.filename}:${e.lineno}`);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  addDebugLog('error', `Unhandled Promise Rejection: ${e.reason}`);
+});
+
+// Original fetch untuk debugging
+const originalFetch = window.fetch;
+window.fetch = async function(...args) {
+  const [url, options = {}] = args;
+  let isApiCall = url.includes('/api/');
+  if (isApiCall) {
+    addDebugLog('api', `REQUEST: ${options.method || 'GET'} ${url}`, options.body);
+  }
+  try {
+    const response = await originalFetch(...args);
+    if (isApiCall) {
+      const clonedResponse = response.clone();
+      clonedResponse.json().then(data => {
+        addDebugLog('api', `RESPONSE ${response.status} ${url}`, { success: data.success, message: data.message || 'OK' });
+      }).catch(() => {
+        addDebugLog('api', `RESPONSE ${response.status} ${url} (non-JSON)`);
+      });
+    }
+    return response;
+  } catch (err) {
+    if (isApiCall) addDebugLog('error', `FETCH FAIL: ${url} - ${err.message}`);
+    throw err;
+  }
+};
+
+// ======================== ORIGINAL SCRIPT MODIFIED ===========================
 const API = '/api';
 let adminToken = localStorage.getItem('lapakid_admin_token') || '';
 let allIdsData = [], filteredIds = [], settingsCache = {}, currentConfirmCallback = null;
@@ -426,16 +608,25 @@ async function apiFetch(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', 'x-admin-token': adminToken, ...options.headers };
   const response = await fetch(`${API}${path}`, { ...options, headers });
   const data = await response.json();
-  if (!data.success) throw new Error(data.message || 'Request failed');
+  if (!data.success) {
+    addDebugLog('error', `API Error ${path}: ${data.message || 'Unknown error'}`);
+    throw new Error(data.message || 'Request failed');
+  }
   return data;
 }
 
-// ── AUTH ──────────────────────────────────────────────────────────────────────
+// Update token status di debug panel
+function updateDebugTokenStatus() {
+  const el = document.getElementById('debugTokenStat');
+  if (el) el.innerHTML = adminToken ? `🔑 Token: ✅ ada (${adminToken.substring(0,6)}...)` : `🔑 Token: ❌ tidak ada`;
+}
+
 async function doLogin() {
   const token = document.getElementById('tokenInput').value.trim();
   if (!token) { showLoginErr('Token tidak boleh kosong'); return; }
   const btn = document.querySelector('.btn-login');
   btn.textContent = 'Memverifikasi...'; btn.disabled = true;
+  addDebugLog('info', `Attempt login with token: ${token.substring(0,4)}***`);
   try {
     const r = await fetch(`${API}/admin/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token }) });
     const d = await r.json();
@@ -443,9 +634,17 @@ async function doLogin() {
       adminToken = token;
       localStorage.setItem('lapakid_admin_token', token);
       document.getElementById('loginScreen').style.display = 'none';
+      updateDebugTokenStatus();
+      addDebugLog('info', 'Login berhasil, dashboard dimuat');
       initDashboard();
-    } else showLoginErr(d.message || 'Token tidak valid');
-  } catch (err) { showLoginErr('Gagal terhubung ke server'); }
+    } else {
+      addDebugLog('error', `Login gagal: ${d.message || 'Token invalid'}`);
+      showLoginErr(d.message || 'Token tidak valid');
+    }
+  } catch (err) {
+    addDebugLog('error', `Login network error: ${err.message}`);
+    showLoginErr('Gagal terhubung ke server');
+  }
   finally { btn.textContent = 'Masuk'; btn.disabled = false; }
 }
 
@@ -453,14 +652,19 @@ function showLoginErr(msg) {
   const e = document.getElementById('loginErr'); e.textContent = msg; e.style.display = 'block';
   setTimeout(() => { e.style.display = 'none'; }, 4000);
 }
-function doLogout() { adminToken = ''; localStorage.removeItem('lapakid_admin_token'); location.reload(); }
+function doLogout() { adminToken = ''; localStorage.removeItem('lapakid_admin_token'); addDebugLog('info', 'Logout, halaman akan reload'); location.reload(); }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
 async function initDashboard() {
   initTheme();
-  await Promise.all([loadStats(), loadIds(), loadSettings(), loadMusic()]);
-  loadReports();
-  await Promise.all([loadPayments(), loadPromos(), loadBans()]);
+  updateDebugTokenStatus();
+  try {
+    await Promise.all([loadStats(), loadIds(), loadSettings(), loadMusic()]);
+    loadReports();
+    await Promise.all([loadPayments(), loadPromos(), loadBans()]);
+    addDebugLog('info', 'Dashboard selesai dimuat');
+  } catch(e) {
+    addDebugLog('error', `Init dashboard error: ${e.message}`);
+  }
 }
 
 async function loadStats() {
@@ -470,7 +674,7 @@ async function loadStats() {
     document.getElementById('as-avail').textContent = d.data.available.toLocaleString('id-ID');
     document.getElementById('as-sold').textContent = d.data.sold.toLocaleString('id-ID');
     document.getElementById('as-likes').textContent = d.data.totalLikes.toLocaleString('id-ID');
-  } catch(e) {}
+  } catch(e) { addDebugLog('error', `loadStats: ${e.message}`); }
 }
 
 async function loadSettings() {
@@ -481,23 +685,18 @@ async function loadSettings() {
     ['low','medium','high','legend'].forEach(t => { const el = document.getElementById(`sPrice-${t}`); if(el && p[t]) el.value = p[t]; });
     const f = d.data.adminFee || {};
     ['google','file'].forEach(t => { const el = document.getElementById(`sFee-${t}`); if(el && f[t]!==undefined) el.value = f[t]; });
-  } catch(e) {}
+  } catch(e) { addDebugLog('error', `loadSettings: ${e.message}`); }
 }
 
-// ── IDS ──────────────────────────────────────────────────────────────────────
 async function loadIds() {
   try {
     const d = await apiFetch('/ids');
     allIdsData = d.data || []; filteredIds = [...allIdsData];
     document.getElementById('idListCount').textContent = `(${allIdsData.length} ID)`;
     renderIdTable(filteredIds);
-  } catch(e) { document.getElementById('idTableBody').innerHTML = '<tr><td colspan="6" class="no-data">Gagal memuat data</td></tr>'; }
+  } catch(e) { addDebugLog('error', `loadIds: ${e.message}`); document.getElementById('idTableBody').innerHTML = '<tr><td colspan="6" class="no-data">Gagal memuat data</td></tr>'; }
 }
-function filterIdTable() {
-  const q = document.getElementById('searchId').value.trim().toLowerCase();
-  filteredIds = q ? allIdsData.filter(i => i.number.includes(q)) : [...allIdsData];
-  renderIdTable(filteredIds);
-}
+function filterIdTable() { const q = document.getElementById('searchId').value.trim().toLowerCase(); filteredIds = q ? allIdsData.filter(i => i.number.includes(q)) : [...allIdsData]; renderIdTable(filteredIds); }
 function renderIdTable(ids) {
   const tbody = document.getElementById('idTableBody');
   if (!ids.length) { tbody.innerHTML = '<tr><td colspan="6" class="no-data">Tidak ada ID ditemukan</td></tr>'; return; }
@@ -523,7 +722,7 @@ async function addId() {
     showToast('ID berhasil ditambahkan');
     document.getElementById('newIdNum').value = ''; document.getElementById('newIdNote').value = '';
     await loadIds(); await loadStats();
-  } catch(e) { showToast(e.message || 'Gagal menambahkan ID'); }
+  } catch(e) { showToast(e.message || 'Gagal menambahkan ID'); addDebugLog('error', `addId: ${e.message}`); }
 }
 async function addBulk() {
   const raw = document.getElementById('bulkIds').value.trim();
@@ -536,32 +735,32 @@ async function addBulk() {
     showToast(`Berhasil: ${d.inserted} ditambahkan, ${d.skipped} dilewati`);
     document.getElementById('bulkIds').value = '';
     await loadIds(); await loadStats();
-  } catch(e) { showToast(e.message || 'Gagal upload massal'); }
+  } catch(e) { showToast(e.message || 'Gagal upload massal'); addDebugLog('error', `addBulk: ${e.message}`); }
 }
 async function toggleSold(number, sold) {
   try {
     await apiFetch(`/ids/${encodeURIComponent(number)}`, { method:'PUT', body: JSON.stringify({ sold }) });
     showToast(sold ? 'ID ditandai terjual' : 'Status dikembalikan');
     await loadIds(); await loadStats();
-  } catch(e) { showToast(e.message || 'Gagal update status'); }
+  } catch(e) { showToast(e.message || 'Gagal update status'); addDebugLog('error', `toggleSold: ${e.message}`); }
 }
 function deleteId(number) {
   showConfirm('Hapus ID', `Hapus ID ${number}?`, async () => {
     try {
       await apiFetch(`/ids/${encodeURIComponent(number)}`, { method:'DELETE' });
       showToast('ID berhasil dihapus'); await loadIds(); await loadStats();
-    } catch(e) { showToast(e.message || 'Gagal menghapus ID'); }
+    } catch(e) { showToast(e.message || 'Gagal menghapus ID'); addDebugLog('error', `deleteId: ${e.message}`); }
   });
 }
 
-// ── PAYMENTS ─────────────────────────────────────────────────────────────────
+// ── PAYMENTS, PROMOS, MUSIC, ETC (singkat karena panjang) ──
 function extractId(obj) { if (!obj) return ''; if (typeof obj === 'string') return obj; if (obj.$oid) return obj.$oid; return String(obj); }
 function methodLabel(m) { if (m==='google') return 'Google Pay'; if (m==='qris') return 'QRIS'; return 'Transfer File'; }
 async function loadPayments() {
   try {
     const d = await apiFetch('/payments');
     const tbody = document.getElementById('paymentTableBody');
-    if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="9" class="no-data">Belum ada pembayaran</td></tr>'; return; }
+    if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="9" class="no-data">Belum ada pembayaran</tr>'; return; }
     tbody.innerHTML = d.data.map(p => {
       const pid = extractId(p._id);
       return `<tr>
@@ -570,403 +769,62 @@ async function loadPayments() {
         <td>${p.buyer}<br/><span style="font-size:.58rem;color:var(--muted)">${p.phone||p.email||'—'}</span></td>
         <td>${methodLabel(p.method)}</td>
         <td class="td-mono">${fmt(p.finalPrice)}</td>
-        <td>${p.promoCode ? `<span class="badge" style="background:rgba(70,95,255,.1);color:var(--purple);border-color:rgba(70,95,255,.2)">${p.promoCode} -${p.discount}%</span>` : '—'}</td>
+        <td>${p.promoCode ? `<span class="badge">${p.promoCode} -${p.discount}%</span>` : '—'}</td>
         <td><span class="badge badge-${p.status==='confirmed'?'confirmed':'pending'}">${p.status==='confirmed'?'CONFIRMED':'PENDING'}</span></td>
         <td>${dateStr(p.createdAt)}</td>
         <td>${p.status==='pending'?`<button class="btn btn-sm btn-success" data-pid="${pid}" onclick="confirmPayment(this.dataset.pid)">Konfirmasi</button>`:'<span style="color:var(--muted);font-size:.6rem">Selesai</span>'}</td>
       </tr>`;
     }).join('');
-  } catch(e) {}
+  } catch(e) { addDebugLog('error', `loadPayments: ${e.message}`); }
 }
-async function confirmPayment(paymentId) {
-  if (!paymentId) { showToast('ID pembayaran tidak valid'); return; }
-  showConfirm('Konfirmasi Pembayaran', 'Tandai pembayaran dikonfirmasi?', async () => {
-    try {
-      await apiFetch(`/payments/${paymentId}/confirm`, { method:'PUT' });
-      showToast('Pembayaran berhasil dikonfirmasi');
-      await loadPayments(); await loadIds(); await loadStats();
-    } catch(e) { showToast(e.message || 'Gagal mengkonfirmasi'); }
-  });
-}
+async function confirmPayment(paymentId) { if (!paymentId) { showToast('ID pembayaran tidak valid'); return; } showConfirm('Konfirmasi Pembayaran', 'Tandai pembayaran dikonfirmasi?', async () => { try { await apiFetch(`/payments/${paymentId}/confirm`, { method:'PUT' }); showToast('Pembayaran berhasil dikonfirmasi'); await loadPayments(); await loadIds(); await loadStats(); } catch(e) { showToast(e.message || 'Gagal mengkonfirmasi'); addDebugLog('error', `confirmPayment: ${e.message}`); } }); }
+async function loadPromos() { try { const d = await apiFetch('/promos'); const tbody = document.getElementById('promoTableBody'); if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-data">Belum ada promo</tr>'; return; } tbody.innerHTML = d.data.map(p => { const pid = extractId(p._id); return `<tr><td class="td-mono" style="font-weight:700">${p.code}</td><td style="color:var(--success);font-weight:800">${p.discount}%</td><td class="td-mono">${p.uses||0}</td><td class="td-mono">${p.maxUses!=null?p.maxUses:'∞'}</td><td>${p.expiresAt?dateStr(p.expiresAt):'Tidak ada'}</td><td><span class="badge ${p.active?'badge-avail':'badge-sold'}">${p.active?'AKTIF':'NONAKTIF'}</span></td><td><div class="td-actions"><button class="btn btn-sm ${p.active?'btn-danger':'btn-success'}" onclick="togglePromo('${pid}',${!p.active})">${p.active?'Nonaktifkan':'Aktifkan'}</button><button class="btn btn-sm btn-danger" onclick="deletePromo('${pid}')"><svg viewBox="0 0 24 24" width="11" height="11"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></td></tr>`; }).join(''); } catch(e) { addDebugLog('error', `loadPromos: ${e.message}`); } }
+function updateDiscountPreview() { const pct = parseInt(document.getElementById('promoDiscount').value)||0; const preview = document.getElementById('discountPreview'); if (pct<=0||pct>88) { preview.style.display='none'; return; } preview.style.display='block'; document.getElementById('previewPct').textContent = pct; const p = settingsCache.prices||{low:125000,medium:450000,high:850000,legend:1350000}; ['low','medium','high','legend'].forEach(t => { document.getElementById(`preview${t.charAt(0).toUpperCase()+t.slice(1)}`).textContent = fmt(Math.round(p[t]*(1-pct/100))); }); }
+async function createPromo() { const code = document.getElementById('promoCode').value.trim(); const discount = document.getElementById('promoDiscount').value; const maxUses = document.getElementById('promoMaxUses').value; const expiresAt = document.getElementById('promoExpiry').value; const description = document.getElementById('promoDesc').value.trim(); if (!code||!discount) { showToast('Kode dan diskon wajib diisi'); return; } try { await apiFetch('/promos', { method:'POST', body: JSON.stringify({ code, discount:Number(discount), maxUses:maxUses?Number(maxUses):null, expiresAt:expiresAt||null, description }) }); showToast('Promo berhasil dibuat'); ['promoCode','promoDiscount','promoMaxUses','promoExpiry','promoDesc'].forEach(id => document.getElementById(id).value=''); document.getElementById('discountPreview').style.display='none'; await loadPromos(); } catch(e) { showToast(e.message||'Gagal membuat promo'); addDebugLog('error', `createPromo: ${e.message}`); } }
+async function togglePromo(promoId, active) { try { await apiFetch(`/promos/${promoId}`, { method:'PUT', body: JSON.stringify({ active }) }); showToast(active?'Promo diaktifkan':'Promo dinonaktifkan'); await loadPromos(); } catch(e) { showToast(e.message||'Gagal update promo'); addDebugLog('error', `togglePromo: ${e.message}`); } }
+function deletePromo(promoId) { showConfirm('Hapus Promo','Hapus promo ini?', async () => { try { await apiFetch(`/promos/${promoId}`, { method:'DELETE' }); showToast('Promo dihapus'); await loadPromos(); } catch(e) { showToast(e.message||'Gagal menghapus promo'); addDebugLog('error', `deletePromo: ${e.message}`); } }); }
+async function loadMusic() { try { const d = await apiFetch('/settings'); musicList = d.data.music || []; renderMusicList(); } catch(e) { addDebugLog('error', `loadMusic: ${e.message}`); } }
+function renderMusicList() { const el = document.getElementById('musicList'); document.getElementById('musicCount').textContent = `(${musicList.length} lagu)`; if (!musicList.length) { el.innerHTML = '<div class="no-data">Belum ada musik. Tambahkan di atas!</div>'; return; } el.innerHTML = musicList.map((m, i) => `<div class="music-item" data-idx="${i}"><div class="music-order"><button onclick="moveMusic(${i},-1)" ${i===0?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button><button onclick="moveMusic(${i},1)" ${i===musicList.length-1?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button></div><div class="music-item-info"><div class="music-item-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div><div class="music-item-title">${m.title}</div><div class="music-item-url">${m.src}</div></div></div><div class="music-item-actions"><span style="font-size:.58rem;color:var(--muted);font-family:var(--mono)">Track ${i+1}</span><button class="btn btn-sm btn-danger" onclick="deleteMusic(${i})"><svg viewBox="0 0 24 24" width="11" height="11"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></div>`).join(''); }
+async function addMusic() { const title = document.getElementById('musicTitle').value.trim(); const src = document.getElementById('musicUrl').value.trim(); if (!title || !src) { showToast('Judul dan URL wajib diisi'); return; } if (!src.startsWith('http')) { showToast('URL harus dimulai dengan http'); return; } musicList.push({ title, src }); await saveMusic(); document.getElementById('musicTitle').value = ''; document.getElementById('musicUrl').value = ''; }
+async function deleteMusic(idx) { musicList.splice(idx, 1); await saveMusic(); }
+async function moveMusic(idx, dir) { const newIdx = idx + dir; if (newIdx < 0 || newIdx >= musicList.length) return; [musicList[idx], musicList[newIdx]] = [musicList[newIdx], musicList[idx]]; await saveMusic(); }
+async function saveMusic() { try { await apiFetch('/settings/music', { method:'PUT', body: JSON.stringify({ value: musicList }) }); showToast('Playlist tersimpan'); renderMusicList(); } catch(e) { showToast(e.message||'Gagal menyimpan musik'); addDebugLog('error', `saveMusic: ${e.message}`); } }
 
-// ── PROMOS ────────────────────────────────────────────────────────────────────
-async function loadPromos() {
-  try {
-    const d = await apiFetch('/promos');
-    const tbody = document.getElementById('promoTableBody');
-    if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-data">Belum ada promo</td></tr>'; return; }
-    tbody.innerHTML = d.data.map(p => {
-      const pid = extractId(p._id);
-      return `<tr>
-        <td class="td-mono" style="font-weight:700">${p.code}</td>
-        <td style="color:var(--success);font-weight:800">${p.discount}%</td>
-        <td class="td-mono">${p.uses||0}</td>
-        <td class="td-mono">${p.maxUses!=null?p.maxUses:'∞'}</td>
-        <td>${p.expiresAt?dateStr(p.expiresAt):'Tidak ada'}</td>
-        <td><span class="badge ${p.active?'badge-avail':'badge-sold'}">${p.active?'AKTIF':'NONAKTIF'}</span></td>
-        <td><div class="td-actions">
-          <button class="btn btn-sm ${p.active?'btn-danger':'btn-success'}" onclick="togglePromo('${pid}',${!p.active})">${p.active?'Nonaktifkan':'Aktifkan'}</button>
-          <button class="btn btn-sm btn-danger" onclick="deletePromo('${pid}')"><svg viewBox="0 0 24 24" width="11" height="11"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
-        </div></td>
-      </tr>`;
-    }).join('');
-  } catch(e) {}
-}
-function updateDiscountPreview() {
-  const pct = parseInt(document.getElementById('promoDiscount').value)||0;
-  const preview = document.getElementById('discountPreview');
-  if (pct<=0||pct>88) { preview.style.display='none'; return; }
-  preview.style.display='block';
-  document.getElementById('previewPct').textContent = pct;
-  const p = settingsCache.prices||{low:125000,medium:450000,high:850000,legend:1350000};
-  ['low','medium','high','legend'].forEach(t => {
-    document.getElementById(`preview${t.charAt(0).toUpperCase()+t.slice(1)}`).textContent = fmt(Math.round(p[t]*(1-pct/100)));
-  });
-}
-async function createPromo() {
-  const code = document.getElementById('promoCode').value.trim();
-  const discount = document.getElementById('promoDiscount').value;
-  const maxUses = document.getElementById('promoMaxUses').value;
-  const expiresAt = document.getElementById('promoExpiry').value;
-  const description = document.getElementById('promoDesc').value.trim();
-  if (!code||!discount) { showToast('Kode dan diskon wajib diisi'); return; }
-  try {
-    await apiFetch('/promos', { method:'POST', body: JSON.stringify({ code, discount:Number(discount), maxUses:maxUses?Number(maxUses):null, expiresAt:expiresAt||null, description }) });
-    showToast('Promo berhasil dibuat');
-    ['promoCode','promoDiscount','promoMaxUses','promoExpiry','promoDesc'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('discountPreview').style.display='none';
-    await loadPromos();
-  } catch(e) { showToast(e.message||'Gagal membuat promo'); }
-}
-async function togglePromo(promoId, active) {
-  try {
-    await apiFetch(`/promos/${promoId}`, { method:'PUT', body: JSON.stringify({ active }) });
-    showToast(active?'Promo diaktifkan':'Promo dinonaktifkan'); await loadPromos();
-  } catch(e) { showToast(e.message||'Gagal update promo'); }
-}
-function deletePromo(promoId) {
-  showConfirm('Hapus Promo','Hapus promo ini?', async () => {
-    try { await apiFetch(`/promos/${promoId}`, { method:'DELETE' }); showToast('Promo dihapus'); await loadPromos(); }
-    catch(e) { showToast(e.message||'Gagal menghapus promo'); }
-  });
-}
-
-// ── MUSIK ─────────────────────────────────────────────────────────────────────
-async function loadMusic() {
-  try {
-    const d = await apiFetch('/settings');
-    musicList = d.data.music || [];
-    renderMusicList();
-  } catch(e) {}
-}
-function renderMusicList() {
-  const el = document.getElementById('musicList');
-  document.getElementById('musicCount').textContent = `(${musicList.length} lagu)`;
-  if (!musicList.length) { el.innerHTML = '<div class="no-data">Belum ada musik. Tambahkan di atas!</div>'; return; }
-  el.innerHTML = musicList.map((m, i) => `
-    <div class="music-item" data-idx="${i}">
-      <div class="music-order">
-        <button onclick="moveMusic(${i},-1)" ${i===0?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
-        <button onclick="moveMusic(${i},1)" ${i===musicList.length-1?'disabled':''}><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
-      </div>
-      <div class="music-item-info">
-        <div class="music-item-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-        <div>
-          <div class="music-item-title">${m.title}</div>
-          <div class="music-item-url">${m.src}</div>
-        </div>
-      </div>
-      <div class="music-item-actions">
-        <span style="font-size:.58rem;color:var(--muted);font-family:var(--mono)">Track ${i+1}</span>
-        <button class="btn btn-sm btn-danger" onclick="deleteMusic(${i})"><svg viewBox="0 0 24 24" width="11" height="11"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
-      </div>
-    </div>
-  `).join('');
-}
-async function addMusic() {
-  const title = document.getElementById('musicTitle').value.trim();
-  const src = document.getElementById('musicUrl').value.trim();
-  if (!title || !src) { showToast('Judul dan URL wajib diisi'); return; }
-  if (!src.startsWith('http')) { showToast('URL harus dimulai dengan http'); return; }
-  musicList.push({ title, src });
-  await saveMusic();
-  document.getElementById('musicTitle').value = '';
-  document.getElementById('musicUrl').value = '';
-}
-async function deleteMusic(idx) {
-  musicList.splice(idx, 1);
-  await saveMusic();
-}
-async function moveMusic(idx, dir) {
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= musicList.length) return;
-  [musicList[idx], musicList[newIdx]] = [musicList[newIdx], musicList[idx]];
-  await saveMusic();
-}
-async function saveMusic() {
-  try {
-    await apiFetch('/settings/music', { method:'PUT', body: JSON.stringify({ value: musicList }) });
-    showToast('Playlist tersimpan');
-    renderMusicList();
-  } catch(e) { showToast(e.message||'Gagal menyimpan musik'); }
-}
-
-// ── GITHUB FILE EDITOR ────────────────────────────────────────────────────────
+// File editor, settings, bans etc (disisipkan singkat)
 let currentFileSha = '';
-
-async function loadFileContent() {
-  const filename = document.getElementById('fileSelector').value;
-  const statusEl = document.getElementById('editorStatus');
-  const textarea = document.getElementById('fileEditorContent');
-  statusEl.textContent = 'Memuat file dari GitHub...';
-  statusEl.className = 'editor-status';
-  textarea.value = '';
-  currentFileSha = '';
-
-  try {
-    const d = await apiFetch(`/github/file?path=${encodeURIComponent(filename)}`);
-    textarea.value = d.content;
-    currentFileSha = d.sha || '';
-    statusEl.textContent = `✓ File "${filename}" dimuat (${textarea.value.length.toLocaleString()} karakter)`;
-    statusEl.className = 'editor-status ok';
-  } catch(e) {
-    statusEl.textContent = `✗ Gagal memuat: ${e.message}`;
-    statusEl.className = 'editor-status err';
-  }
-}
-
-async function saveFileToGithub() {
-  const filename = document.getElementById('fileSelector').value;
-  const content = document.getElementById('fileEditorContent').value;
-  const statusEl = document.getElementById('editorStatus');
-  const btn = document.getElementById('btnSaveFile');
-  if (!content) { showToast('Konten file kosong'); return; }
-
-  btn.disabled = true;
-  btn.textContent = 'Menyimpan...';
-  statusEl.textContent = 'Mendorong perubahan ke GitHub...';
-  statusEl.className = 'editor-status';
-
-  try {
-    await apiFetch('/github/file', {
-      method: 'PUT',
-      body: JSON.stringify({ path: filename, content, sha: currentFileSha, message: `Update ${filename} via lapakID dashboard` })
-    });
-    statusEl.textContent = `✓ "${filename}" berhasil di-push ke GitHub! Vercel akan deploy otomatis.`;
-    statusEl.className = 'editor-status ok';
-    showToast(`${filename} berhasil disimpan!`);
-    // refresh sha
-    const d = await apiFetch(`/github/file?path=${encodeURIComponent(filename)}`);
-    currentFileSha = d.sha || '';
-  } catch(e) {
-    statusEl.textContent = `✗ Gagal push: ${e.message}`;
-    statusEl.className = 'editor-status err';
-    showToast('Gagal push ke GitHub: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Simpan & Push ke GitHub';
-  }
-}
-
-function selectAllEditor() {
-  const ta = document.getElementById('fileEditorContent');
-  ta.focus(); ta.select();
-  showToast('Semua teks terseleksi');
-}
-
-async function pasteToEditor() {
-  try {
-    const text = await navigator.clipboard.readText();
-    document.getElementById('fileEditorContent').value = text;
-    showToast('Konten berhasil dipaste');
-  } catch(e) {
-    showToast('Gagal paste. Coba Ctrl+V di editor');
-    document.getElementById('fileEditorContent').focus();
-  }
-}
-
-// ── SETTINGS ─────────────────────────────────────────────────────────────────
-async function savePrices() {
-  const prices = {};
-  ['low','medium','high','legend'].forEach(t => { const v = document.getElementById(`sPrice-${t}`).value; if(v) prices[t]=Number(v); });
-  try { await apiFetch('/settings/prices', { method:'PUT', body: JSON.stringify({ value:prices }) }); showToast('Harga berhasil disimpan'); settingsCache.prices=prices; }
-  catch(e) { showToast(e.message||'Gagal menyimpan harga'); }
-}
-async function saveFees() {
-  const adminFee = {};
-  ['google','file'].forEach(t => { const el=document.getElementById(`sFee-${t}`); if(el) adminFee[t]=Number(el.value)||0; });
-  try { await apiFetch('/settings/adminFee', { method:'PUT', body: JSON.stringify({ value:adminFee }) }); showToast('Biaya admin berhasil disimpan'); }
-  catch(e) { showToast(e.message||'Gagal menyimpan biaya admin'); }
-}
-
-// ── BANS ─────────────────────────────────────────────────────────────────────
-async function loadBans() {
-  try {
-    const d = await apiFetch('/bans');
-    const tbody = document.getElementById('banTableBody');
-    if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="no-data">Tidak ada IP yang diblokir</td></tr>'; return; }
-    tbody.innerHTML = d.data.map(b => `<tr>
-      <td class="td-mono">${b.ip}</td><td>${b.reason||'spam_like'}</td><td>${dateStr(b.bannedAt)}</td>
-      <td><button class="btn btn-sm btn-success" onclick="unbanIp('${b.ip}')">Unban</button></td>
-    </tr>`).join('');
-  } catch(e) {}
-}
-async function unbanIp(ip) {
-  try { await apiFetch(`/bans/${encodeURIComponent(ip)}`, { method:'DELETE' }); showToast(`IP ${ip} di-unban`); await loadBans(); }
-  catch(e) { showToast(e.message||'Gagal unban IP'); }
-}
-
-// ── TABS ──────────────────────────────────────────────────────────────────────
-function switchTab(tab) {
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
-  document.getElementById(`tab-${tab}`)?.classList.add('active');
-  document.querySelector(`[data-tab="${tab}"]`)?.classList.add('act');
-  if (tab === 'files') loadFileContent();
-  if (tab === 'reports') loadReports();
-}
-
-// ── CONFIRM MODAL ─────────────────────────────────────────────────────────────
-function showConfirm(title, msg, callback) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').textContent = msg;
-  currentConfirmCallback = callback;
-  document.getElementById('confirmOverlay').classList.add('open');
-}
+async function loadFileContent() { const filename = document.getElementById('fileSelector').value; const statusEl = document.getElementById('editorStatus'); const textarea = document.getElementById('fileEditorContent'); statusEl.textContent = 'Memuat file dari GitHub...'; statusEl.className = 'editor-status'; textarea.value = ''; currentFileSha = ''; try { const d = await apiFetch(`/github/file?path=${encodeURIComponent(filename)}`); textarea.value = d.content; currentFileSha = d.sha || ''; statusEl.textContent = `✓ File "${filename}" dimuat (${textarea.value.length.toLocaleString()} karakter)`; statusEl.className = 'editor-status ok'; } catch(e) { statusEl.textContent = `✗ Gagal memuat: ${e.message}`; statusEl.className = 'editor-status err'; addDebugLog('error', `loadFileContent: ${e.message}`); } }
+async function saveFileToGithub() { const filename = document.getElementById('fileSelector').value; const content = document.getElementById('fileEditorContent').value; const statusEl = document.getElementById('editorStatus'); const btn = document.getElementById('btnSaveFile'); if (!content) { showToast('Konten file kosong'); return; } btn.disabled = true; btn.textContent = 'Menyimpan...'; statusEl.textContent = 'Mendorong perubahan ke GitHub...'; statusEl.className = 'editor-status'; try { await apiFetch('/github/file', { method: 'PUT', body: JSON.stringify({ path: filename, content, sha: currentFileSha, message: `Update ${filename} via lapakID dashboard` }) }); statusEl.textContent = `✓ "${filename}" berhasil di-push ke GitHub! Vercel akan deploy otomatis.`; statusEl.className = 'editor-status ok'; showToast(`${filename} berhasil disimpan!`); const d = await apiFetch(`/github/file?path=${encodeURIComponent(filename)}`); currentFileSha = d.sha || ''; } catch(e) { statusEl.textContent = `✗ Gagal push: ${e.message}`; statusEl.className = 'editor-status err'; showToast('Gagal push ke GitHub: ' + e.message); addDebugLog('error', `saveFileToGithub: ${e.message}`); } finally { btn.disabled = false; btn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Simpan & Push ke GitHub'; } }
+function selectAllEditor() { const ta = document.getElementById('fileEditorContent'); ta.focus(); ta.select(); showToast('Semua teks terseleksi'); }
+async function pasteToEditor() { try { const text = await navigator.clipboard.readText(); document.getElementById('fileEditorContent').value = text; showToast('Konten berhasil dipaste'); } catch(e) { showToast('Gagal paste. Coba Ctrl+V di editor'); document.getElementById('fileEditorContent').focus(); } }
+async function savePrices() { const prices = {}; ['low','medium','high','legend'].forEach(t => { const v = document.getElementById(`sPrice-${t}`).value; if(v) prices[t]=Number(v); }); try { await apiFetch('/settings/prices', { method:'PUT', body: JSON.stringify({ value:prices }) }); showToast('Harga berhasil disimpan'); settingsCache.prices=prices; } catch(e) { showToast(e.message||'Gagal menyimpan harga'); addDebugLog('error', `savePrices: ${e.message}`); } }
+async function saveFees() { const adminFee = {}; ['google','file'].forEach(t => { const el=document.getElementById(`sFee-${t}`); if(el) adminFee[t]=Number(el.value)||0; }); try { await apiFetch('/settings/adminFee', { method:'PUT', body: JSON.stringify({ value:adminFee }) }); showToast('Biaya admin berhasil disimpan'); } catch(e) { showToast(e.message||'Gagal menyimpan biaya admin'); addDebugLog('error', `saveFees: ${e.message}`); } }
+async function loadBans() { try { const d = await apiFetch('/bans'); const tbody = document.getElementById('banTableBody'); if (!d.data || !d.data.length) { tbody.innerHTML = '<tr><td colspan="4" class="no-data">Tidak ada IP yang diblokir</tr>'; return; } tbody.innerHTML = d.data.map(b => `<tr><td class="td-mono">${b.ip}</td><td>${b.reason||'spam_like'}</td><td>${dateStr(b.bannedAt)}</td><td><button class="btn btn-sm btn-success" onclick="unbanIp('${b.ip}')">Unban</button></td></tr>`).join(''); } catch(e) { addDebugLog('error', `loadBans: ${e.message}`); } }
+async function unbanIp(ip) { try { await apiFetch(`/bans/${encodeURIComponent(ip)}`, { method:'DELETE' }); showToast(`IP ${ip} di-unban`); await loadBans(); } catch(e) { showToast(e.message||'Gagal unban IP'); addDebugLog('error', `unbanIp: ${e.message}`); } }
+function switchTab(tab) { document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.tab').forEach(t => t.classList.remove('act')); document.getElementById(`tab-${tab}`)?.classList.add('active'); document.querySelector(`[data-tab="${tab}"]`)?.classList.add('act'); if (tab === 'files') loadFileContent(); if (tab === 'reports') loadReports(); }
+function showConfirm(title, msg, callback) { document.getElementById('confirmTitle').textContent = title; document.getElementById('confirmMsg').textContent = msg; currentConfirmCallback = callback; document.getElementById('confirmOverlay').classList.add('open'); }
 function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); currentConfirmCallback = null; }
 document.getElementById('confirmYes').addEventListener('click', () => { const cb=currentConfirmCallback; closeConfirm(); if(cb) cb(); });
 document.getElementById('confirmOverlay').addEventListener('click', e => { if(e.target===document.getElementById('confirmOverlay')) closeConfirm(); });
-
-// ── THEME ──────────────────────────────────────────────────────────────────────
-function initTheme() {
-  const dark = localStorage.getItem('lapakid_dark')==='1';
-  if (dark) document.body.classList.add('dark');
-  updateThemeIcon(dark);
-}
-function updateThemeIcon(dark) {
-  document.getElementById('themeIcon').innerHTML = dark
-    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-    : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-}
-document.getElementById('themeBtn').addEventListener('click', () => {
-  const d = document.body.classList.toggle('dark');
-  localStorage.setItem('lapakid_dark', d?'1':'0');
-  updateThemeIcon(d);
-});
-
-// ── TOAST ──────────────────────────────────────────────────────────────────────
+function initTheme() { const dark = localStorage.getItem('lapakid_dark')==='1'; if (dark) document.body.classList.add('dark'); updateThemeIcon(dark); }
+function updateThemeIcon(dark) { document.getElementById('themeIcon').innerHTML = dark ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>' : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'; }
+document.getElementById('themeBtn').addEventListener('click', () => { const d = document.body.classList.toggle('dark'); localStorage.setItem('lapakid_dark', d?'1':'0'); updateThemeIcon(d); });
 function showToast(msg) { const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
-
-// ── REPORTS ───────────────────────────────────────────────────────────────────
 let currentReplyId = null;
+async function loadReports() { try { const d = await apiFetch('/reports'); const tbody = document.getElementById('reportTableBody'); const countEl = document.getElementById('reportCount'); const badge = document.getElementById('reportUnreadBadge'); if (d.unread > 0) { badge.textContent = d.unread; badge.style.display = 'inline'; } else { badge.style.display = 'none'; } if (!d.data || !d.data.length) { countEl.textContent = ''; tbody.innerHTML = '<tr><td colspan="6" class="no-data">Belum ada pesan</tr>'; return; } countEl.textContent = '(' + d.data.length + ' pesan)'; tbody.innerHTML = d.data.map(r => { const rid = r._id?.$oid || r._id?.toString() || String(r._id); const statusColor = r.status==='replied' ? 'badge-avail' : r.status==='read' ? 'badge-medium' : 'badge-sold'; const statusLabel = r.status==='replied' ? 'DIBALAS' : r.status==='read' ? 'DIBACA' : 'BARU'; const t = new Date(r.createdAt); const timeStr = t.toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); return `<tr><td style="font-weight:700">${r.name}</td><td class="td-mono" style="font-size:.6rem">${r.ip}</td><td style="max-width:180px"><div style="font-size:.68rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px" title="${r.message}">${r.message}</div>${r.reply ? `<div style="font-size:.6rem;color:var(--success);margin-top:2px">↩ ${r.reply}</div>` : ''}</td><td><span class="badge ${statusColor}">${statusLabel}</span></td><td style="font-size:.62rem;color:var(--muted);white-space:nowrap">${timeStr}</td><td><div class="td-actions"><button class="btn btn-sm btn-primary" onclick="openReply('${rid}','${r.name.replace(/'/g,"\\'")}','${r.ip}','${r.message.replace(/'/g,"\\'").replace(/\n/g,' ')}')"> <svg viewBox="0 0 24 24" width="11" height="11"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg> Balas</button>${r.status==='unread' ? `<button class="btn btn-sm" style="background:var(--bg2);border:1px solid var(--border);font-size:.58rem" onclick="markReportRead('${rid}')">Baca</button>` : ''}</div></td></tr>`; }).join(''); } catch(e) { addDebugLog('error', `loadReports: ${e.message}`); } }
+function openReply(id, name, ip, msg) { currentReplyId = id; document.getElementById('replyFromName').textContent = name; document.getElementById('replyFromIp').textContent = ip; document.getElementById('replyOrigMsg').textContent = msg; document.getElementById('replyText').value = ''; document.getElementById('replyOverlay').classList.add('open'); }
+function closeReply() { document.getElementById('replyOverlay').classList.remove('open'); currentReplyId = null; }
+async function submitReply() { const reply = document.getElementById('replyText').value.trim(); if (!reply) { showToast('Tulis balasan terlebih dahulu'); return; } const btn = document.getElementById('replySubmitBtn'); btn.disabled = true; try { await apiFetch('/reports/'+currentReplyId+'/reply', { method:'PUT', body: JSON.stringify({ reply }) }); showToast('Balasan berhasil dikirim'); closeReply(); await loadReports(); } catch(e) { showToast(e.message||'Gagal mengirim balasan'); addDebugLog('error', `submitReply: ${e.message}`); } btn.disabled = false; }
+async function markReportRead(id) { try { await apiFetch('/reports/'+id+'/read', { method:'PUT' }); await loadReports(); } catch(e) { showToast('Gagal'); addDebugLog('error', `markReportRead: ${e.message}`); } }
+async function sendBroadcast() { const title = document.getElementById('broadcastTitle').value.trim(); const message = document.getElementById('broadcastMsg').value.trim(); if (!message) { showToast('Pesan tidak boleh kosong'); return; } try { await apiFetch('/notifications/broadcast', { method:'POST', body: JSON.stringify({ title, message }) }); showToast('Notifikasi berhasil dikirim ke semua pengguna!'); document.getElementById('broadcastTitle').value = ''; document.getElementById('broadcastMsg').value = ''; } catch(e) { showToast(e.message || 'Gagal mengirim notifikasi'); addDebugLog('error', `sendBroadcast: ${e.message}`); } }
+async function tryAutoLogin() { initTheme(); updateDebugTokenStatus(); if (!adminToken) return; try { const r = await fetch(`${API}/admin/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token:adminToken }) }); const d = await r.json(); if (r.ok && d.success) { document.getElementById('loginScreen').style.display='none'; initDashboard(); addDebugLog('info', 'Auto login sukses'); } else { adminToken=''; localStorage.removeItem('lapakid_admin_token'); updateDebugTokenStatus(); addDebugLog('error', 'Auto login gagal, token tidak valid'); } } catch(e) { adminToken=''; localStorage.removeItem('lapakid_admin_token'); updateDebugTokenStatus(); addDebugLog('error', `Auto login error: ${e.message}`); } }
 
-async function loadReports() {
-  try {
-    const d = await apiFetch('/reports');
-    const tbody = document.getElementById('reportTableBody');
-    const countEl = document.getElementById('reportCount');
-    const badge = document.getElementById('reportUnreadBadge');
+// Inisialisasi debug panel
+document.getElementById('debugBtn').addEventListener('click', () => {
+  const panel = document.getElementById('debugPanel');
+  panel.classList.toggle('open');
+});
+document.getElementById('clearDebugBtn').addEventListener('click', () => clearDebug());
 
-    if (d.unread > 0) {
-      badge.textContent = d.unread;
-      badge.style.display = 'inline';
-    } else {
-      badge.style.display = 'none';
-    }
-
-    if (!d.data || !d.data.length) {
-      countEl.textContent = '';
-      tbody.innerHTML = '<tr><td colspan="6" class="no-data">Belum ada pesan</td></tr>';
-      return;
-    }
-    countEl.textContent = '(' + d.data.length + ' pesan)';
-
-    tbody.innerHTML = d.data.map(r => {
-      const rid = r._id?.$oid || r._id?.toString() || String(r._id);
-      const statusColor = r.status==='replied' ? 'badge-avail' : r.status==='read' ? 'badge-medium' : 'badge-sold';
-      const statusLabel = r.status==='replied' ? 'DIBALAS' : r.status==='read' ? 'DIBACA' : 'BARU';
-      const t = new Date(r.createdAt);
-      const timeStr = t.toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-      return `<tr>
-        <td style="font-weight:700">${r.name}</td>
-        <td class="td-mono" style="font-size:.6rem">${r.ip}</td>
-        <td style="max-width:180px">
-          <div style="font-size:.68rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px" title="${r.message}">${r.message}</div>
-          ${r.reply ? `<div style="font-size:.6rem;color:var(--success);margin-top:2px">↩ ${r.reply}</div>` : ''}
-        </td>
-        <td><span class="badge ${statusColor}">${statusLabel}</span></td>
-        <td style="font-size:.62rem;color:var(--muted);white-space:nowrap">${timeStr}</td>
-        <td>
-          <div class="td-actions">
-            <button class="btn btn-sm btn-primary" onclick="openReply('${rid}','${r.name.replace(/'/g,"\'")}','${r.ip}','${r.message.replace(/'/g,"\'").replace(/
-/g,' ')}')">
-              <svg viewBox="0 0 24 24" width="11" height="11"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
-              Balas
-            </button>
-            ${r.status==='unread' ? `<button class="btn btn-sm" style="background:var(--bg2);border:1px solid var(--border);font-size:.58rem" onclick="markReportRead('${rid}')">Baca</button>` : ''}
-          </div>
-        </td>
-      </tr>`;
-    }).join('');
-  } catch(e) { console.error('loadReports:', e); }
-}
-
-function openReply(id, name, ip, msg) {
-  currentReplyId = id;
-  document.getElementById('replyFromName').textContent = name;
-  document.getElementById('replyFromIp').textContent = ip;
-  document.getElementById('replyOrigMsg').textContent = msg;
-  document.getElementById('replyText').value = '';
-  document.getElementById('replyOverlay').classList.add('open');
-}
-function closeReply() {
-  document.getElementById('replyOverlay').classList.remove('open');
-  currentReplyId = null;
-}
-async function submitReply() {
-  const reply = document.getElementById('replyText').value.trim();
-  if (!reply) { showToast('Tulis balasan terlebih dahulu'); return; }
-  const btn = document.getElementById('replySubmitBtn');
-  btn.disabled = true;
-  try {
-    await apiFetch('/reports/'+currentReplyId+'/reply', { method:'PUT', body: JSON.stringify({ reply }) });
-    showToast('Balasan berhasil dikirim');
-    closeReply();
-    await loadReports();
-  } catch(e) { showToast(e.message||'Gagal mengirim balasan'); }
-  btn.disabled = false;
-}
-async function markReportRead(id) {
-  try {
-    await apiFetch('/reports/'+id+'/read', { method:'PUT' });
-    await loadReports();
-  } catch(e) { showToast('Gagal'); }
-}
-
-// ── BROADCAST ─────────────────────────────────────────────────────────────────
-async function sendBroadcast() {
-  const title = document.getElementById('broadcastTitle').value.trim();
-  const message = document.getElementById('broadcastMsg').value.trim();
-  if (!message) { showToast('Pesan tidak boleh kosong'); return; }
-  try {
-    await apiFetch('/notifications/broadcast', { method:'POST', body: JSON.stringify({ title, message }) });
-    showToast('Notifikasi berhasil dikirim ke semua pengguna!');
-    document.getElementById('broadcastTitle').value = '';
-    document.getElementById('broadcastMsg').value = '';
-  } catch(e) { showToast(e.message || 'Gagal mengirim notifikasi'); }
-}
-
-// ── AUTO-LOGIN ────────────────────────────────────────────────────────────────
-async function tryAutoLogin() {
-  initTheme();
-  if (!adminToken) return;
-  try {
-    const r = await fetch(`${API}/admin/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token:adminToken }) });
-    const d = await r.json();
-    if (r.ok && d.success) { document.getElementById('loginScreen').style.display='none'; initDashboard(); }
-    else { adminToken=''; localStorage.removeItem('lapakid_admin_token'); }
-  } catch(e) { adminToken=''; localStorage.removeItem('lapakid_admin_token'); }
-}
 tryAutoLogin();
 </script>
 </body>
