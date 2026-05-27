@@ -446,6 +446,8 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 </div>
 
 <audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
+<audio id="likeSfx" src="https://files.catbox.moe/y7q0ij.mp3" preload="auto"></audio>
+<audio id="wishSfx" src="https://files.catbox.moe/g6spg1.mp3" preload="auto"></audio>
 
 <script>
 const API='/api';
@@ -648,7 +650,12 @@ async function toggleWishlist(number,btn){
     response=await fetch(`${API}/wishlist/${number}`,{method:'DELETE'});
     if(response.ok){
       wishlistSet.delete(number);
-      if(btn) btn.classList.remove('wished');
+      // Update semua wishlist-btn di DOM
+      document.querySelectorAll(`.wishlist-btn[data-num="${number}"]`).forEach(b=>{
+        b.classList.remove('wished');
+        const ico=b.querySelector('[data-lucide]');
+        if(ico){ico.style.fill='';ico.style.color='';}
+      });
       showToast('Dihapus dari wishlist');
       await loadWishlistCounts();
       render();
@@ -656,8 +663,15 @@ async function toggleWishlist(number,btn){
   }else{
     response=await fetch(`${API}/wishlist/${number}`,{method:'POST'});
     if(response.ok){
+      // Play wishlist sound
+      try{const sfx=document.getElementById('wishSfx');sfx.currentTime=0;sfx.play().catch(()=>{});}catch(e){}
       wishlistSet.add(number);
-      if(btn) btn.classList.add('wished');
+      // Update semua wishlist-btn di DOM
+      document.querySelectorAll(`.wishlist-btn[data-num="${number}"]`).forEach(b=>{
+        b.classList.add('wished');
+        const ico=b.querySelector('[data-lucide]');
+        if(ico){ico.style.fill='var(--warning)';ico.style.color='var(--warning)';}
+      });
       showToast('Ditambahkan ke wishlist');
       await loadWishlistCounts();
       render();
@@ -823,11 +837,11 @@ function buildCard(id){
       <span class="tier-tag ${TCLS[id.tier]}">${id.tier.toUpperCase()}</span>
       <div class="id-actions">
         <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-          <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple)':''}"></i>
+          <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple);color:var(--purple)':''}"></i>
           <span>${likeText}</span>
         </button>
         <button class="wishlist-btn${wished?' wished':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-          <i data-lucide="bookmark" style="width:11px;height:11px"></i>
+          <i data-lucide="bookmark" style="width:11px;height:11px${wished?';fill:var(--warning);color:var(--warning)':''}"></i>
           <span>${wishText}</span>
         </button>
       </div>
