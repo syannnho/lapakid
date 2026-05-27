@@ -2,515 +2,407 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Beli ID — lapakID</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Beli ID — lapakID v2.2.2</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f9fafb;--bg2:#f2f4f7;--card:#fff;--border:#e4e7ec;--border2:#d0d5dd;
-  --text:#101828;--muted:#667085;--muted2:#475467;
-  --purple:#465fff;--purple2:#7c8eff;
-  --low:#6b7280;--medium:#3b82f6;--high:#f97316;--legend:#eab308;--sold:#ef4444;
-  --success:#12b76a;
-  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
-}
-body.dark{--bg:#0d0d0d;--bg2:#151515;--card:#1a1a1a;--border:#252525;--border2:#2e2e2e;--text:#f5f5f5;--muted:#888;--muted2:#aaa}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;transition:background .3s,color .3s}
-
-nav{position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(249,250,251,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-@media(min-width:768px){nav{height:68px;padding:0 32px}}
-body.dark nav{background:rgba(13,13,13,.95)}
-.nav-logo{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:800;color:var(--text);text-decoration:none}
+:root{--bg:#f8fafc;--bg2:#f1f5f9;--bg3:#e2e8f0;--card:#fff;--border:#e2e8f0;--border2:#cbd5e1;--text:#0f172a;--muted:#64748b;--muted2:#475569;--purple:#6366f1;--purple2:#818cf8;--purple3:#4f46e5;--low:#64748b;--medium:#3b82f6;--high:#f97316;--legend:#eab308;--sold:#ef4444;--success:#10b981;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;--r:12px;--r2:16px}
+body.dark{--bg:#09090b;--bg2:#111113;--bg3:#1c1c1f;--card:#141416;--border:#1e1e21;--border2:#2a2a2e;--text:#fafafa;--muted:#71717a;--muted2:#a1a1aa}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(248,250,252,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+body.dark nav{background:rgba(9,9,11,.92)}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:.88rem;font-weight:800;color:var(--text)}
 .logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center}
-.logo-mark svg{width:14px;height:14px;stroke:#fff;fill:none}
-.nav-right{display:flex;align-items:center;gap:8px}
-.nav-back{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.7rem;font-weight:600;color:var(--muted2);text-decoration:none;background:var(--bg2);border:1px solid var(--border)}
-.nav-back svg{width:13px;height:13px;stroke:currentColor;fill:none}
-.theme-btn{background:var(--bg2);border:1px solid var(--border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.theme-btn svg{width:14px;height:14px;stroke:var(--muted2);fill:none}
-
-.page-wrap{max-width:520px;margin:0 auto;padding:24px 16px 80px}
-@media(min-width:768px){.page-wrap{padding:32px 24px 80px}}
+.logo-mark svg,.logo-mark i{width:13px;height:13px;color:#fff}
+.nav-r{display:flex;align-items:center;gap:6px}
+.nav-back{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:99px;font-size:.65rem;font-weight:600;color:var(--muted2);text-decoration:none;background:var(--bg2);border:1px solid var(--border);transition:.15s}
+.nav-back:hover{border-color:var(--border2)}
+.nav-icon-btn{width:32px;height:32px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted2);transition:.15s}
+.page{max-width:500px;margin:0 auto;padding:22px 16px 80px}
 
 /* STEPPER */
-.stepper{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px}
-.step{display:flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;color:var(--muted)}
-.step-num{width:26px;height:26px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:var(--muted);flex-shrink:0;transition:.3s}
-.step.active .step-num{background:var(--purple);border-color:var(--purple);color:#fff}
-.step.active{color:var(--text)}
-.step.done .step-num{background:var(--success);border-color:var(--success);color:#fff}
-.step-line{flex:1;height:2px;background:var(--border);margin:0 8px;max-width:60px;transition:.3s}
+.stepper{display:flex;align-items:center;margin-bottom:22px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:.62rem;font-weight:600;color:var(--muted)}
+.step-num{width:24px;height:24px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:var(--muted);flex-shrink:0;transition:.3s}
+.step-item.active .step-num{background:var(--purple);border-color:var(--purple);color:#fff}
+.step-item.active{color:var(--text)}
+.step-item.done .step-num{background:var(--success);border-color:var(--success);color:#fff}
+.step-line{flex:1;height:2px;background:var(--border);margin:0 8px;transition:.3s;max-width:60px}
 .step-line.done{background:var(--success)}
 
 /* ID BANNER */
-.id-banner{background:linear-gradient(135deg,rgba(70,95,255,.07),rgba(124,142,255,.03));border:1px solid rgba(70,95,255,.18);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.id-banner-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.id-banner-icon svg{width:19px;height:19px;stroke:#fff;fill:none}
-.id-banner-num{font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:.5px}
-.id-banner-meta{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
-.tier-pill{font-size:.55rem;font-weight:700;padding:2px 9px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px}
-.tier-low{background:rgba(107,114,128,.1);color:var(--low);border-color:rgba(107,114,128,.25)}
-.tier-medium{background:rgba(59,130,246,.1);color:var(--medium);border-color:rgba(59,130,246,.25)}
-.tier-high{background:rgba(249,115,22,.1);color:var(--high);border-color:rgba(249,115,22,.25)}
-.tier-legend{background:rgba(234,179,8,.1);color:var(--legend);border-color:rgba(234,179,8,.25)}
-.id-price-tag{font-size:.72rem;font-weight:800;font-family:var(--mono);color:var(--purple)}
+.id-banner{background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(129,140,248,.02));border:1px solid rgba(99,102,241,.15);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.id-banner-ico{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.id-banner-ico i{width:18px;height:18px;color:#fff}
+.id-banner-num{font-family:var(--mono);font-size:1rem;font-weight:700;letter-spacing:.5px}
+.id-banner-meta{display:flex;align-items:center;gap:7px;margin-top:3px;flex-wrap:wrap}
+.tier-pill{font-size:.5rem;font-weight:800;padding:2px 8px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px}
+.t-low{background:rgba(100,116,139,.1);color:var(--low);border-color:rgba(100,116,139,.2)}
+.t-medium{background:rgba(59,130,246,.1);color:var(--medium);border-color:rgba(59,130,246,.2)}
+.t-high{background:rgba(249,115,22,.1);color:var(--high);border-color:rgba(249,115,22,.2)}
+.t-legend{background:rgba(234,179,8,.12);color:var(--legend);border-color:rgba(234,179,8,.25)}
+.id-price{font-size:.7rem;font-weight:800;font-family:var(--mono);color:var(--purple)}
 
-/* FORM */
-.form-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px}
-.form-section h3{font-size:.8rem;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.form-section h3 svg{width:14px;height:14px;stroke:var(--purple);fill:none}
-.field{margin-bottom:11px}
+/* GUARANTEE */
+.guarantee-box{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.2);border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
+.guarantee-title{font-size:.65rem;font-weight:800;color:var(--success);display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.guarantee-title i{width:13px;height:13px}
+.guarantee-item{display:flex;align-items:center;gap:7px;font-size:.62rem;color:var(--muted2);padding:3px 0}
+.guarantee-item i{width:12px;height:12px;color:var(--success);flex-shrink:0}
+
+/* FORM CARD */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:10px}
+.form-card h3{font-size:.76rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px;color:var(--text)}
+.form-card h3 i{width:14px;height:14px;color:var(--purple)}
+.field{margin-bottom:10px}
 .field:last-child{margin-bottom:0}
-.field label{display:block;font-size:.6rem;font-weight:700;color:var(--muted2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
-.field input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:9px 12px;color:var(--text);font-family:var(--font);font-size:.76rem;outline:none;transition:.15s}
-.field input:focus{border-color:var(--purple);background:var(--card);box-shadow:0 0 0 3px rgba(70,95,255,.1)}
+.field label{display:block;font-size:.58rem;font-weight:700;color:var(--muted2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 11px;color:var(--text);font-family:var(--font);font-size:.73rem;outline:none;transition:.15s}
+.field input:focus{border-color:var(--purple);background:var(--card);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
 .field input::placeholder{color:var(--muted)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:460px){.field-row{grid-template-columns:1fr}}
+.field-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:420px){.field-2{grid-template-columns:1fr}}
 
 /* PROMO */
-.promo-row{display:flex;gap:8px;align-items:flex-end}
+.promo-row{display:flex;gap:7px;align-items:flex-end}
 .promo-row .field{flex:1;margin-bottom:0}
-.btn-promo{background:var(--purple);color:#fff;border:none;padding:9px 14px;border-radius:9px;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--font);height:38px;flex-shrink:0;align-self:flex-end}
-.promo-msg{margin-top:8px;font-size:.64rem;padding:6px 10px;border-radius:8px;display:none}
-.promo-msg.ok{background:rgba(18,183,106,.08);color:var(--success);border:1px solid rgba(18,183,106,.2)}
-.promo-msg.err{background:rgba(239,68,68,.08);color:var(--sold);border:1px solid rgba(239,68,68,.2)}
+.btn-promo{background:var(--purple);color:#fff;border:none;padding:8px 13px;border-radius:9px;font-size:.65rem;font-weight:700;cursor:pointer;height:36px;flex-shrink:0;font-family:var(--font);transition:.15s}
+.btn-promo:hover{background:var(--purple3)}
+.promo-msg{margin-top:7px;font-size:.62rem;padding:6px 10px;border-radius:8px;display:none;align-items:center;gap:5px}
+.promo-msg i{width:12px;height:12px;flex-shrink:0}
+.promo-ok{background:rgba(16,185,129,.08);color:var(--success);border:1px solid rgba(16,185,129,.2)}
+.promo-err{background:rgba(239,68,68,.08);color:var(--sold);border:1px solid rgba(239,68,68,.2)}
 
-/* METODE PEMBAYARAN */
-.method-grid{display:grid;grid-template-columns:1fr;gap:8px}
-.method-opt{display:flex;align-items:center;gap:12px;background:var(--bg2);border:2px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:.15s}
-.method-opt:hover{border-color:var(--purple)}
-.method-opt.selected{border-color:var(--purple);background:rgba(70,95,255,.04)}
-.method-opt input[type=radio]{accent-color:var(--purple);width:16px;height:16px;flex-shrink:0}
-.method-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0}
-.method-qris .method-icon{background:#e60000;color:#fff}
+/* METHOD */
+.method-opt{display:flex;align-items:center;gap:11px;background:var(--bg2);border:2px solid var(--border);border-radius:var(--r);padding:11px 13px;cursor:pointer;transition:.15s}
+.method-opt:hover{border-color:var(--border2)}
+.method-opt.selected{border-color:var(--purple);background:rgba(99,102,241,.03)}
+.method-opt input[type=radio]{accent-color:var(--purple);width:15px;height:15px;flex-shrink:0}
+.method-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;flex-shrink:0;color:#fff;background:#e60000}
 .method-info{flex:1}
-.method-name{font-size:.76rem;font-weight:700;color:var(--text)}
-.method-desc{font-size:.6rem;color:var(--muted);margin-top:2px}
-.method-fee{font-size:.6rem;font-weight:700;color:var(--success);margin-left:auto}
+.method-name{font-size:.72rem;font-weight:700}
+.method-desc{font-size:.58rem;color:var(--muted);margin-top:1px}
+.method-free{font-size:.58rem;font-weight:700;color:var(--success)}
 
 /* SUMMARY */
-.summary-box{background:linear-gradient(135deg,rgba(70,95,255,.05),rgba(124,142,255,.02));border:1px solid rgba(70,95,255,.14);border-radius:14px;padding:16px;margin-bottom:12px}
-.sum-row{display:flex;justify-content:space-between;font-size:.72rem;padding:5px 0;border-bottom:1px solid rgba(70,95,255,.07)}
-.sum-row:last-child{border:none;padding-top:10px}
-.sum-row:last-child .sum-label{font-weight:800;font-size:.76rem;color:var(--text)}
-.sum-row:last-child .sum-val{font-weight:900;font-size:.9rem;color:var(--purple);font-family:var(--mono)}
-.sum-label{color:var(--muted)}
-.sum-val{font-weight:600;color:var(--text);font-family:var(--mono)}
+.summary{background:linear-gradient(135deg,rgba(99,102,241,.04),rgba(129,140,248,.01));border:1px solid rgba(99,102,241,.12);border-radius:var(--r2);padding:14px;margin-bottom:10px}
+.sum-row{display:flex;justify-content:space-between;font-size:.68rem;padding:5px 0;border-bottom:1px solid rgba(99,102,241,.07)}
+.sum-row:last-child{border:none;padding-top:9px}
+.sum-row:last-child .sum-lbl{font-weight:800;font-size:.72rem}
+.sum-row:last-child .sum-val{font-weight:900;font-size:.86rem;color:var(--purple);font-family:var(--mono)}
+.sum-lbl{color:var(--muted)}
+.sum-val{font-weight:600;font-family:var(--mono)}
 .sum-green{color:var(--success)}
 
-.btn-lanjut{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:13px;border-radius:12px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font);transition:.15s}
-.btn-lanjut:disabled{opacity:.4;cursor:not-allowed}
-.btn-lanjut svg{width:14px;height:14px;stroke:#fff;fill:none}
+.btn-next{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:12px;border-radius:11px;font-size:.76rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--font);transition:.2s}
+.btn-next:hover{opacity:.88}
+.btn-next:disabled{opacity:.4;cursor:not-allowed}
+.btn-next i{width:14px;height:14px}
 
-/* STEP 2 — QRIS PAGE */
-.step2-wrap{display:none}
-.qris-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:12px;text-align:center}
-.qris-header{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:4px}
-.qris-header-title{font-size:.85rem;font-weight:800;color:var(--text)}
-.qris-header-badge{background:#e60000;color:#fff;font-size:.52rem;font-weight:800;padding:2px 8px;border-radius:99px}
-.qris-sub{font-size:.62rem;color:var(--muted);margin-bottom:18px}
-.qris-canvas-wrap{display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:14px;border:2px solid #e60000;margin-bottom:14px}
-.qris-amount-label{font-size:.58rem;color:var(--muted);margin-bottom:2px}
-.qris-amount-val{font-family:var(--mono);font-size:1.2rem;font-weight:900;color:#e60000;margin-bottom:6px}
-.qris-merchant{font-size:.62rem;color:var(--muted2);margin-bottom:16px}
+/* STEP 2 */
+.step2{display:none}
+.qris-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin-bottom:10px;text-align:center}
+.qris-head{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:3px}
+.qris-title{font-size:.82rem;font-weight:800}
+.qris-badge{background:#e60000;color:#fff;font-size:.48rem;font-weight:800;padding:2px 7px;border-radius:99px}
+.qris-sub{font-size:.6rem;color:var(--muted);margin-bottom:16px}
+.qris-canvas{display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;padding:12px;border:2px solid #e60000;margin-bottom:12px}
+.qris-amount-lbl{font-size:.56rem;color:var(--muted);margin-bottom:2px}
+.qris-amount{font-family:var(--mono);font-size:1.15rem;font-weight:900;color:#e60000;margin-bottom:5px}
+.qris-merchant{font-size:.6rem;color:var(--muted2);margin-bottom:14px}
 .qris-merchant b{color:var(--text)}
-.btn-download-qr{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:7px 16px;font-size:.65rem;font-weight:700;color:var(--muted2);cursor:pointer;margin-bottom:0}
-.btn-download-qr:hover{border-color:var(--purple);color:var(--purple)}
-.btn-download-qr svg{width:13px;height:13px;stroke:currentColor;fill:none}
+.btn-dl-qr{display:inline-flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:.62rem;font-weight:700;color:var(--muted2);cursor:pointer;transition:.15s}
+.btn-dl-qr:hover{border-color:var(--purple);color:var(--purple)}
+.btn-dl-qr i{width:12px;height:12px}
 
-/* ORDER INFO BOX */
-.order-info{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
-.order-info-title{font-size:.72rem;font-weight:800;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.order-info-title svg{width:13px;height:13px;stroke:var(--purple);fill:none}
-.oi-row{display:flex;justify-content:space-between;font-size:.68rem;padding:4px 0;border-bottom:1px solid var(--border)}
-.oi-row:last-child{border:none;padding-top:8px}
-.oi-row:last-child .oi-label{font-weight:800;font-size:.72rem;color:var(--text)}
-.oi-row:last-child .oi-val{font-weight:900;font-size:.85rem;color:var(--purple);font-family:var(--mono)}
-.oi-label{color:var(--muted)}
-.oi-val{font-weight:600;color:var(--text);font-family:var(--mono)}
-.oi-green{color:var(--success)}
+/* ORDER INFO */
+.order-info{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:10px}
+.oi-title{font-size:.7rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.oi-title i{width:13px;height:13px;color:var(--purple)}
+.oi-row{display:flex;justify-content:space-between;font-size:.65rem;padding:4px 0;border-bottom:1px solid var(--border)}
+.oi-row:last-child{border:none;padding-top:7px}
+.oi-row:last-child .oi-lbl{font-weight:800;font-size:.7rem}
+.oi-row:last-child .oi-val{font-weight:900;font-size:.82rem;color:var(--purple);font-family:var(--mono)}
+.oi-lbl{color:var(--muted)}
+.oi-val{font-weight:600;font-family:var(--mono)}
 
-.btn-paid{width:100%;background:linear-gradient(135deg,var(--success),#05966a);color:#fff;border:none;padding:13px;border-radius:12px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font);margin-top:12px}
-.btn-paid svg{width:14px;height:14px;stroke:#fff;fill:none}
-.paid-note{font-size:.62rem;color:var(--muted);text-align:center;margin-top:8px;line-height:1.5}
+.btn-paid{width:100%;background:linear-gradient(135deg,var(--success),#059669);color:#fff;border:none;padding:12px;border-radius:11px;font-size:.76rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--font);transition:.2s;margin-top:10px}
+.btn-paid:hover{opacity:.88}
+.btn-paid i{width:14px;height:14px}
+.paid-note{font-size:.6rem;color:var(--muted);text-align:center;margin-top:7px;line-height:1.5}
 
-/* SUCCESS */
+/* SUCCESS OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
 .overlay.open{opacity:1;pointer-events:all}
-.overlay-box{background:var(--card);border:1px solid var(--border);border-radius:20px;max-width:360px;width:90%;padding:28px;text-align:center}
-.ok-icon{width:52px;height:52px;border-radius:50%;background:rgba(18,183,106,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.ok-icon svg{width:24px;height:24px;stroke:var(--success);fill:none}
-.overlay-box h3{font-size:1rem;font-weight:800;margin-bottom:8px}
-.overlay-box p{font-size:.7rem;color:var(--muted);line-height:1.6;margin-bottom:18px}
-.btn-back{display:inline-block;background:var(--bg2);border:1px solid var(--border);padding:9px 20px;border-radius:99px;font-size:.7rem;font-weight:700;color:var(--text);text-decoration:none}
+.overlay-box{background:var(--card);border:1px solid var(--border);border-radius:20px;max-width:340px;width:90%;padding:26px;text-align:center;transform:scale(.94);transition:.22s}
+.overlay.open .overlay-box{transform:scale(1)}
+.ok-ico{width:50px;height:50px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.ok-ico i{width:22px;height:22px;color:var(--success)}
+.overlay-box h3{font-size:.95rem;font-weight:800;margin-bottom:6px}
+.overlay-box p{font-size:.67rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.btn-back-home{display:inline-flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--border);padding:8px 18px;border-radius:99px;font-size:.67rem;font-weight:700;color:var(--text);text-decoration:none;transition:.15s}
 
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 18px;border-radius:99px;font-size:.68rem;font-weight:600;z-index:9999;white-space:nowrap;animation:fu .25s}
-@keyframes fu{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-footer{border-top:1px solid var(--border);padding:16px 32px;text-align:center;color:var(--muted);font-size:.62rem}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:99px;font-size:.62rem;font-weight:600;z-index:9999;white-space:nowrap;animation:tIn .2s ease}
+@keyframes tIn{from{opacity:0;transform:translateX(-50%) translateY(5px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+footer{border-top:1px solid var(--border);padding:16px;text-align:center;color:var(--muted);font-size:.58rem}
 footer a{color:var(--purple);text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="nav-logo">
-    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+    <div class="logo-mark"><i data-lucide="layers" style="width:13px;height:13px;color:#fff"></i></div>
     lapakID
   </a>
-  <div class="nav-right">
-    <a href="index.html" class="nav-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Kembali</a>
-    <div class="theme-btn" id="themeBtn"><svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+  <div class="nav-r">
+    <a href="index.html" class="nav-back"><i data-lucide="arrow-left" style="width:12px;height:12px"></i>Kembali</a>
+    <div class="nav-icon-btn" id="themeBtn"><i data-lucide="moon" id="themeIcon" style="width:14px;height:14px"></i></div>
   </div>
 </nav>
 
-<div class="page-wrap">
-
+<div class="page">
   <!-- STEPPER -->
   <div class="stepper">
-    <div class="step active" id="step1El">
-      <div class="step-num" id="stepNum1">1</div>
-      <span>Informasi</span>
-    </div>
-    <div class="step-line" id="stepLine1"></div>
-    <div class="step" id="step2El">
-      <div class="step-num" id="stepNum2">2</div>
-      <span>Pembayaran</span>
-    </div>
+    <div class="step-item active" id="s1"><div class="step-num" id="sn1">1</div><span>Informasi</span></div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-item" id="s2"><div class="step-num" id="sn2">2</div><span>Pembayaran</span></div>
   </div>
 
   <!-- STEP 1 -->
-  <div id="step1Wrap">
+  <div id="step1">
     <!-- ID BANNER -->
     <div class="id-banner">
-      <div class="id-banner-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
-      <div id="bannerContent"><span style="color:var(--muted);font-size:.75rem">Memuat data ID...</span></div>
+      <div class="id-banner-ico"><i data-lucide="hash" style="width:18px;height:18px;color:#fff"></i></div>
+      <div id="bannerContent"><span style="color:var(--muted);font-size:.72rem">Memuat data ID...</span></div>
+    </div>
+
+    <!-- GARANSI -->
+    <div class="guarantee-box">
+      <div class="guarantee-title"><i data-lucide="shield-check"></i>Garansi Pembelian</div>
+      <div class="guarantee-item"><i data-lucide="check-circle"></i>Garansi ID berbeda — ID yang kamu beli 100% unik</div>
+      <div class="guarantee-item"><i data-lucide="check-circle"></i>Garansi beda region — ID tidak bermasalah di regionmu</div>
+      <div class="guarantee-item"><i data-lucide="check-circle"></i>Proses cepat & aman — konfirmasi dalam 24 jam</div>
     </div>
 
     <!-- DATA PEMBELI -->
-    <div class="form-section">
-      <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Data Pembeli</h3>
-      <div class="field-row">
-        <div class="field">
-          <label>Nama Lengkap</label>
-          <input type="text" id="buyerName" placeholder="Nama kamu..."/>
-        </div>
-        <div class="field">
-          <label>Nomor WhatsApp</label>
-          <input type="tel" id="buyerPhone" placeholder="628xxxxxxxxx"/>
-        </div>
+    <div class="form-card">
+      <h3><i data-lucide="user"></i>Data Pembeli</h3>
+      <div class="field-2">
+        <div class="field"><label>Nama Lengkap</label><input type="text" id="buyerName" placeholder="Nama kamu..."/></div>
+        <div class="field"><label>Nomor WhatsApp</label><input type="tel" id="buyerPhone" placeholder="628xxxxxxxxx"/></div>
       </div>
     </div>
 
     <!-- PROMO -->
-    <div class="form-section">
-      <h3><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Kode Promo <span style="font-weight:400;color:var(--muted);font-size:.7rem">(opsional)</span></h3>
+    <div class="form-card">
+      <h3><i data-lucide="tag"></i>Kode Promo <span style="font-weight:400;color:var(--muted);font-size:.68rem">(opsional)</span></h3>
       <div class="promo-row">
-        <div class="field">
-          <label>Kode Promo</label>
-          <input type="text" id="promoInput" placeholder="Contoh: LAPAK10" style="text-transform:uppercase"/>
-        </div>
+        <div class="field"><label>Kode</label><input type="text" id="promoInput" placeholder="Contoh: LAPAK10" style="text-transform:uppercase"/></div>
         <button class="btn-promo" onclick="validatePromo()">Terapkan</button>
       </div>
       <div class="promo-msg" id="promoMsg"></div>
     </div>
 
-    <!-- METODE PEMBAYARAN -->
-    <div class="form-section">
-      <h3><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Metode Pembayaran</h3>
-      <div class="method-grid">
-        <label class="method-opt method-qris selected">
-          <input type="radio" name="method" value="qris" checked/>
-          <div class="method-icon">QR</div>
-          <div class="method-info">
-            <div class="method-name">QRIS</div>
-            <div class="method-desc">GoPay, OVO, Dana, ShopeePay, m-banking semua bisa</div>
-          </div>
-          <div class="method-fee">Gratis</div>
-        </label>
-      </div>
+    <!-- METODE -->
+    <div class="form-card">
+      <h3><i data-lucide="credit-card"></i>Metode Pembayaran</h3>
+      <label class="method-opt selected">
+        <input type="radio" name="method" value="qris" checked/>
+        <div class="method-ico">QR</div>
+        <div class="method-info">
+          <div class="method-name">QRIS</div>
+          <div class="method-desc">GoPay, OVO, Dana, ShopeePay, m-banking</div>
+        </div>
+        <div class="method-free">Gratis</div>
+      </label>
     </div>
 
-    <!-- SUMMARY STEP 1 -->
-    <div class="summary-box">
-      <div class="sum-row"><div class="sum-label">ID</div><div class="sum-val" id="sumId">—</div></div>
-      <div class="sum-row"><div class="sum-label">Tier</div><div class="sum-val" id="sumTier">—</div></div>
-      <div class="sum-row"><div class="sum-label">Harga dasar</div><div class="sum-val" id="sumBase">—</div></div>
-      <div class="sum-row" id="sumDiscRow" style="display:none"><div class="sum-label">Diskon promo</div><div class="sum-val sum-green" id="sumDisc">—</div></div>
-      <div class="sum-row"><div class="sum-label">Total</div><div class="sum-val" id="sumTotal">—</div></div>
+    <!-- SUMMARY -->
+    <div class="summary">
+      <div class="sum-row"><div class="sum-lbl">ID</div><div class="sum-val" id="sumId">—</div></div>
+      <div class="sum-row"><div class="sum-lbl">Tier</div><div class="sum-val" id="sumTier">—</div></div>
+      <div class="sum-row"><div class="sum-lbl">Harga dasar</div><div class="sum-val" id="sumBase">—</div></div>
+      <div class="sum-row" id="sumDiscRow" style="display:none"><div class="sum-lbl">Diskon promo</div><div class="sum-val sum-green" id="sumDisc">—</div></div>
+      <div class="sum-row"><div class="sum-lbl">Total</div><div class="sum-val" id="sumTotal">—</div></div>
     </div>
-
-    <button class="btn-lanjut" id="btnLanjut" onclick="goStep2()" disabled>
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      Lanjut Pembayaran
-    </button>
+    <button class="btn-next" id="btnNext" onclick="goStep2()" disabled><i data-lucide="arrow-right"></i>Lanjut Pembayaran</button>
   </div>
 
   <!-- STEP 2 -->
-  <div class="step2-wrap" id="step2Wrap">
-
-    <!-- QRIS CARD -->
+  <div class="step2" id="step2">
     <div class="qris-card">
-      <div class="qris-header">
-        <div class="qris-header-title">Bayar via QRIS</div>
-        <div class="qris-header-badge">QRIS</div>
-      </div>
-      <div class="qris-sub">Scan dengan e-wallet atau m-banking manapun • Berlaku 10 menit</div>
-      <div class="qris-canvas-wrap">
-        <div id="qrcode-canvas"></div>
-      </div>
-      <div class="qris-amount-label">Nominal Pembayaran</div>
-      <div class="qris-amount-val" id="qrisAmountVal">—</div>
-      <div class="qris-merchant">Penerima: <b>Aestroshop, GREGED</b> &bull; Cirebon</div>
-      <button class="btn-download-qr" onclick="downloadQR()">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download QR
-      </button>
+      <div class="qris-head"><div class="qris-title">Bayar via QRIS</div><div class="qris-badge">QRIS</div></div>
+      <div class="qris-sub">Scan dengan e-wallet atau m-banking • Berlaku 10 menit</div>
+      <div class="qris-canvas"><div id="qrCanvas"></div></div>
+      <div class="qris-amount-lbl">Nominal Pembayaran</div>
+      <div class="qris-amount" id="qrisAmt">—</div>
+      <div class="qris-merchant">Penerima: <b>Aestroshop, GREGED</b> • Cirebon</div>
+      <button class="btn-dl-qr" onclick="downloadQR()"><i data-lucide="download"></i>Download QR</button>
     </div>
-
-    <!-- ORDER INFO -->
     <div class="order-info">
-      <div class="order-info-title"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/></svg>Detail Pesanan</div>
-      <div class="oi-row"><div class="oi-label">ID</div><div class="oi-val" id="oi-id">—</div></div>
-      <div class="oi-row"><div class="oi-label">Tier</div><div class="oi-val" id="oi-tier">—</div></div>
-      <div class="oi-row"><div class="oi-label">Harga dasar</div><div class="oi-val" id="oi-base">—</div></div>
-      <div class="oi-row" id="oi-disc-row" style="display:none"><div class="oi-label">Diskon</div><div class="oi-val oi-green" id="oi-disc">—</div></div>
-      <div class="oi-row"><div class="oi-label">Total</div><div class="oi-val" id="oi-total">—</div></div>
+      <div class="oi-title"><i data-lucide="receipt"></i>Detail Pesanan</div>
+      <div class="oi-row"><div class="oi-lbl">ID</div><div class="oi-val" id="oiId">—</div></div>
+      <div class="oi-row"><div class="oi-lbl">Tier</div><div class="oi-val" id="oiTier">—</div></div>
+      <div class="oi-row"><div class="oi-lbl">Harga dasar</div><div class="oi-val" id="oiBase">—</div></div>
+      <div class="oi-row" id="oiDiscRow" style="display:none"><div class="oi-lbl">Diskon</div><div class="oi-val sum-green" id="oiDisc">—</div></div>
+      <div class="oi-row"><div class="oi-lbl">Total</div><div class="oi-val" id="oiTotal">—</div></div>
     </div>
-
-    <button class="btn-paid" id="btnPaid" onclick="doSubmit()">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      Saya Sudah Bayar
-    </button>
-    <div class="paid-note">Setelah klik tombol di atas, admin akan memverifikasi pembayaranmu dan menghubungi kamu via WhatsApp.</div>
+    <button class="btn-paid" id="btnPaid" onclick="doSubmit()"><i data-lucide="check-circle"></i>Saya Sudah Bayar</button>
+    <div class="paid-note">Setelah klik di atas, admin akan memverifikasi dan menghubungi via WhatsApp.</div>
   </div>
-
 </div>
 
 <!-- SUCCESS -->
 <div class="overlay" id="successOverlay">
   <div class="overlay-box">
-    <div class="ok-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="ok-ico"><i data-lucide="check-circle"></i></div>
     <h3>Pesanan Diterima!</h3>
-    <p id="successMsg">Pesanan kamu berhasil dibuat. Admin akan segera menghubungi kamu via WhatsApp.</p>
-    <a href="index.html" class="btn-back">Kembali ke Beranda</a>
+    <p id="successMsg">Pesanan berhasil. Admin akan menghubungi kamu via WhatsApp.</p>
+    <a href="index.html" class="btn-back-home"><i data-lucide="home" style="width:13px;height:13px"></i>Kembali ke Beranda</a>
   </div>
 </div>
 
-<footer>&copy; 2026 <a href="index.html">lapakID</a></footer>
+<audio id="paidSfx" src="https://files.catbox.moe/gs2pl3.mp3" preload="auto"></audio>
+<footer>&copy; 2026 <a href="index.html">LapakID</a> <span style="margin-left:6px;background:rgba(99,102,241,.1);color:#6366f1;font-size:.5rem;font-weight:800;padding:1px 7px;border-radius:99px">v2.2.2</span></footer>
 
 <script>
-const API = '/api';
-const DEFAULT_QRIS = '00020101021126610014COM.GO-JEK.WWW01189360091438891755300210G8891755300303UMI51440014ID.CO.QRIS.WWW0215ID10243566855930303UMI5204573253033605802ID5918Aestroshop, GREGED6007CIREBON61054518162070703A016304C52D';
+const API='/api';
+const DEFAULT_QRIS='00020101021126610014COM.GO-JEK.WWW01189360091438891755300210G8891755300303UMI51440014ID.CO.QRIS.WWW0215ID10243566855930303UMI5204573253033605802ID5918Aestroshop, GREGED6007CIREBON61054518162070703A016304C52D';
+let settings={},idDoc=null,promoDisc=0,promoCode='';
+const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
+const TCLS={low:'t-low',medium:'t-medium',high:'t-high',legend:'t-legend'};
 
-let settings={}, idDoc=null, promoDisc=0, promoCode='';
-const fmt = n => 'Rp '+Number(n).toLocaleString('id-ID');
-const TCLS = {low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
+document.addEventListener('DOMContentLoaded',()=>{if(window.lucide)lucide.createIcons();});
 
-// ── QRIS ─────────────────────────────────────────────────────────────────────
-function crc16(str) {
-  let crc=0xFFFF;
-  for(let c=0;c<str.length;c++){
-    crc^=str.charCodeAt(c)<<8;
-    for(let i=0;i<8;i++) crc=((crc&0x8000)>0)?(crc<<1)^0x1021:crc<<1, crc&=0xFFFF;
-  }
-  return crc.toString(16).toUpperCase().padStart(4,'0');
-}
-function makeDynamicQRIS(qris,amount) {
-  let d=qris.replace('010211','010212').slice(0,-4);
-  const at='54'+String(amount).length.toString().padStart(2,'0')+amount;
-  d=d.replace('5802ID',at+'5802ID');
-  return d+crc16(d);
-}
-function renderQR(amount) {
-  const finalQRIS=makeDynamicQRIS(DEFAULT_QRIS,String(Math.round(amount)));
-  document.getElementById('qrcode-canvas').innerHTML='';
-  new QRCode(document.getElementById('qrcode-canvas'),{
-    text:finalQRIS,width:192,height:192,
-    colorDark:'#000000',colorLight:'#ffffff',
-    correctLevel:QRCode.CorrectLevel.M
-  });
-  document.getElementById('qrisAmountVal').textContent=fmt(amount);
-}
-function downloadQR() {
-  const canvas=document.querySelector('#qrcode-canvas canvas');
-  if (!canvas) { showToast('QR belum siap'); return; }
-  // buat canvas baru dengan padding dan info
-  const pad=24, infoH=80;
-  const c2=document.createElement('canvas');
-  c2.width=canvas.width+pad*2;
-  c2.height=canvas.height+pad*2+infoH;
-  const ctx=c2.getContext('2d');
-  ctx.fillStyle='#ffffff';
-  ctx.fillRect(0,0,c2.width,c2.height);
+// THEME
+function initTheme(){const d=localStorage.getItem('lapakid_dark')==='1';if(d)document.body.classList.add('dark');const ico=document.getElementById('themeIcon');if(ico){ico.setAttribute('data-lucide',d?'sun':'moon');if(window.lucide)lucide.createIcons({nodes:[ico]});}}
+document.getElementById('themeBtn').addEventListener('click',()=>{const d=document.body.classList.toggle('dark');localStorage.setItem('lapakid_dark',d?'1':'0');const ico=document.getElementById('themeIcon');if(ico){ico.setAttribute('data-lucide',d?'sun':'moon');if(window.lucide)lucide.createIcons({nodes:[ico]});}});
+
+// QRIS
+function crc16(str){let c=0xFFFF;for(let i=0;i<str.length;i++){c^=str.charCodeAt(i)<<8;for(let j=0;j<8;j++)c=((c&0x8000)>0)?(c<<1)^0x1021:c<<1,c&=0xFFFF;}return c.toString(16).toUpperCase().padStart(4,'0');}
+function makeDynQRIS(qris,amount){let d=qris.replace('010211','010212').slice(0,-4);const at='54'+String(amount).length.toString().padStart(2,'0')+amount;d=d.replace('5802ID',at+'5802ID');return d+crc16(d);}
+function renderQR(amount){const qris=makeDynQRIS(DEFAULT_QRIS,String(Math.round(amount)));document.getElementById('qrCanvas').innerHTML='';new QRCode(document.getElementById('qrCanvas'),{text:qris,width:180,height:180,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});document.getElementById('qrisAmt').textContent=fmt(amount);}
+function downloadQR(){
+  const canvas=document.querySelector('#qrCanvas canvas');if(!canvas){showToast('QR belum siap');return;}
+  const pad=20,infoH=70,c2=document.createElement('canvas');
+  c2.width=canvas.width+pad*2;c2.height=canvas.height+pad*2+infoH;
+  const ctx=c2.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,c2.width,c2.height);
   ctx.drawImage(canvas,pad,pad);
-  ctx.fillStyle='#101828';
-  ctx.font='bold 14px Arial';
-  ctx.textAlign='center';
-  ctx.fillText('lapakID — QRIS Payment',c2.width/2,canvas.height+pad+22);
-  ctx.font='13px Arial';
-  ctx.fillStyle='#667085';
-  ctx.fillText(document.getElementById('qrisAmountVal').textContent,c2.width/2,canvas.height+pad+42);
-  ctx.fillText('Aestroshop, GREGED • Cirebon',c2.width/2,canvas.height+pad+60);
-  const link=document.createElement('a');
-  link.download=`lapakID-QRIS-${idDoc?.number||'payment'}.png`;
-  link.href=c2.toDataURL('image/png');
-  link.click();
+  ctx.fillStyle='#0f172a';ctx.font='bold 13px Inter,Arial';ctx.textAlign='center';ctx.fillText('lapakID — QRIS Payment',c2.width/2,canvas.height+pad+20);
+  ctx.font='12px Inter,Arial';ctx.fillStyle='#64748b';ctx.fillText(document.getElementById('qrisAmt').textContent,c2.width/2,canvas.height+pad+38);ctx.fillText('Aestroshop, GREGED • Cirebon',c2.width/2,canvas.height+pad+54);
+  const a=document.createElement('a');a.download=`lapakID-QRIS-${idDoc?.number||'payment'}.png`;a.href=c2.toDataURL('image/png');a.click();
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-async function init() {
+// INIT
+async function init(){
   initTheme();
-  const params=new URLSearchParams(window.location.search);
-  const preId=params.get('id');
+  const params=new URLSearchParams(window.location.search);const preId=params.get('id');
   const r=await fetch(`${API}/settings`).catch(()=>null);
   if(r&&r.ok){const d=await r.json();settings=d.data||{};}
-  if(preId) await loadId(preId);
-  else document.getElementById('bannerContent').innerHTML=`<span style="color:var(--muted);font-size:.75rem">Tidak ada ID dipilih. <a href="index.html" style="color:var(--purple);font-weight:700">Pilih ID dulu</a></span>`;
+  if(preId)await loadId(preId);
+  else document.getElementById('bannerContent').innerHTML=`<span style="color:var(--muted);font-size:.72rem">Tidak ada ID dipilih. <a href="index.html" style="color:var(--purple);font-weight:700">Pilih ID dulu</a></span>`;
 }
-
-async function loadId(number) {
+async function loadId(number){
   const r=await fetch(`${API}/ids/${encodeURIComponent(number)}`).catch(()=>null);
-  if(!r||!r.ok){document.getElementById('bannerContent').innerHTML=`<span style="color:var(--sold);font-size:.75rem">ID tidak ditemukan</span>`;return;}
-  const {data}=await r.json();
-  idDoc=data;
+  if(!r||!r.ok){document.getElementById('bannerContent').innerHTML=`<span style="color:var(--sold);font-size:.72rem">ID tidak ditemukan</span>`;return;}
+  const{data}=await r.json();idDoc=data;
   const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
   const price=prices[data.tier]||0;
   document.getElementById('bannerContent').innerHTML=`
-    <div class="id-banner-num">${data.number}</div>
+    <div><div class="id-banner-num">${data.number}</div>
     <div class="id-banner-meta">
       <span class="tier-pill ${TCLS[data.tier]}">${data.tier.toUpperCase()}</span>
-      <span class="id-price-tag">${fmt(price)}</span>
-      ${data.sold?'<span style="font-size:.6rem;color:var(--sold);font-weight:700">SUDAH TERJUAL</span>':''}
-    </div>`;
-  updateSummary();
-  checkSubmit();
-  if(data.sold){document.getElementById('btnLanjut').disabled=true;document.getElementById('btnLanjut').textContent='ID Ini Sudah Terjual';}
+      <span class="id-price">${fmt(price)}</span>
+      ${data.sold?'<span style="font-size:.56rem;color:var(--sold);font-weight:800">SUDAH TERJUAL</span>':''}
+    </div></div>`;
+  updateSummary();checkNext();
+  if(data.sold){document.getElementById('btnNext').disabled=true;document.getElementById('btnNext').textContent='ID Ini Sudah Terjual';}
+  if(window.lucide)lucide.createIcons();
 }
 
-// ── PROMO ─────────────────────────────────────────────────────────────────────
-async function validatePromo() {
+// PROMO
+async function validatePromo(){
   const code=document.getElementById('promoInput').value.trim().toUpperCase();
   const msg=document.getElementById('promoMsg');
-  if(!code){showMsg(msg,'err','Masukkan kode promo terlebih dahulu');return;}
+  if(!code){showMsg(msg,'err','Masukkan kode promo');return;}
   const r=await fetch(`${API}/promo/validate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})}).catch(()=>null);
-  if(!r){showMsg(msg,'err','Gagal menghubungi server');return;}
+  if(!r){showMsg(msg,'err','Gagal terhubung');return;}
   const d=await r.json();
-  if(d.success){
-    promoDisc=d.discount; promoCode=d.code;
-    showMsg(msg,'ok',`Promo aktif — diskon ${d.discount}% berhasil diterapkan`);
-  }else{
-    promoDisc=0; promoCode='';
-    showMsg(msg,'err',d.message||'Kode promo tidak valid');
-  }
+  if(d.success){promoDisc=d.discount;promoCode=d.code;showMsg(msg,'ok',`Diskon ${d.discount}% berhasil diterapkan!`);}
+  else{promoDisc=0;promoCode='';showMsg(msg,'err',d.message||'Kode tidak valid');}
   updateSummary();
 }
-function showMsg(el,type,text){el.className='promo-msg '+type;el.textContent=text;el.style.display='block';}
-
-// ── SUMMARY ──────────────────────────────────────────────────────────────────
-function calcTotal() {
-  if(!idDoc)return 0;
-  const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
-  return Math.round((prices[idDoc.tier]||0)*(1-promoDisc/100));
+function showMsg(el,type,text){
+  el.className='promo-msg '+(type==='ok'?'promo-ok':'promo-err');
+  el.innerHTML=`<i data-lucide="${type==='ok'?'check-circle':'x-circle'}"></i>${text}`;
+  el.style.display='flex';if(window.lucide)lucide.createIcons({nodes:[el]});
 }
-function updateSummary() {
+
+// SUMMARY
+function calcTotal(){if(!idDoc)return 0;const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};return Math.round((p[idDoc.tier]||0)*(1-promoDisc/100));}
+function updateSummary(){
   if(!idDoc)return;
-  const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
-  const base=prices[idDoc.tier]||0, disc=Math.round(base*promoDisc/100), total=base-disc;
+  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  const base=p[idDoc.tier]||0,disc=Math.round(base*promoDisc/100),total=base-disc;
   document.getElementById('sumId').textContent=idDoc.number;
   document.getElementById('sumTier').textContent=idDoc.tier.charAt(0).toUpperCase()+idDoc.tier.slice(1);
   document.getElementById('sumBase').textContent=fmt(base);
   document.getElementById('sumTotal').textContent=fmt(total);
-  const row=document.getElementById('sumDiscRow');
-  if(promoDisc>0){row.style.display='flex';document.getElementById('sumDisc').textContent=`-${fmt(disc)} (${promoDisc}%)`;}
-  else row.style.display='none';
-}
-function checkSubmit() {
-  const name=document.getElementById('buyerName').value.trim();
-  const phone=document.getElementById('buyerPhone').value.trim();
-  document.getElementById('btnLanjut').disabled=!(name&&phone&&idDoc&&!idDoc.sold);
-}
-document.querySelectorAll('#buyerName,#buyerPhone').forEach(el=>el.addEventListener('input',checkSubmit));
-
-// ── STEP 2 ────────────────────────────────────────────────────────────────────
-function goStep2() {
-  const name=document.getElementById('buyerName').value.trim();
-  const phone=document.getElementById('buyerPhone').value.trim();
-  if(!name||!phone||!idDoc){showToast('Lengkapi nama dan nomor WhatsApp');return;}
-
-  // Update stepper
-  document.getElementById('step1El').classList.remove('active'); document.getElementById('step1El').classList.add('done');
-  document.getElementById('stepNum1').innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" stroke="#fff" fill="none"><polyline points="20 6 9 17 4 12"/></svg>';
-  document.getElementById('stepLine1').classList.add('done');
-  document.getElementById('step2El').classList.add('active');
-
-  // Show/hide
-  document.getElementById('step1Wrap').style.display='none';
-  document.getElementById('step2Wrap').style.display='block';
-
-  // Fill order info
-  const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
-  const base=prices[idDoc.tier]||0, disc=Math.round(base*promoDisc/100), total=base-disc;
-  document.getElementById('oi-id').textContent=idDoc.number;
-  document.getElementById('oi-tier').textContent=idDoc.tier.charAt(0).toUpperCase()+idDoc.tier.slice(1);
-  document.getElementById('oi-base').textContent=fmt(base);
-  document.getElementById('oi-total').textContent=fmt(total);
-  const dr=document.getElementById('oi-disc-row');
-  if(promoDisc>0){dr.style.display='flex';document.getElementById('oi-disc').textContent=`-${fmt(disc)} (${promoDisc}%)`;}
+  const dr=document.getElementById('sumDiscRow');
+  if(promoDisc>0){dr.style.display='flex';document.getElementById('sumDisc').textContent=`-${fmt(disc)} (${promoDisc}%)`;}
   else dr.style.display='none';
+}
+function checkNext(){
+  const n=document.getElementById('buyerName').value.trim();
+  const p=document.getElementById('buyerPhone').value.trim();
+  document.getElementById('btnNext').disabled=!(n&&p&&idDoc&&!idDoc?.sold);
+}
+['buyerName','buyerPhone'].forEach(id=>document.getElementById(id).addEventListener('input',checkNext));
+document.querySelectorAll('.method-opt').forEach(opt=>{opt.addEventListener('click',()=>{document.querySelectorAll('.method-opt').forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');});});
 
-  // Render QR
-  renderQR(total);
-  window.scrollTo({top:0,behavior:'smooth'});
+// STEP 2
+function goStep2(){
+  const name=document.getElementById('buyerName').value.trim();const phone=document.getElementById('buyerPhone').value.trim();
+  if(!name||!phone||!idDoc){showToast('Lengkapi data dulu');return;}
+  // Stepper update
+  document.getElementById('s1').classList.remove('active');document.getElementById('s1').classList.add('done');
+  document.getElementById('sn1').innerHTML='<i data-lucide="check" style="width:11px;height:11px"></i>';
+  document.getElementById('sl1').classList.add('done');document.getElementById('s2').classList.add('active');
+  document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='block';
+  // Fill order info
+  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  const base=p[idDoc.tier]||0,disc=Math.round(base*promoDisc/100),total=base-disc;
+  document.getElementById('oiId').textContent=idDoc.number;
+  document.getElementById('oiTier').textContent=idDoc.tier.charAt(0).toUpperCase()+idDoc.tier.slice(1);
+  document.getElementById('oiBase').textContent=fmt(base);document.getElementById('oiTotal').textContent=fmt(total);
+  const dr=document.getElementById('oiDiscRow');
+  if(promoDisc>0){dr.style.display='flex';document.getElementById('oiDisc').textContent=`-${fmt(disc)} (${promoDisc}%)`;}
+  else dr.style.display='none';
+  renderQR(total);window.scrollTo({top:0,behavior:'smooth'});
+  if(window.lucide)lucide.createIcons();
 }
 
-// ── SUBMIT ────────────────────────────────────────────────────────────────────
-async function doSubmit() {
-  const name=document.getElementById('buyerName').value.trim();
-  const phone=document.getElementById('buyerPhone').value.trim();
+// SUBMIT
+async function doSubmit(){
+  const name=document.getElementById('buyerName').value.trim();const phone=document.getElementById('buyerPhone').value.trim();
   if(!name||!phone||!idDoc){showToast('Data tidak lengkap');return;}
-  const btn=document.getElementById('btnPaid');
-  btn.disabled=true; btn.textContent='Memproses...';
-  const r=await fetch(`${API}/payment`,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({idNumber:idDoc.number,method:'qris',buyer:name,phone,promoCode})
-  }).catch(()=>null);
-  if(!r){btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" stroke="#fff" fill="none"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';showToast('Gagal terhubung ke server');return;}
+  const btn=document.getElementById('btnPaid');btn.disabled=true;btn.textContent='Memproses...';
+  const r=await fetch(`${API}/payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idNumber:idDoc.number,method:'qris',buyer:name,phone,promoCode})}).catch(()=>null);
+  if(!r){btn.disabled=false;if(window.lucide)lucide.createIcons({nodes:[btn]});showToast('Gagal terhubung');return;}
   const d=await r.json();
   if(d.success){
-    document.getElementById('successMsg').textContent=`Pesanan ID ${idDoc.number} berhasil dibuat. Admin akan segera menghubungi kamu via WhatsApp di nomor ${phone}.`;
+    // Play success sound
+    try{const sfx=document.getElementById('paidSfx');sfx.currentTime=0;sfx.play().catch(()=>{});}catch(e){}
+    document.getElementById('successMsg').textContent=`Pesanan ID ${idDoc.number} berhasil. Admin akan menghubungi kamu via WhatsApp di ${phone}.`;
     document.getElementById('successOverlay').classList.add('open');
-  }else{
-    btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" stroke="#fff" fill="none"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';
-    showToast(d.message||'Gagal memproses pesanan');
-  }
+    if(window.lucide)lucide.createIcons({nodes:document.querySelectorAll('#successOverlay [data-lucide]')});
+  }else{btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle" style="width:14px;height:14px"></i>Saya Sudah Bayar';if(window.lucide)lucide.createIcons({nodes:[btn]});showToast(d.message||'Gagal');}
 }
 
-// ── THEME / TOAST ─────────────────────────────────────────────────────────────
-function initTheme(){
-  const dark=localStorage.getItem('lapakid_dark')==='1';
-  if(dark) document.body.classList.add('dark');
-  document.getElementById('themeIcon').innerHTML=dark
-    ?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-    :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-}
 function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const d=document.body.classList.toggle('dark');
-  localStorage.setItem('lapakid_dark',d?'1':'0');
-  document.getElementById('themeIcon').innerHTML=d
-    ?'<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
-    :'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-});
-// Method select highlight
-document.querySelectorAll('.method-opt').forEach(opt=>{
-  opt.addEventListener('click',()=>{
-    document.querySelectorAll('.method-opt').forEach(o=>o.classList.remove('selected'));
-    opt.classList.add('selected');
-  });
-});
 init();
 </script>
 </body>
