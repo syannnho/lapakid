@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>lapakID — Koleksi ID Premium v2.2.2</title>
+<title>lapakID — Koleksi ID Premium v2.3</title>
 <link rel="icon" type="image/png" href="https://files.catbox.moe/em51di.png"/>
 <meta name="description" content="Jual beli ID premium aman dan terpercaya. Tersedia berbagai tier Low, Medium, High, Legend. Proses cepat, garansi 100%."/>
 <meta name="keywords" content="jual id, id premium, id murah, lapak id, beli id"/>
-<meta name="author" content="lapakID"/>
 <meta property="og:title" content="lapakID — Koleksi ID Premium"/>
 <meta property="og:description" content="Koleksi ID premium pilihan dengan harga terbaik."/>
 <meta property="og:image" content="https://files.catbox.moe/em51di.png"/>
@@ -15,24 +14,6 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-
-<!-- Google Analytics (Ganti G-XXXXXXXXXX dengan ID tracking Anda) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-  
-  // Track custom events
-  function trackEvent(category, action, label) {
-    gtag('event', action, {
-      'event_category': category,
-      'event_label': label
-    });
-  }
-</script>
-
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -161,25 +142,17 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
 .search-icon svg{width:13px;height:13px}
 
-/* ── FILTER HARGA (SLIDER) ── */
+/* ── FILTER HARGA DROPDOWN ── */
 .price-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;padding-top:6px;border-top:1px solid var(--border)}
-.price-range{display:flex;align-items:center;gap:8px;flex:1;flex-wrap:wrap}
-.price-range span{font-size:.6rem;color:var(--muted);font-family:var(--mono)}
-.price-slider{flex:1;min-width:150px;height:3px;background:var(--border2);border-radius:99px;position:relative}
-.price-slider input{position:absolute;width:100%;height:3px;background:transparent;pointer-events:none;appearance:none}
-.price-slider input::-webkit-slider-thumb{pointer-events:auto;width:12px;height:12px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;appearance:none}
-.price-slider input::-webkit-slider-thumb:hover{transform:scale(1.2)}
-.price-values{display:flex;gap:8px;font-size:.6rem;font-family:var(--mono)}
-.price-values input{width:70px;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:4px 6px;font-size:.55rem;font-family:var(--mono);color:var(--text)}
-.price-reset{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.55rem;cursor:pointer;transition:.15s}
-.price-reset:hover{background:var(--bg3)}
-
-/* ── WISHLIST BUTTON ── */
+.price-dropdown{display:flex;align-items:center;gap:8px}
+.price-dropdown label{font-size:.6rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px}
+.price-dropdown label svg{width:10px;height:10px}
+.price-select{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:5px 8px;font-size:.6rem;font-family:var(--font);color:var(--text);cursor:pointer}
+.price-select:focus{outline:none;border-color:var(--purple)}
 .wishlist-filter{display:flex;align-items:center;gap:6px;margin-left:auto}
 .wishlist-filter-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.55rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:.15s}
 .wishlist-filter-btn.active{background:var(--warning);border-color:var(--warning);color:#fff}
 .wishlist-filter-btn svg{width:10px;height:10px}
-
 .result-label{font-size:.6rem;color:var(--muted);font-family:var(--mono);margin-top:6px}
 .result-label b{color:var(--text)}
 
@@ -407,21 +380,18 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
       </div>
     </div>
     
-    <!-- FILTER HARGA (SLIDER) -->
+    <!-- FILTER HARGA DROPDOWN -->
     <div class="price-filter">
-      <div class="price-range">
-        <span>💰 Harga:</span>
-        <div class="price-slider">
-          <input type="range" id="priceMin" min="0" max="2000000" step="10000" value="0">
-          <input type="range" id="priceMax" min="0" max="2000000" step="10000" value="2000000">
-        </div>
+      <div class="price-dropdown">
+        <label><i data-lucide="tag" style="width:10px;height:10px"></i>Harga:</label>
+        <select id="priceSelect" class="price-select">
+          <option value="all">Semua Harga</option>
+          <option value="low">Low (Rp 125.000)</option>
+          <option value="medium">Medium (Rp 450.000)</option>
+          <option value="high">High (Rp 850.000)</option>
+          <option value="legend">Legend (Rp 1.350.000)</option>
+        </select>
       </div>
-      <div class="price-values">
-        <input type="number" id="minPriceInput" placeholder="Min" value="0">
-        <span>-</span>
-        <input type="number" id="maxPriceInput" placeholder="Max" value="2000000">
-      </div>
-      <button class="price-reset" id="priceResetBtn">Reset</button>
       
       <!-- WISHLIST FILTER -->
       <div class="wishlist-filter">
@@ -458,7 +428,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 
 <footer>
   <span>&copy; 2026 <a href="index.html">LapakID</a></span>
-  <span class="version-tag">v2.2.2</span>
+  <span class="version-tag">v2.3</span>
   <span><a href="about.html">Docs</a> &mdash; <a href="docs.html">Admin</a></span>
 </footer>
 
@@ -468,15 +438,15 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <button class="popup-close-btn" id="popupClose"><i data-lucide="x" style="width:12px;height:12px"></i></button>
     <img id="popupImg" src="" alt="Promo" class="popup-img" style="display:none"/>
     <div class="popup-body">
-      <div class="popup-title" id="popupTitle">🎉 Promo Spesial!</div>
-      <div class="popup-desc" id="popupDesc">Gunakan kode promo berikut saat checkout.</div>
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-desc" id="popupDesc"></div>
       <div class="popup-code-wrap">
-        <span class="popup-code" id="popupCode">LAPAK10</span>
+        <span class="popup-code" id="popupCode"></span>
         <button class="popup-copy-btn" id="popupCopyBtn">Salin</button>
       </div>
       <div class="popup-foot">
         <label class="popup-check"><input type="checkbox" id="dontShowPopup"/> Jangan tampilkan lagi</label>
-        <button class="popup-ok-btn" id="popupOk">Mengerti!</button>
+        <button class="popup-ok-btn" id="popupOk">Mengerti</button>
       </div>
     </div>
   </div>
@@ -509,14 +479,11 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 const API='/api';
 const PER_PAGE=20;
 let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]'));
-let wishlistSet=new Set(JSON.parse(localStorage.getItem('lapakid_wishlist')||'[]'));
+let wishlistSet=new Set();
 let currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0,musicHideTimer=null;
 let notifOpen=false;
-
-// Filter harga
-let minPrice=0,maxPrice=2000000;
-let showWishlistOnly=false;
+let priceFilter='all';
 
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
@@ -658,7 +625,7 @@ function initPopup(s){
   const img = document.getElementById('popupImg');
   if(popup.imageUrl && popup.imageUrl.trim()){img.src=popup.imageUrl;img.style.display='block';}
   else{img.style.display='none';}
-  document.getElementById('popupTitle').innerHTML=popup.title||'🎉 Promo Spesial!';
+  document.getElementById('popupTitle').innerHTML=popup.title||'Promo Spesial!';
   document.getElementById('popupDesc').textContent=popup.desc||'Gunakan kode promo saat checkout.';
   document.getElementById('popupCode').textContent=popup.code||'LAPAK10';
   const closePopup=()=>{
@@ -684,6 +651,51 @@ function initPopup(s){
   overlay.addEventListener('click',overlayHandler);
   setTimeout(()=>overlay.classList.add('open'),1500);
 }
+
+// ── WISHLIST (Database by IP) ────────────────────────────────────────────────
+async function loadWishlist(){
+  try{
+    const r=await fetch(`${API}/wishlist`);
+    if(!r.ok) return;
+    const d=await r.json();
+    wishlistSet=new Set(d.data||[]);
+    render();
+  }catch(e){console.log('Gagal load wishlist',e);}
+}
+
+async function toggleWishlist(number,btn){
+  const isWished=wishlistSet.has(number);
+  let response;
+  if(isWished){
+    response=await fetch(`${API}/wishlist/${number}`,{method:'DELETE'});
+    if(response.ok){
+      wishlistSet.delete(number);
+      if(btn) btn.classList.remove('wished');
+      showToast('Dihapus dari wishlist');
+    }
+  }else{
+    response=await fetch(`${API}/wishlist/${number}`,{method:'POST'});
+    if(response.ok){
+      wishlistSet.add(number);
+      if(btn) btn.classList.add('wished');
+      showToast('Ditambahkan ke wishlist');
+    }
+  }
+  if(currentModal?.number===number){
+    const wBtn=document.getElementById('modalWishlistBtn');
+    if(wBtn) wBtn.classList.toggle('wished',wishlistSet.has(number));
+  }
+  if(showWishlistOnly) render();
+}
+
+let showWishlistOnly=false;
+const wishlistFilterBtn=document.getElementById('wishlistFilterBtn');
+wishlistFilterBtn.addEventListener('click',()=>{
+  showWishlistOnly=!showWishlistOnly;
+  wishlistFilterBtn.classList.toggle('active',showWishlistOnly);
+  tierPages={low:1,medium:1,high:1,legend:1};
+  render();
+});
 
 // ── POPULAR ──────────────────────────────────────────────────────────────────
 async function loadPopular(){
@@ -719,13 +731,11 @@ async function loadIds(){
   const{data}=await r.json();allIds=data||[];render();
 }
 
-// Dapatkan harga berdasarkan tier
 function getPriceByTier(tier){
   const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
   return prices[tier]||0;
 }
 
-// Filter berdasarkan harga dan wishlist
 function filterIds(){
   const tiers=activeFilter==='all'?['low','medium','high','legend']:activeFilter==='sold'?['low','medium','high','legend']:[activeFilter];
   const result={};
@@ -735,11 +745,10 @@ function filterIds(){
     else if(activeFilter!=='all')ids=ids.filter(id=>!id.sold);
     if(searchQ)ids=ids.filter(id=>id.number.includes(searchQ));
     
-    // Filter berdasarkan harga
-    ids=ids.filter(id=>{
-      const price=getPriceByTier(id.tier);
-      return price>=minPrice && price<=maxPrice;
-    });
+    // Filter berdasarkan harga dropdown
+    if(priceFilter!=='all'){
+      ids=ids.filter(id=>id.tier===priceFilter);
+    }
     
     // Filter wishlist
     if(showWishlistOnly){
@@ -752,35 +761,68 @@ function filterIds(){
 }
 
 function render(){
-  const filtered=filterIds();let total=0;Object.values(filtered).forEach(v=>total+=v.length);
-  document.getElementById('resultInfo').innerHTML=`Menampilkan <b>${total.toLocaleString('id-ID')}</b> ID`;
-  const container=document.getElementById('gridContainer');
-  if(total===0){container.innerHTML='<div class="empty"><i data-lucide="search-x" style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.3"></i><p>Tidak ada ID ditemukan</p></div>';if(window.lucide)lucide.createIcons({nodes:container.querySelectorAll('[data-lucide]')});return;}
-  const tiers=['low','medium','high','legend'];let html='';
+  const filtered = filterIds();
+  let total = 0;
+  Object.values(filtered).forEach(v => total += v.length);
+  document.getElementById('resultInfo').innerHTML = `Menampilkan ${total.toLocaleString('id-ID')} ID`;
+  
+  const container = document.getElementById('gridContainer');
+  if(total === 0){
+    container.innerHTML = '<div class="empty"><i data-lucide="search-x" style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.3"></i><p>Tidak ada ID ditemukan</p></div>';
+    if(window.lucide) lucide.createIcons({nodes:container.querySelectorAll('[data-lucide]')});
+    return;
+  }
+  
+  const tiers = ['low', 'medium', 'high', 'legend'];
+  let html = '';
+  
   for(const tier of tiers){
-    const ids=filtered[tier];if(!ids||!ids.length)continue;
-    const tp=Math.ceil(ids.length/PER_PAGE);if(tierPages[tier]>tp)tierPages[tier]=1;
-    const pg=tierPages[tier];const pgIds=ids.slice((pg-1)*PER_PAGE,pg*PER_PAGE);
-    html+=`<div class="tier-block" data-tier="${tier}">
+    const ids = filtered[tier];
+    // SKIP jika tier ini kosong
+    if(!ids || ids.length === 0) continue;
+    
+    const tp = Math.ceil(ids.length / PER_PAGE);
+    if(tierPages[tier] > tp) tierPages[tier] = 1;
+    const pg = tierPages[tier];
+    const pgIds = ids.slice((pg-1) * PER_PAGE, pg * PER_PAGE);
+    
+    html += `<div class="tier-block" data-tier="${tier}">
       <div class="tier-head" id="tierhead-${tier}">
         <span class="tier-name">${TNAME[tier]}</span>
         <span class="tier-tag ${TCLS[tier]}">${tier.toUpperCase()}</span>
-        <span class="tier-cnt"><b>${ids.length}</b> ID</span>
+        <span class="tier-cnt">${ids.length} ID</span>
       </div>
-      <div class="id-grid">${pgIds.map(id=>buildCard(id,false)).join('')}</div>
-      ${tp>1?buildPagination(tier,pg,tp):''}
+      <div class="id-grid">${pgIds.map(id => buildCard(id, false)).join('')}</div>
+      ${tp > 1 ? buildPagination(tier, pg, tp) : ''}
       <div data-sentinel="${tier}"></div>
     </div>`;
   }
-  container.innerHTML=html;
+  
+  // Jika setelah filter semua tier kosong
+  if(html === ''){
+    container.innerHTML = '<div class="empty"><i data-lucide="search-x" style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.3"></i><p>Tidak ada ID ditemukan</p></div>';
+    if(window.lucide) lucide.createIcons({nodes:container.querySelectorAll('[data-lucide]')});
+    return;
+  }
+  
+  container.innerHTML = html;
   attachCardEvents(container);
-  container.querySelectorAll('.id-card').forEach((card,i)=>{card.style.animationDelay=`${Math.min(i*0.035,.5)}s`;});
+  container.querySelectorAll('.id-card').forEach((card,i)=>{
+    card.style.animationDelay = `${Math.min(i * 0.035, 0.5)}s`;
+  });
   container.querySelectorAll('.pg-btn[data-tier]').forEach(btn=>{
-    btn.addEventListener('click',()=>{tierPages[btn.dataset.tier]=parseInt(btn.dataset.page);render();setTimeout(()=>{document.querySelector(`.tier-block[data-tier="${btn.dataset.tier}"]`)?.scrollIntoView({behavior:'smooth',block:'start'});},50);});
+    btn.addEventListener('click',()=>{
+      tierPages[btn.dataset.tier] = parseInt(btn.dataset.page);
+      render();
+      setTimeout(()=>{
+        document.querySelector(`.tier-block[data-tier="${btn.dataset.tier}"]`)?.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 50);
+    });
   });
   if(window.lucide) lucide.createIcons({nodes:container.querySelectorAll('[data-lucide]')});
   setupTierSticky();
 }
+
 function buildPagination(tier,cur,total){
   let h='<div class="pagination">';
   h+=`<button class="pg-btn" data-tier="${tier}" data-page="${cur-1}" ${cur===1?'disabled':''}><i data-lucide="chevron-left" style="width:12px;height:12px"></i></button>`;
@@ -839,27 +881,7 @@ async function doLike(number,btn){
     document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.querySelector('span').textContent=d.likes+' suka';b.disabled=false;const ico=b.querySelector('[data-lucide]');if(ico){ico.style.fill='var(--purple)';}});
     if(currentModal?.number===number){document.getElementById('modalLikeCnt').textContent=d.likes;document.getElementById('modalLikeBtn').classList.add('liked');}
     showToast('Berhasil menyukai!');
-    trackEvent('Like', 'Like ID', number);
   }else{btn.disabled=false;showToast(d.message||'Gagal like');}
-}
-function toggleWishlist(number,btn){
-  if(wishlistSet.has(number)){
-    wishlistSet.delete(number);
-    btn.classList.remove('wished');
-    showToast('Dihapus dari wishlist');
-    trackEvent('Wishlist', 'Remove', number);
-  }else{
-    wishlistSet.add(number);
-    btn.classList.add('wished');
-    showToast('Ditambahkan ke wishlist');
-    trackEvent('Wishlist', 'Add', number);
-  }
-  localStorage.setItem('lapakid_wishlist',JSON.stringify([...wishlistSet]));
-  if(showWishlistOnly) render();
-  if(currentModal?.number===number){
-    const wBtn=document.getElementById('modalWishlistBtn');
-    if(wBtn) wBtn.classList.toggle('wished',wishlistSet.has(number));
-  }
 }
 async function openModal(number){
   const id=allIds.find(i=>i.number===number);if(!id)return;currentModal=id;
@@ -867,7 +889,6 @@ async function openModal(number){
   const liked=likedSet.has(number);
   const wished=wishlistSet.has(number);
   document.getElementById('modalIdNum').textContent=number;
-  const tc={low:'var(--low)',medium:'var(--medium)',high:'var(--high)',legend:'var(--legend)'}[id.tier];
   document.getElementById('modalRows').innerHTML=`
     <div class="modal-row"><div class="modal-lbl"><i data-lucide="layers" style="width:12px;height:12px"></i>Tier</div><div class="modal-val"><span class="tier-tag ${TCLS[id.tier]}" style="font-size:.54rem">${id.tier.toUpperCase()}</span></div></div>
     <div class="modal-row"><div class="modal-lbl"><i data-lucide="credit-card" style="width:12px;height:12px"></i>Harga</div><div class="modal-val" style="color:var(--purple);font-family:var(--mono)">${price}</div></div>
@@ -880,7 +901,7 @@ async function openModal(number){
   lb.onclick=()=>doLike(number,lb);
   const wb=document.getElementById('modalWishlistBtn');wb.className='btn-wishlist-modal'+(wished?' wished':'');
   wb.onclick=()=>{toggleWishlist(number,wb);};
-  document.getElementById('modalBuyBtn').onclick=()=>{window.location.href=`payment.html?id=${encodeURIComponent(number)}`;trackEvent('Purchase', 'Click Buy', number);};
+  document.getElementById('modalBuyBtn').onclick=()=>{window.location.href=`payment.html?id=${encodeURIComponent(number)}`;};
   document.getElementById('modalOverlay').classList.add('open');
   if(window.lucide) lucide.createIcons({nodes:document.querySelectorAll('#modalRows [data-lucide]')});
 }
@@ -893,41 +914,12 @@ document.getElementById('filterBar').querySelectorAll('.fp').forEach(btn=>{
 });
 document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.trim();tierPages={low:1,medium:1,high:1,legend:1};render();});
 
-// ── FILTER HARGA (SLIDER) ────────────────────────────────────────────────────
-const priceMinSlider=document.getElementById('priceMin');
-const priceMaxSlider=document.getElementById('priceMax');
-const minPriceInput=document.getElementById('minPriceInput');
-const maxPriceInput=document.getElementById('maxPriceInput');
-const priceResetBtn=document.getElementById('priceResetBtn');
-
-function updatePriceFilter(){
-  minPrice=parseInt(priceMinSlider.value);
-  maxPrice=parseInt(priceMaxSlider.value);
-  if(minPrice>maxPrice){
-    [minPrice,maxPrice]=[maxPrice,minPrice];
-    priceMinSlider.value=minPrice;
-    priceMaxSlider.value=maxPrice;
-  }
-  minPriceInput.value=minPrice;
-  maxPriceInput.value=maxPrice;
+// ── FILTER HARGA DROPDOWN ────────────────────────────────────────────────────
+const priceSelect=document.getElementById('priceSelect');
+priceSelect.addEventListener('change',()=>{
+  priceFilter=priceSelect.value;
   tierPages={low:1,medium:1,high:1,legend:1};
   render();
-}
-priceMinSlider.addEventListener('input',()=>{if(parseInt(priceMinSlider.value)>parseInt(priceMaxSlider.value))priceMaxSlider.value=priceMinSlider.value;updatePriceFilter();});
-priceMaxSlider.addEventListener('input',()=>{if(parseInt(priceMaxSlider.value)<parseInt(priceMinSlider.value))priceMinSlider.value=priceMaxSlider.value;updatePriceFilter();});
-minPriceInput.addEventListener('change',()=>{let v=parseInt(minPriceInput.value)||0;if(v<0)v=0;if(v>2000000)v=2000000;priceMinSlider.value=v;updatePriceFilter();});
-maxPriceInput.addEventListener('change',()=>{let v=parseInt(maxPriceInput.value)||2000000;if(v<0)v=0;if(v>2000000)v=2000000;priceMaxSlider.value=v;updatePriceFilter();});
-priceResetBtn.addEventListener('click',()=>{priceMinSlider.value=0;priceMaxSlider.value=2000000;minPriceInput.value=0;maxPriceInput.value=2000000;updatePriceFilter();});
-
-// ── WISHLIST FILTER ──────────────────────────────────────────────────────────
-const wishlistFilterBtn=document.getElementById('wishlistFilterBtn');
-wishlistFilterBtn.addEventListener('click',()=>{
-  showWishlistOnly=!showWishlistOnly;
-  wishlistFilterBtn.classList.toggle('active',showWishlistOnly);
-  tierPages={low:1,medium:1,high:1,legend:1};
-  render();
-  if(showWishlistOnly) trackEvent('Filter', 'Wishlist Only', 'active');
-  else trackEvent('Filter', 'Wishlist Only', 'inactive');
 });
 
 // ── TIER STICKY ───────────────────────────────────────────────────────────────
@@ -1002,27 +994,13 @@ musicBar.addEventListener('mouseleave',()=>{
   }, 5000);
 });
 
-// ── TRACK EVENT untuk Google Analytics ───────────────────────────────────────
-function trackEvent(category, action, label){
-  if(typeof gtag !== 'undefined'){
-    gtag('event', action, {
-      'event_category': category,
-      'event_label': label
-    });
-  }
-  console.log(`[GA] ${category} - ${action}: ${label}`);
-}
-
 // ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
   initTheme();
   loadNotifications();
   await loadBanners();
-  await Promise.all([loadPopular(),loadIds()]);
+  await Promise.all([loadPopular(),loadIds(),loadWishlist()]);
   if(window.lucide) lucide.createIcons();
-  
-  // Track page view
-  trackEvent('Page', 'View', 'Landing Page');
 }
 
 // ── TOAST ────────────────────────────────────────────────────────────────────
