@@ -36,12 +36,10 @@ body.dark{
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased}
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
 
-/* ── NAV ── */
 nav{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(248,250,252,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background .3s}
 @media(min-width:768px){nav{height:60px;padding:0 28px}}
 body.dark nav{background:rgba(9,9,11,.92)}
@@ -54,7 +52,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .notif-badge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;background:var(--sold);border-radius:99px;border:2px solid var(--bg);display:none;align-items:center;justify-content:center;font-size:.45rem;font-weight:800;color:#fff;padding:0 3px;font-family:var(--mono)}
 .notif-badge.show{display:flex}
 
-/* ── HERO ── */
 .hero{padding:36px 16px 20px;max-width:1320px;margin:0 auto}
 @media(min-width:768px){.hero{padding:52px 28px 28px}}
 .hero-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.18);border-radius:99px;padding:4px 12px 4px 8px;font-size:.6rem;font-weight:700;color:var(--purple);letter-spacing:.3px;margin-bottom:14px}
@@ -64,7 +61,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .hero h1 .grad{background:linear-gradient(135deg,var(--purple),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{color:var(--muted);font-size:.78rem;line-height:1.7;max-width:480px}
 
-/* ── BANNER SLIDER ── */
 .banner-sec{max-width:1320px;margin:0 auto;padding:0 16px 20px}
 @media(min-width:768px){.banner-sec{padding:0 28px 28px}}
 .banner-wrap{position:relative;border-radius:var(--r2);overflow:hidden;background:var(--bg2)}
@@ -80,7 +76,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .banner-dot{width:5px;height:5px;border-radius:99px;background:var(--border2);border:none;cursor:pointer;padding:0;transition:.3s}
 .banner-dot.active{background:var(--purple);width:16px}
 
-/* ── POPULAR ── */
 .section{max-width:1320px;margin:0 auto;padding:0 16px 24px}
 @media(min-width:768px){.section{padding:0 28px 32px}}
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
@@ -97,7 +92,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .pop-dot{width:5px;height:5px;border-radius:99px;background:var(--border2);border:none;cursor:pointer;padding:0;transition:.3s}
 .pop-dot.active{background:var(--purple);width:16px}
 
-/* ── ID CARD ── */
 .id-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:12px;display:flex;flex-direction:column;gap:9px;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
 .id-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(99,102,241,.03),transparent);opacity:0;transition:.3s}
 .id-card:hover{border-color:var(--purple);transform:translateY(-3px);box-shadow:var(--shadow2)}
@@ -111,12 +105,13 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .badge-sold{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
 .id-num{font-family:var(--mono);font-size:.75rem;font-weight:600;color:var(--text);word-break:break-all;line-height:1.4;display:flex;align-items:center;gap:6px}
 .id-num img{width:18px;height:18px;object-fit:contain;flex-shrink:0;border-radius:4px}
-.id-foot{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.id-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .tier-tag{font-size:.48rem;font-weight:800;padding:3px 8px;border-radius:99px;letter-spacing:.4px;text-transform:uppercase;border:1px solid}
 .t-low{background:rgba(100,116,139,.1);color:var(--low);border-color:rgba(100,116,139,.2)}
 .t-medium{background:rgba(59,130,246,.1);color:var(--medium);border-color:rgba(59,130,246,.2)}
 .t-high{background:rgba(249,115,22,.1);color:var(--high);border-color:rgba(249,115,22,.2)}
 .t-legend{background:rgba(234,179,8,.12);color:var(--legend);border-color:rgba(234,179,8,.25)}
+.id-actions{display:flex;gap:8px;margin-left:auto}
 .like-btn{display:flex;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-size:.55rem;color:var(--muted);font-family:var(--mono);transition:.15s;padding:3px 5px;border-radius:7px}
 .like-btn:hover{color:var(--purple);background:rgba(99,102,241,.06)}
 .like-btn.liked{color:var(--purple)}
@@ -126,7 +121,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .wishlist-btn.wished{color:var(--warning)}
 .wishlist-btn svg{width:11px;height:11px}
 
-/* ── FILTER ── */
 .filter-sec{margin:0}
 .filter-sticky{position:sticky;top:56px;z-index:100;background:var(--bg);padding:8px 16px;border-bottom:1px solid var(--border);transition:background .3s}
 @media(min-width:768px){.filter-sticky{top:60px;padding:10px 28px}}
@@ -142,7 +136,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
 .search-icon svg{width:13px;height:13px}
 
-/* ── FILTER HARGA DROPDOWN ── */
 .price-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;padding-top:6px;border-top:1px solid var(--border)}
 .price-dropdown{display:flex;align-items:center;gap:8px}
 .price-dropdown label{font-size:.6rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px}
@@ -156,7 +149,6 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .result-label{font-size:.6rem;color:var(--muted);font-family:var(--mono);margin-top:6px}
 .result-label b{color:var(--text)}
 
-/* ── TIER BLOCKS ── */
 .ids-sec{max-width:1320px;margin:0 auto;padding:10px 16px 80px}
 @media(min-width:768px){.ids-sec{padding:0 28px 80px}}
 .tier-block{margin-bottom:28px}
@@ -175,7 +167,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .id-card{animation:fadeUp .3s ease both}
 
-/* ── PAGINATION ── */
 .pagination{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:14px;flex-wrap:wrap}
 .pg-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:.65rem;font-weight:700;font-family:var(--mono);display:flex;align-items:center;justify-content:center;transition:.15s}
 .pg-btn svg{width:12px;height:12px}
@@ -184,7 +175,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .pg-btn:disabled{opacity:.3;cursor:not-allowed}
 .pg-sep{font-size:.6rem;color:var(--muted);padding:0 2px}
 
-/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:var(--card);border:1px solid var(--border);border-radius:var(--r3);max-width:400px;width:92%;padding:20px;box-shadow:0 24px 64px rgba(0,0,0,.18);transform:scale(.94) translateY(8px);transition:.22s cubic-bezier(.4,0,.2,1)}
@@ -211,7 +201,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .btn-wishlist-modal.wished{color:var(--warning)}
 .btn-wishlist-modal svg{width:13px;height:13px}
 
-/* ── NOTIF PANEL ── */
 .notif-panel{position:fixed;top:62px;right:12px;width:290px;max-height:360px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:300;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s cubic-bezier(.4,0,.2,1)}
 .notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
 .notif-panel-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border)}
@@ -231,13 +220,11 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .notif-time-txt{font-size:.54rem;color:var(--muted);margin-top:2px;font-family:var(--mono)}
 .notif-empty{text-align:center;padding:24px;color:var(--muted);font-size:.65rem}
 
-/* ── NOTIF DETAIL MODAL ── */
 .notif-detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
 .notif-detail-overlay.open{opacity:1;pointer-events:all}
 .notif-detail-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);max-width:360px;width:90%;padding:20px;transform:scale(.95);transition:.2s}
 .notif-detail-overlay.open .notif-detail-box{transform:scale(1)}
 
-/* ── MUSIC PLAYER ── */
 .music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:1;pointer-events:all}
 .music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
 .music-album{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
@@ -260,7 +247,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .music-fab.show{opacity:1;pointer-events:all}
 .music-fab svg{width:14px;height:14px}
 
-/* ── POPUP PROMO ── */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:10001;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
 .popup-overlay.open{opacity:1;pointer-events:all}
 .popup-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r3);max-width:340px;width:90%;overflow:hidden;transform:scale(.9) translateY(16px);transition:.3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 64px rgba(0,0,0,.25);position:relative}
@@ -282,16 +268,13 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .popup-close-btn:hover{background:rgba(0,0,0,.7)}
 .popup-close-btn svg{width:12px;height:12px}
 
-/* ── TOAST ── */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:99px;font-size:.63rem;font-weight:600;z-index:99999;white-space:nowrap;animation:toastIn .2s ease;pointer-events:none}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(6px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
-/* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:20px 28px;text-align:center;background:var(--card);color:var(--muted);font-size:.6rem;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 footer a{color:var(--purple);text-decoration:none;font-weight:600}
 .version-tag{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.18);color:var(--purple);font-size:.52rem;font-weight:800;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
 
-/* ── EMPTY ── */
 .empty{text-align:center;padding:52px 16px;color:var(--muted)}
 .empty svg{width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.3}
 .empty p{font-size:.7rem}
@@ -314,7 +297,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </nav>
 
-<!-- NOTIF PANEL -->
 <div class="notif-panel" id="notifPanel">
   <div class="notif-panel-head">
     <div class="notif-panel-title">Aktivitas</div>
@@ -323,7 +305,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
 </div>
 
-<!-- NOTIF DETAIL MODAL -->
 <div class="notif-detail-overlay" id="notifDetailOverlay">
   <div class="notif-detail-box">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -340,7 +321,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <p class="hero-sub">Koleksi ID premium pilihan. Tersedia dalam 4 tier: Low, Medium, High, dan Legend. Beli dengan aman, bergaransi, dan proses cepat.</p>
 </div>
 
-<!-- BANNER -->
 <div class="banner-sec">
   <div class="banner-wrap" id="bannerWrap">
     <div class="banner-track" id="bannerTrack"></div>
@@ -350,7 +330,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <div class="banner-dots" id="bannerDots"></div>
 </div>
 
-<!-- POPULAR -->
 <div class="section">
   <div class="sec-head">
     <div class="sec-title"><i data-lucide="flame" style="width:15px;height:15px;color:var(--legend)"></i>Banyak Disukai</div>
@@ -362,7 +341,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- FILTER -->
 <div class="filter-sec" id="semua">
   <div class="filter-sticky" id="filterSticky">
     <div class="filter-row">
@@ -380,20 +358,18 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
       </div>
     </div>
     
-    <!-- FILTER HARGA DROPDOWN -->
     <div class="price-filter">
       <div class="price-dropdown">
         <label><i data-lucide="tag" style="width:10px;height:10px"></i>Harga:</label>
         <select id="priceSelect" class="price-select">
           <option value="all">Semua Harga</option>
-          <option value="low">Low (Rp 125.000)</option>
-          <option value="medium">Medium (Rp 450.000)</option>
-          <option value="high">High (Rp 850.000)</option>
-          <option value="legend">Legend (Rp 1.350.000)</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="legend">Legend</option>
         </select>
       </div>
       
-      <!-- WISHLIST FILTER -->
       <div class="wishlist-filter">
         <button class="wishlist-filter-btn" id="wishlistFilterBtn">
           <i data-lucide="bookmark" style="width:10px;height:10px"></i>
@@ -406,10 +382,8 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- ID LIST -->
 <div class="ids-sec" id="gridContainer"></div>
 
-<!-- ID MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-top">
@@ -432,7 +406,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <span><a href="about.html">Docs</a> &mdash; <a href="docs.html">Admin</a></span>
 </footer>
 
-<!-- POPUP PROMO -->
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box">
     <button class="popup-close-btn" id="popupClose"><i data-lucide="x" style="width:12px;height:12px"></i></button>
@@ -452,7 +425,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- MUSIC PLAYER -->
 <audio id="musicAudio" preload="none"></audio>
 <div class="music-bar hidden" id="musicBar">
   <div class="music-album" id="musicAlbum">
@@ -480,6 +452,7 @@ const API='/api';
 const PER_PAGE=20;
 let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]'));
 let wishlistSet=new Set();
+let wishlistCounts={};
 let currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0,musicHideTimer=null;
 let notifOpen=false;
@@ -490,10 +463,8 @@ const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
 const TCLS={low:'t-low',medium:'t-medium',high:'t-high',legend:'t-legend'};
 const clk=document.getElementById('clickSfx');
 
-// ── LUCIDE ───────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide) lucide.createIcons(); });
 
-// ── THEME ────────────────────────────────────────────────────────────────────
 function initTheme(){
   const dark=localStorage.getItem('lapakid_dark')==='1';
   if(dark) document.body.classList.add('dark');
@@ -514,7 +485,6 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
   setThemeIcon(dark); setLogoAndSvc(dark);
 });
 
-// ── NOTIF ────────────────────────────────────────────────────────────────────
 document.getElementById('notifBtn').addEventListener('click',e=>{
   e.stopPropagation();
   notifOpen=!notifOpen;
@@ -584,7 +554,6 @@ async function markAllRead(){
 }
 setInterval(loadNotifications,30000);
 
-// ── BANNER (from DB) ─────────────────────────────────────────────────────────
 let bannerCur=0,bannerTotal=0,bannerTimer=null;
 async function loadBanners(){
   try{
@@ -616,7 +585,6 @@ let bTx=0;
 bWrap.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bWrap.addEventListener('touchend',e=>{const diff=bTx-e.changedTouches[0].clientX;if(Math.abs(diff)>40)diff>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerStartAuto();},{passive:true});
 
-// ── POPUP ────────────────────────────────────────────────────────────────────
 const POPUP_STORAGE_KEY = 'lapakid_popup_hide_permanent';
 function initPopup(s){
   if (localStorage.getItem(POPUP_STORAGE_KEY) === '1') return;
@@ -652,15 +620,24 @@ function initPopup(s){
   setTimeout(()=>overlay.classList.add('open'),1500);
 }
 
-// ── WISHLIST (Database by IP) ────────────────────────────────────────────────
 async function loadWishlist(){
   try{
     const r=await fetch(`${API}/wishlist`);
     if(!r.ok) return;
     const d=await r.json();
     wishlistSet=new Set(d.data||[]);
+    await loadWishlistCounts();
     render();
   }catch(e){console.log('Gagal load wishlist',e);}
+}
+
+async function loadWishlistCounts(){
+  try{
+    const r=await fetch(`${API}/wishlist/counts`);
+    if(!r.ok) return;
+    const d=await r.json();
+    wishlistCounts=d.data||{};
+  }catch(e){console.log('Gagal load wishlist counts',e);}
 }
 
 async function toggleWishlist(number,btn){
@@ -672,6 +649,8 @@ async function toggleWishlist(number,btn){
       wishlistSet.delete(number);
       if(btn) btn.classList.remove('wished');
       showToast('Dihapus dari wishlist');
+      await loadWishlistCounts();
+      render();
     }
   }else{
     response=await fetch(`${API}/wishlist/${number}`,{method:'POST'});
@@ -679,6 +658,8 @@ async function toggleWishlist(number,btn){
       wishlistSet.add(number);
       if(btn) btn.classList.add('wished');
       showToast('Ditambahkan ke wishlist');
+      await loadWishlistCounts();
+      render();
     }
   }
   if(currentModal?.number===number){
@@ -697,7 +678,6 @@ wishlistFilterBtn.addEventListener('click',()=>{
   render();
 });
 
-// ── POPULAR ──────────────────────────────────────────────────────────────────
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const grid=document.getElementById('popGrid');
@@ -724,7 +704,6 @@ function initPopScroll(grid,total,dots){
   start();
 }
 
-// ── LOAD IDS ─────────────────────────────────────────────────────────────────
 async function loadIds(){
   const r=await fetch(`${API}/ids`).catch(()=>null);
   if(!r||!r.ok){document.getElementById('gridContainer').innerHTML='<div class="empty"><p>Gagal memuat ID</p></div>';return;}
@@ -744,17 +723,12 @@ function filterIds(){
     if(activeFilter==='sold')ids=ids.filter(id=>id.sold);
     else if(activeFilter!=='all')ids=ids.filter(id=>!id.sold);
     if(searchQ)ids=ids.filter(id=>id.number.includes(searchQ));
-    
-    // Filter berdasarkan harga dropdown
     if(priceFilter!=='all'){
       ids=ids.filter(id=>id.tier===priceFilter);
     }
-    
-    // Filter wishlist
     if(showWishlistOnly){
       ids=ids.filter(id=>wishlistSet.has(id.number));
     }
-    
     result[tier]=ids;
   }
   return result;
@@ -778,7 +752,6 @@ function render(){
   
   for(const tier of tiers){
     const ids = filtered[tier];
-    // SKIP jika tier ini kosong
     if(!ids || ids.length === 0) continue;
     
     const tp = Math.ceil(ids.length / PER_PAGE);
@@ -798,7 +771,6 @@ function render(){
     </div>`;
   }
   
-  // Jika setelah filter semua tier kosong
   if(html === ''){
     container.innerHTML = '<div class="empty"><i data-lucide="search-x" style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:.3"></i><p>Tidak ada ID ditemukan</p></div>';
     if(window.lucide) lucide.createIcons({nodes:container.querySelectorAll('[data-lucide]')});
@@ -838,22 +810,24 @@ function isNew(id){if(id.sold||!id.addedAt)return false;const added=new Date(id.
 function buildCard(id){
   const liked=likedSet.has(id.number);
   const wished=wishlistSet.has(id.number);
-  const lc=id.likes||0;const lt=lc===0?'Suka':lc+' suka';
+  const wishCount=wishlistCounts[id.number]||0;
+  const lc=id.likes||0;
+  const lt=lc===0?'Suka':lc+' suka';
+  const wt=wishCount===0?'Simpan':wishCount+' simpan';
   const isNewId=isNew(id);
-  const price=fmt(getPriceByTier(id.tier));
   return `<div class="id-card${id.sold?' is-sold':''}" data-num="${id.number}" data-tier="${id.tier}">
     ${id.sold?`<div class="card-badge badge-sold"><i data-lucide="x-circle" style="width:8px;height:8px"></i>SOLD</div>`:isNewId?`<div class="card-badge badge-new"><i data-lucide="sparkles" style="width:8px;height:8px"></i>NEW</div>`:''}
     <div class="id-num"><img src="https://files.catbox.moe/em51di.png" alt=""/>${hl(id.number)}</div>
     <div class="id-foot">
       <span class="tier-tag ${TCLS[id.tier]}">${id.tier.toUpperCase()}</span>
-      <span style="font-size:.55rem;font-family:var(--mono);color:var(--purple)">${price}</span>
-      <div style="display:flex;gap:4px;margin-left:auto">
+      <div class="id-actions">
         <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
           <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple)':''}"></i>
-          <span>${lc}</span>
+          <span>${lt}</span>
         </button>
         <button class="wishlist-btn${wished?' wished':''}" data-num="${id.number}" onclick="event.stopPropagation()">
           <i data-lucide="bookmark" style="width:11px;height:11px"></i>
+          <span>${wt}</span>
         </button>
       </div>
     </div>
@@ -885,14 +859,14 @@ async function doLike(number,btn){
 }
 async function openModal(number){
   const id=allIds.find(i=>i.number===number);if(!id)return;currentModal=id;
-  const price=fmt(getPriceByTier(id.tier));
   const liked=likedSet.has(number);
   const wished=wishlistSet.has(number);
+  const wishCount=wishlistCounts[number]||0;
   document.getElementById('modalIdNum').textContent=number;
   document.getElementById('modalRows').innerHTML=`
     <div class="modal-row"><div class="modal-lbl"><i data-lucide="layers" style="width:12px;height:12px"></i>Tier</div><div class="modal-val"><span class="tier-tag ${TCLS[id.tier]}" style="font-size:.54rem">${id.tier.toUpperCase()}</span></div></div>
-    <div class="modal-row"><div class="modal-lbl"><i data-lucide="credit-card" style="width:12px;height:12px"></i>Harga</div><div class="modal-val" style="color:var(--purple);font-family:var(--mono)">${price}</div></div>
     <div class="modal-row"><div class="modal-lbl"><i data-lucide="heart" style="width:12px;height:12px"></i>Suka</div><div class="modal-val">${id.likes||0}</div></div>
+    <div class="modal-row"><div class="modal-lbl"><i data-lucide="bookmark" style="width:12px;height:12px"></i>Disimpan</div><div class="modal-val">${wishCount}</div></div>
     <div class="modal-row"><div class="modal-lbl"><i data-lucide="calendar" style="width:12px;height:12px"></i>Ditambahkan</div><div class="modal-val" style="display:flex;align-items:center;gap:6px">${id.addedAt?new Date(id.addedAt).toLocaleDateString('id-ID'):'—'}${isNew(id)?'<span class="card-badge badge-new" style="position:static;font-size:.42rem">NEW</span>':''}</div></div>
     ${id.note?`<div class="modal-row"><div class="modal-lbl"><i data-lucide="file-text" style="width:12px;height:12px"></i>Catatan</div><div class="modal-val">${id.note}</div></div>`:''}
   `;
@@ -908,13 +882,11 @@ async function openModal(number){
 document.getElementById('modalClose').addEventListener('click',()=>{document.getElementById('modalOverlay').classList.remove('open');currentModal=null;});
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay')){document.getElementById('modalOverlay').classList.remove('open');currentModal=null;}});
 
-// ── FILTER ───────────────────────────────────────────────────────────────────
 document.getElementById('filterBar').querySelectorAll('.fp').forEach(btn=>{
   btn.addEventListener('click',()=>{activeFilter=btn.dataset.f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));btn.classList.add('act');render();});
 });
 document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.trim();tierPages={low:1,medium:1,high:1,legend:1};render();});
 
-// ── FILTER HARGA DROPDOWN ────────────────────────────────────────────────────
 const priceSelect=document.getElementById('priceSelect');
 priceSelect.addEventListener('change',()=>{
   priceFilter=priceSelect.value;
@@ -922,7 +894,6 @@ priceSelect.addEventListener('change',()=>{
   render();
 });
 
-// ── TIER STICKY ───────────────────────────────────────────────────────────────
 let tierScrollFn=null;
 function setupTierSticky(){
   if(tierScrollFn) window.removeEventListener('scroll',tierScrollFn,{passive:true});
@@ -940,7 +911,6 @@ function setupTierSticky(){
   window.addEventListener('scroll',tierScrollFn,{passive:true});tierScrollFn();
 }
 
-// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
 const audio=document.getElementById('musicAudio');
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
@@ -994,7 +964,6 @@ musicBar.addEventListener('mouseleave',()=>{
   }, 5000);
 });
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
   initTheme();
   loadNotifications();
@@ -1003,7 +972,6 @@ async function init(){
   if(window.lucide) lucide.createIcons();
 }
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
 
 window.addEventListener('resize',()=>{setupTierSticky();});
