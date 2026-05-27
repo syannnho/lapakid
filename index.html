@@ -214,13 +214,14 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .notif-detail-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);max-width:360px;width:90%;padding:20px;transform:scale(.95);transition:.2s}
 .notif-detail-overlay.open .notif-detail-box{transform:scale(1)}
 
-/* ── MUSIC PLAYER (only show when clicked) ── */
-.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:0;pointer-events:none}
-.music-bar.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:all}
+/* ── MUSIC PLAYER (BAR & FAB) ── */
+.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:1;pointer-events:all}
+.music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
 .music-album{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
 .music-album svg{width:16px;height:16px;color:#fff}
 .music-album.spin{animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.music-progress-ring{position:absolute;inset:-3px;border-radius:50%}
 .music-info{flex:1;min-width:0}
 .music-title-wrap{overflow:hidden;width:100%}
 .music-title-inner{display:inline-block;white-space:nowrap;font-size:.63rem;font-weight:700;color:#fff}
@@ -233,14 +234,12 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .mc svg{width:14px;height:14px}
 .mc-play{background:rgba(99,102,241,.75)!important;color:#fff!important;width:30px;height:30px}
 .mc-play:hover{background:var(--purple)!important}
-
-/* ── MUSIC FAB (button to show music player) ── */
-.music-fab{position:fixed;bottom:20px;left:20px;z-index:9999;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;border-radius:99px;padding:10px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 4px 15px rgba(99,102,241,.4);transition:all .25s cubic-bezier(.34,1.56,.64,1);color:#fff;font-size:.7rem;font-weight:600}
-.music-fab:hover{transform:scale(1.05)}
-.music-fab svg{width:16px;height:16px}
+.music-fab{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(15,15,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:7px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;color:rgba(255,255,255,.7);font-size:.6rem;font-weight:600}
+.music-fab.show{opacity:1;pointer-events:all}
+.music-fab svg{width:14px;height:14px}
 
 /* ── POPUP PROMO ── */
-.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:10001;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
 .popup-overlay.open{opacity:1;pointer-events:all}
 .popup-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r3);max-width:340px;width:90%;overflow:hidden;transform:scale(.9) translateY(16px);transition:.3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 64px rgba(0,0,0,.25);position:relative}
 .popup-overlay.open .popup-box{transform:scale(1) translateY(0)}
@@ -260,12 +259,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .popup-close-btn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;z-index:10}
 .popup-close-btn:hover{background:rgba(0,0,0,.7)}
 .popup-close-btn svg{width:12px;height:12px}
-
-/* ── FORCE POPUP BUTTON (ADMIN ONLY) ── */
-.force-popup-btn{position:fixed;bottom:100px;right:16px;z-index:9999;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;border-radius:99px;padding:8px 14px;font-size:.6rem;font-weight:700;cursor:pointer;box-shadow:0 2px 10px rgba(99,102,241,.3);display:none;align-items:center;gap:6px;font-family:var(--font);transition:.2s}
-.force-popup-btn:hover{transform:scale(1.03)}
-.force-popup-btn svg{width:12px;height:12px}
-.force-popup-btn.show{display:flex}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:99px;font-size:.63rem;font-weight:600;z-index:99999;white-space:nowrap;animation:toastIn .2s ease;pointer-events:none}
@@ -393,7 +386,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <span><a href="about.html">Docs</a> &mdash; <a href="docs.html">Admin</a></span>
 </footer>
 
-<!-- POPUP PROMO -->
+<!-- POPUP PROMO (FIXED) -->
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box">
     <button class="popup-close-btn" id="popupClose"><i data-lucide="x" style="width:12px;height:12px"></i></button>
@@ -406,22 +399,16 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
         <button class="popup-copy-btn" id="popupCopyBtn">Salin</button>
       </div>
       <div class="popup-foot">
-        <label class="popup-check"><input type="checkbox" id="dontShow"/> Jangan tampilkan lagi</label>
+        <label class="popup-check"><input type="checkbox" id="dontShowPopup"/> Jangan tampilkan lagi</label>
         <button class="popup-ok-btn" id="popupOk">Mengerti!</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FORCE POPUP BUTTON (untuk admin) -->
-<button class="force-popup-btn" id="forcePopupBtn">
-  <i data-lucide="bell-ring" style="width:12px;height:12px"></i>
-  Tampilkan Popup
-</button>
-
-<!-- MUSIC PLAYER -->
+<!-- MUSIC PLAYER (FAB & BAR) -->
 <audio id="musicAudio" preload="none"></audio>
-<div class="music-bar" id="musicBar">
+<div class="music-bar hidden" id="musicBar">
   <div class="music-album" id="musicAlbum">
     <i data-lucide="music" style="width:16px;height:16px;color:#fff"></i>
   </div>
@@ -435,12 +422,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <button class="mc" id="mcNext"><i data-lucide="skip-forward" style="width:14px;height:14px"></i></button>
   </div>
 </div>
-
-<!-- MUSIC FAB (tombol untuk menampilkan player) -->
-<button class="music-fab" id="musicFab">
-  <i data-lucide="music-2" style="width:16px;height:16px"></i>
+<div class="music-fab show" id="musicFab">
+  <i data-lucide="music-2" style="width:14px;height:14px"></i>
   <span>Musik</span>
-</button>
+</div>
 
 <audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
 
@@ -564,7 +549,7 @@ async function loadBanners(){
     document.querySelectorAll('.banner-dot').forEach(dot=>{dot.addEventListener('click',()=>{bannerGo(parseInt(dot.dataset.idx));bannerStartAuto();});});
     bannerStartAuto();
     applyMusic(settings);
-    initPopup(settings, false);
+    initPopup(settings);
   }catch(e){}
 }
 function bannerGo(idx){
@@ -581,22 +566,21 @@ let bTx=0;
 bWrap.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bWrap.addEventListener('touchend',e=>{const diff=bTx-e.changedTouches[0].clientX;if(Math.abs(diff)>40)diff>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerStartAuto();},{passive:true});
 
-// ── POPUP (UPGRADED: bisa force show) ────────────────────────────────────────
-function initPopup(s, forceShow = false){
-  const STORAGE_KEY = 'lapakid_popup_hide';
-  
-  // Cek URL parameter untuk force popup (?forcepopup=1)
-  const urlForce = window.location.search.includes('forcepopup=1');
-  
-  // Jika forceShow=true ATAU ada parameter forcepopup, abaikan localStorage
-  if (forceShow || urlForce) {
-    localStorage.removeItem(STORAGE_KEY);
+// ── POPUP (FIXED: selalu muncul, checkbox untuk menyimpan preferensi) ────────
+const POPUP_STORAGE_KEY = 'lapakid_popup_hide_permanent';
+
+function initPopup(s){
+  // Cek apakah user pernah checklist "Jangan tampilkan lagi"
+  if (localStorage.getItem(POPUP_STORAGE_KEY) === '1') {
+    console.log('Popup: User sudah memilih untuk tidak ditampilkan lagi');
+    return;
   }
   
-  if (!forceShow && !urlForce && localStorage.getItem(STORAGE_KEY) === '1') return;
-  
   const popup = s.popup || {};
-  if (!popup.active) return;
+  if (!popup.active) {
+    console.log('Popup: Tidak aktif di settings');
+    return;
+  }
   
   const img = document.getElementById('popupImg');
   if (popup.imageUrl && popup.imageUrl.trim()){
@@ -611,72 +595,49 @@ function initPopup(s, forceShow = false){
   document.getElementById('popupCode').textContent = popup.code || 'LAPAK10';
   
   const closePopup = () => {
-    if (document.getElementById('dontShow').checked) {
-      localStorage.setItem(STORAGE_KEY, '1');
+    // Simpan preferensi jika checkbox dicentang
+    if (document.getElementById('dontShowPopup').checked) {
+      localStorage.setItem(POPUP_STORAGE_KEY, '1');
+      console.log('Popup: User memilih untuk tidak ditampilkan lagi');
     }
     document.getElementById('promoPopup').classList.remove('open');
   };
   
-  // Reset event listeners
+  // Hapus event listener lama untuk menghindari duplikasi
   const popupCloseBtn = document.getElementById('popupClose');
   const popupOkBtn = document.getElementById('popupOk');
+  const popupCopyBtn = document.getElementById('popupCopyBtn');
+  
   const newClose = popupCloseBtn.cloneNode(true);
   const newOk = popupOkBtn.cloneNode(true);
+  const newCopy = popupCopyBtn.cloneNode(true);
+  
   popupCloseBtn.parentNode.replaceChild(newClose, popupCloseBtn);
   popupOkBtn.parentNode.replaceChild(newOk, popupOkBtn);
+  popupCopyBtn.parentNode.replaceChild(newCopy, popupCopyBtn);
   
   newClose.onclick = closePopup;
   newOk.onclick = closePopup;
+  newCopy.onclick = () => {
+    const code = document.getElementById('popupCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('Kode ' + code + ' disalin!');
+    }).catch(() => showToast('Kode: ' + code));
+  };
   
-  document.getElementById('dontShow').checked = false;
+  // Reset checkbox setiap kali popup muncul
+  document.getElementById('dontShowPopup').checked = false;
   
+  // Overlay click close
   const overlay = document.getElementById('promoPopup');
   const overlayHandler = (e) => { if (e.target === overlay) closePopup(); };
   overlay.removeEventListener('click', overlayHandler);
   overlay.addEventListener('click', overlayHandler);
   
+  // Tampilkan popup dengan delay
+  console.log('Popup: Menampilkan popup');
   setTimeout(() => overlay.classList.add('open'), 1500);
 }
-
-// Copy promo code
-document.getElementById('popupCopyBtn').addEventListener('click', () => {
-  const code = document.getElementById('popupCode').textContent;
-  navigator.clipboard.writeText(code).then(() => {
-    showToast('Kode ' + code + ' disalin!');
-  }).catch(() => showToast('Kode: ' + code));
-});
-
-// ── FORCE POPUP BUTTON (untuk admin) ─────────────────────────────────────────
-async function checkAdminAndShowForceBtn(){
-  const adminToken = localStorage.getItem('lapakid_admin_token');
-  if(adminToken){
-    document.getElementById('forcePopupBtn').classList.add('show');
-  } else {
-    try{
-      const r = await fetch(`${API}/admin/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: 'lapakid_admin_secret_2026' })
-      });
-      if(r.ok){
-        localStorage.setItem('lapakid_admin_token', 'lapakid_admin_secret_2026');
-        document.getElementById('forcePopupBtn').classList.add('show');
-      }
-    }catch(e){}
-  }
-}
-
-document.getElementById('forcePopupBtn').addEventListener('click', async () => {
-  localStorage.removeItem('lapakid_popup_hide');
-  try{
-    const r = await fetch(`${API}/settings`);
-    const d = await r.json();
-    initPopup(d.data || {}, true);
-    showToast('Popup dipaksa tampil!');
-  }catch(e){
-    showToast('Gagal memuat settings');
-  }
-});
 
 // ── POPULAR ──────────────────────────────────────────────────────────────────
 async function loadPopular(){
@@ -851,22 +812,14 @@ function setupTierSticky(){
   window.addEventListener('scroll',tierScrollFn,{passive:true});tierScrollFn();
 }
 
-// ── MUSIC PLAYER (only show when clicked, auto hide after 5 sec) ─────────────
+// ── MUSIC PLAYER (BAR muncul hanya saat FAB diklik, hilang setelah 5 detik) ──
 const audio=document.getElementById('musicAudio');
-let musicAutoHideTimer=null;
-let isMusicBarVisible=false;
-
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
   songs=list;
-  if(songs.length){
-    loadSong(0);
-  } else {
-    document.getElementById('musicTitle').textContent='Belum ada musik';
-    document.getElementById('musicSub').textContent='—';
-  }
+  if(songs.length)loadSong(0);
+  else{document.getElementById('musicTitle').textContent='Belum ada musik';document.getElementById('musicSub').textContent='—';}
 }
-
 function loadSong(idx){
   currentSong=idx;audio.src=songs[idx].src;
   const title=songs[idx].title;
@@ -876,93 +829,41 @@ function loadSong(idx){
   ti.classList.remove('marquee');
   setTimeout(()=>{if(ti.scrollWidth>wrap.clientWidth)ti.classList.add('marquee');},200);
 }
-
 function togglePlay(){
-  if(audio.paused){
-    audio.play();
-    document.getElementById('musicAlbum').classList.add('spin');
-    updatePlayIcon(true);
-  } else {
-    audio.pause();
-    document.getElementById('musicAlbum').classList.remove('spin');
-    updatePlayIcon(false);
-  }
-  resetMusicAutoHide();
+  if(audio.paused){audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
+  else{audio.pause();document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);}
 }
-
 function updatePlayIcon(playing){
   const ico=document.getElementById('mcPlayIcon');
   ico.setAttribute('data-lucide',playing?'pause':'play');
   if(window.lucide) lucide.createIcons({nodes:[ico]});
 }
-
-function nextSong(){
-  if(songs.length===0) return;
-  currentSong=(currentSong+1)%songs.length;
-  loadSong(currentSong);
-  audio.play();
-  document.getElementById('musicAlbum').classList.add('spin');
-  updatePlayIcon(true);
-  resetMusicAutoHide();
-}
-
-function prevSong(){
-  if(songs.length===0) return;
-  currentSong=(currentSong-1+songs.length)%songs.length;
-  loadSong(currentSong);
-  audio.play();
-  document.getElementById('musicAlbum').classList.add('spin');
-  updatePlayIcon(true);
-  resetMusicAutoHide();
-}
-
+function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
+function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
 audio.addEventListener('ended',nextSong);
-audio.addEventListener('pause',()=>{
-  document.getElementById('musicAlbum').classList.remove('spin');
-  updatePlayIcon(false);
-});
-
+audio.addEventListener('pause',()=>{document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);});
 document.getElementById('mcPlay').addEventListener('click',togglePlay);
 document.getElementById('mcPrev').addEventListener('click',prevSong);
 document.getElementById('mcNext').addEventListener('click',nextSong);
-
-// Show music bar when fab clicked, auto hide after 5 seconds
+const musicBar=document.getElementById('musicBar');
+const musicFab=document.getElementById('musicFab');
 function showMusicBar(){
-  if(songs.length===0){
-    showToast('Belum ada musik yang tersedia');
-    return;
-  }
-  const bar=document.getElementById('musicBar');
-  bar.classList.add('show');
-  isMusicBarVisible=true;
-  resetMusicAutoHide();
+  musicBar.classList.remove('hidden');
+  musicFab.classList.remove('show');
+  clearTimeout(musicHideTimer);
+  musicHideTimer=setTimeout(()=>{
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
+  }, 5000);
 }
-
-function hideMusicBar(){
-  if(!isMusicBarVisible) return;
-  const bar=document.getElementById('musicBar');
-  bar.classList.remove('show');
-  isMusicBarVisible=false;
-  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
-}
-
-function resetMusicAutoHide(){
-  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
-  musicAutoHideTimer=setTimeout(() => {
-    hideMusicBar();
-  }, 5000); // 5 detik
-}
-
-// Music fab button
-document.getElementById('musicFab').addEventListener('click', showMusicBar);
-
-// Keep music bar visible when hover, reset timer when mouse leaves
-const musicBarElement = document.getElementById('musicBar');
-musicBarElement.addEventListener('mouseenter', () => {
-  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
-});
-musicBarElement.addEventListener('mouseleave', () => {
-  if(isMusicBarVisible) resetMusicAutoHide();
+musicFab.addEventListener('click',showMusicBar);
+musicBar.addEventListener('mouseenter',()=>clearTimeout(musicHideTimer));
+musicBar.addEventListener('mouseleave',()=>{
+  clearTimeout(musicHideTimer);
+  musicHideTimer=setTimeout(()=>{
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
+  }, 5000);
 });
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
@@ -971,7 +872,6 @@ async function init(){
   loadNotifications();
   await loadBanners();
   await Promise.all([loadPopular(),loadIds()]);
-  await checkAdminAndShowForceBtn();
   if(window.lucide) lucide.createIcons();
 }
 
