@@ -1,5 +1,5 @@
-// api/index.js — lapakID Backend (Complete Version)
-// Features: IDs, Like, Promo, Payment, Settings, Notifications, Reports, Broadcast, Bans, Reset Database
+// api/index.js — lapakID Backend
+// Features: IDs, Like, Promo, Payment, Settings, Notifications, Reports, Wishlist, Bans, Reset Database
 
 const { MongoClient, ObjectId } = require('mongodb');
 
@@ -7,7 +7,6 @@ const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://n4taza_db:N44E8WEKlO
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'lapakid_admin_secret_2026';
 const DB_NAME = 'lapakid';
 
-// ── MongoDB connection pool ───────────────────────────────────────────────────
 let cachedClient = null;
 let cachedDb = null;
 
@@ -34,7 +33,6 @@ async function getDB() {
   return cachedDb;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 function setCORS(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -93,12 +91,10 @@ async function ensureSettings(db) {
   }
 }
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
 module.exports = async function handler(req, res) {
   setCORS(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // ── Root "/" — serve OG meta redirect page ─────────────────────────────────
   const rawPath = req.url.split('?')[0];
   if (rawPath === '/' || rawPath === '') {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -143,16 +139,14 @@ module.exports = async function handler(req, res) {
       return fail(res, 401, 'Token admin salah');
     }
 
-    // ────────────────────────────────────────────── IDs ──────────────────────
+    // ── IDs ──────────────────────────────────────────────────────────────────
     if (r0==='ids') {
-
       if (r1==='popular' && M==='GET') {
         const d = await db.collection('ids')
           .find({ sold: { $ne: true }, likes: { $gt: 0 } })
           .sort({ likes: -1 }).limit(12).toArray();
         return ok(res, { data: d });
       }
-
       if (r1==='stats' && M==='GET') {
         const col = db.collection('ids');
         const [tot, sold, byT, likeT] = await Promise.all([
@@ -167,7 +161,6 @@ module.exports = async function handler(req, res) {
         byT.forEach(t => { byTier[t._id] = { count:t.count, sold:t.sold, likes:t.likes }; });
         return ok(res, { data: { total:tot, sold, available:tot-sold, totalLikes:likeT[0]?.t||0, byTier } });
       }
-
       if (!r1 && M==='GET') {
         const q = qs(req.url);
         const f = {};
@@ -181,7 +174,6 @@ module.exports = async function handler(req, res) {
         const d = await db.collection('ids').find(f).sort(sort).toArray();
         return ok(res, { data: d });
       }
-
       if (!r1 && M==='POST') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
@@ -199,7 +191,6 @@ module.exports = async function handler(req, res) {
         await db.collection('ids').insertOne(doc);
         return created(res, { data: doc });
       }
-
       if (r1==='bulk' && M==='POST') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
@@ -218,13 +209,11 @@ module.exports = async function handler(req, res) {
         if (ins.length) await db.collection('ids').insertMany(ins);
         return created(res, { inserted:ins.length, skipped:docs.length-ins.length });
       }
-
       if (r1 && !r2 && M==='GET') {
         const doc = await db.collection('ids').findOne({ number: r1 });
         if (!doc) return fail(res, 404, 'ID tidak ditemukan');
         return ok(res, { data: doc });
       }
-
       if (r1 && !r2 && M==='PUT') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
@@ -234,7 +223,6 @@ module.exports = async function handler(req, res) {
         if (!r.matchedCount) return fail(res, 404, 'ID tidak ditemukan');
         return ok(res, { message: 'Diupdate' });
       }
-
       if (r1 && !r2 && M==='DELETE') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const r = await db.collection('ids').deleteOne({ number:r1 });
@@ -243,9 +231,8 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── LIKE ─────────────────────
+    // ── LIKE ─────────────────────────────────────────────────────────────────
     if (r0==='like') {
-
       if (r1==='check' && r2 && M==='GET') {
         const ip = getIP(req);
         const [banned, liked] = await Promise.all([
@@ -254,17 +241,13 @@ module.exports = async function handler(req, res) {
         ]);
         return ok(res, { liked:!!liked, banned:!!banned });
       }
-
       if (r1 && r1!=='check' && !r2 && M==='POST') {
         const ip = getIP(req);
         const number = r1;
-
         if (await db.collection('bans').findOne({ ip, active:true }))
           return fail(res, 429, 'IP kamu diblokir karena spam like. Hubungi admin.');
-
         if (await db.collection('likes').findOne({ ip, idNumber:number }))
           return fail(res, 409, 'Kamu sudah menyukai ID ini');
-
         const since = new Date(Date.now() - 5*60*1000);
         const cnt = await db.collection('likes').countDocuments({ ip, likedAt:{ $gte:since } });
         if (cnt >= 10) {
@@ -275,10 +258,8 @@ module.exports = async function handler(req, res) {
           );
           return fail(res, 429, 'Spam terdeteksi. IP kamu diblokir.');
         }
-
         if (!(await db.collection('ids').findOne({ number })))
           return fail(res, 404, 'ID tidak ditemukan');
-
         await db.collection('likes').insertOne({ ip, idNumber:number, likedAt:new Date() });
         const upd = await db.collection('ids').findOneAndUpdate(
           { number }, { $inc:{ likes:1 } }, { returnDocument:'after' }
@@ -287,7 +268,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── PROMO ────────────────────
+    // ── PROMO ─────────────────────────────────────────────────────────────────
     if (r0==='promo' && r1==='validate' && M==='POST') {
       const b = await readBody(req);
       if (!b.code) return fail(res, 400, 'Kode promo wajib');
@@ -297,7 +278,6 @@ module.exports = async function handler(req, res) {
       if (p.maxUses != null && p.uses >= p.maxUses) return fail(res, 410, 'Kode promo habis');
       return ok(res, { discount:p.discount, code:p.code, description:p.description||'' });
     }
-
     if (r0==='promos') {
       if (!r1 && M==='GET') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
@@ -341,7 +321,7 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── SETTINGS ─────────────────
+    // ── SETTINGS ─────────────────────────────────────────────────────────────
     if (r0==='settings') {
       if (!r1 && M==='GET') {
         const rows = await db.collection('settings').find().toArray();
@@ -362,9 +342,8 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── NOTIFICATIONS ────────────
+    // ── NOTIFICATIONS ────────────────────────────────────────────────────────
     if (r0 === 'notifications') {
-      // GET /api/notifications
       if (!r1 && M === 'GET') {
         const notifs = await db.collection('notifications')
           .find({ active: true })
@@ -373,8 +352,6 @@ module.exports = async function handler(req, res) {
           .toArray();
         return ok(res, { data: notifs });
       }
-      
-      // POST /api/notifications
       if (!r1 && M === 'POST') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
@@ -390,13 +367,10 @@ module.exports = async function handler(req, res) {
         await db.collection('notifications').insertOne(doc);
         return created(res, { data: doc });
       }
-      
-      // POST /api/notifications/broadcast
       if (r1 === 'broadcast' && M === 'POST') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
         if (!b.title || !b.message) return fail(res, 400, 'title dan message wajib');
-        
         const notification = {
           title: b.title,
           message: b.message,
@@ -405,16 +379,12 @@ module.exports = async function handler(req, res) {
           readBy: [],
           createdAt: new Date()
         };
-        
         await db.collection('notifications').insertOne(notification);
-        
-        return ok(res, { 
-          message: 'Broadcast terkirim ke semua user', 
-          data: notification 
-        });
+        return ok(res, { message: 'Broadcast terkirim ke semua user', data: notification });
       }
-      
-      // DELETE /api/notifications/:id
+      if (r1 === 'read' && M === 'PUT') {
+        return ok(res, { message: 'Notifikasi ditandai dibaca' });
+      }
       if (r1 && M === 'DELETE') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         let oid;
@@ -424,24 +394,16 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── REPORTS ──────────────────
+    // ── REPORTS ──────────────────────────────────────────────────────────────
     if (r0 === 'reports') {
-      // POST /api/reports
       if (!r1 && M === 'POST') {
         const ip = getIP(req);
         const b = await readBody(req);
         if (!b.name || !b.message) return fail(res, 400, 'name dan message wajib');
-        
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const existing = await db.collection('reports').countDocuments({
-          ip,
-          createdAt: { $gte: today }
-        });
-        if (existing >= 1) {
-          return fail(res, 429, 'Hanya bisa kirim 1 pesan per hari');
-        }
-        
+        const existing = await db.collection('reports').countDocuments({ ip, createdAt: { $gte: today } });
+        if (existing >= 1) return fail(res, 429, 'Hanya bisa kirim 1 pesan per hari');
         const doc = {
           name: b.name.substring(0, 50),
           message: b.message.substring(0, 500),
@@ -455,13 +417,10 @@ module.exports = async function handler(req, res) {
         await db.collection('reports').insertOne(doc);
         return created(res, { message: 'Pesan terkirim' });
       }
-      
-      // GET /api/reports/reply-check?name=xxx
       if (r1 === 'reply-check' && M === 'GET') {
         const q = qs(req.url);
         const name = q.name;
         if (!name) return fail(res, 400, 'name required');
-        
         const reply = await db.collection('reports').findOne(
           { name: name, replied: true },
           { sort: { repliedAt: -1 } }
@@ -471,8 +430,6 @@ module.exports = async function handler(req, res) {
         }
         return ok(res, { hasReply: false });
       }
-      
-      // GET /api/reports (Admin)
       if (!r1 && M === 'GET') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const reports = await db.collection('reports')
@@ -482,31 +439,18 @@ module.exports = async function handler(req, res) {
           .toArray();
         return ok(res, { data: reports });
       }
-      
-      // PUT /api/reports/:id/reply (Admin)
       if (r1 && r2 === 'reply' && M === 'PUT') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
         if (!b.reply) return fail(res, 400, 'reply wajib');
-        
         let oid;
         try { oid = new ObjectId(r1); } catch { return fail(res, 400, 'ID tidak valid'); }
-        
         await db.collection('reports').updateOne(
           { _id: oid },
-          { 
-            $set: { 
-              reply: b.reply, 
-              replied: true, 
-              repliedAt: new Date(),
-              read: true
-            } 
-          }
+          { $set: { reply: b.reply, replied: true, repliedAt: new Date(), read: true } }
         );
         return ok(res, { message: 'Balasan terkirim' });
       }
-      
-      // DELETE /api/reports/:id (Admin)
       if (r1 && M === 'DELETE') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         let oid;
@@ -516,27 +460,57 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ────────────────────────────────────────────── PAYMENT ──────────────────
+    // ── WISHLIST (by IP) ─────────────────────────────────────────────────────
+    if (r0 === 'wishlist') {
+      const clientIp = getIP(req);
+      
+      if (!r1 && M === 'GET') {
+        const wishlist = await db.collection('wishlist').findOne({ ip: clientIp });
+        return ok(res, { data: wishlist?.ids || [] });
+      }
+      
+      if (r1 && M === 'POST') {
+        const idNumber = r1;
+        await db.collection('wishlist').updateOne(
+          { ip: clientIp },
+          { $addToSet: { ids: idNumber }, $setOnInsert: { ip: clientIp, createdAt: new Date() } },
+          { upsert: true }
+        );
+        return ok(res, { message: 'Ditambahkan ke wishlist', id: idNumber });
+      }
+      
+      if (r1 && M === 'DELETE') {
+        const idNumber = r1;
+        await db.collection('wishlist').updateOne(
+          { ip: clientIp },
+          { $pull: { ids: idNumber } }
+        );
+        return ok(res, { message: 'Dihapus dari wishlist', id: idNumber });
+      }
+      
+      if (r1 === 'check' && r2 && M === 'GET') {
+        const idNumber = r2;
+        const wishlist = await db.collection('wishlist').findOne({ ip: clientIp, ids: idNumber });
+        return ok(res, { wished: !!wishlist });
+      }
+    }
+
+    // ── PAYMENT ──────────────────────────────────────────────────────────────
     if (r0 === 'payment' && !r1 && M === 'POST') {
       const b = await readBody(req);
       const { idNumber, method, buyer, phone, promoCode } = b;
-      
       if (!idNumber || !method || !buyer || !phone) {
         return fail(res, 400, 'idNumber, method, buyer, nomor WhatsApp wajib diisi');
       }
-      
       const idDoc = await db.collection('ids').findOne({ number: String(idNumber) });
       if (!idDoc) return fail(res, 404, 'ID tidak ditemukan');
       if (idDoc.sold) return fail(res, 409, 'ID sudah terjual');
-      
       const settings = await db.collection('settings').find().toArray();
       const settingsMap = {};
       settings.forEach(s => { settingsMap[s.key] = s.value; });
-      
       const prices = settingsMap.prices || {};
       const fees = settingsMap.adminFee || {};
       const base = prices[idDoc.tier] || 0;
-      
       let disc = 0, promoUsed = null;
       if (promoCode) {
         const pr = await db.collection('promos').findOne({ code: promoCode.toUpperCase().trim(), active: true });
@@ -546,11 +520,9 @@ module.exports = async function handler(req, res) {
           await db.collection('promos').updateOne({ code: pr.code }, { $inc: { uses: 1 } });
         }
       }
-      
       const methodKey = method.toLowerCase();
       const adminFee = fees[methodKey] || 0;
       const finalPrice = Math.round(base * (1 - disc / 100)) + adminFee;
-      
       const payment = {
         idNumber: String(idNumber),
         tier: idDoc.tier,
@@ -565,13 +537,11 @@ module.exports = async function handler(req, res) {
         status: 'pending',
         createdAt: new Date()
       };
-      
       const ins = await db.collection('payments').insertOne(payment);
       return created(res, { data: { ...payment, _id: ins.insertedId } });
     }
 
     if (r0 === 'payments') {
-      // GET /api/payments (Admin)
       if (!r1 && M === 'GET') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const payments = await db.collection('payments')
@@ -581,17 +551,13 @@ module.exports = async function handler(req, res) {
           .toArray();
         return ok(res, { data: payments });
       }
-      
-      // PUT /api/payments/:id/confirm (Admin)
       if (r1 && r2 === 'confirm' && M === 'PUT') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         let oid;
         try { oid = new ObjectId(r1); } catch { return fail(res, 400, 'ID tidak valid'); }
-        
         const payment = await db.collection('payments').findOne({ _id: oid });
         if (!payment) return fail(res, 404, 'Pembayaran tidak ditemukan');
         if (payment.status === 'confirmed') return fail(res, 409, 'Sudah dikonfirmasi');
-        
         await db.collection('payments').updateOne(
           { _id: oid },
           { $set: { status: 'confirmed', confirmedAt: new Date() } }
@@ -600,16 +566,14 @@ module.exports = async function handler(req, res) {
           { number: payment.idNumber },
           { $set: { sold: true, soldAt: new Date() } }
         );
-        
         await db.collection('notifications').insertOne({
-          title: '✅ Pembayaran Dikonfirmasi',
+          title: 'Pembayaran Dikonfirmasi',
           message: `Pembelian ID ${payment.idNumber} telah dikonfirmasi. Terima kasih ${payment.buyer}!`,
           type: 'success',
           active: true,
           readBy: [],
           createdAt: new Date()
         });
-        
         return ok(res, { message: 'Pembayaran dikonfirmasi, ID ditandai terjual' });
       }
     }
@@ -621,7 +585,6 @@ module.exports = async function handler(req, res) {
         const bans = await db.collection('bans').find({ active: true }).sort({ bannedAt: -1 }).toArray();
         return ok(res, { data: bans });
       }
-      
       if (r1 && M === 'DELETE') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const ip = decodeURIComponent(r1);
@@ -633,13 +596,11 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // ── RESET DATABASE (Admin only) ─────────────────────────────────────────
+    // ── RESET DATABASE ───────────────────────────────────────────────────────
     if (r0 === 'reset' && r1 === 'database' && M === 'DELETE') {
       if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
-      
       try {
-        const collectionsToReset = ['ids', 'payments', 'likes', 'notifications', 'reports', 'bans', 'promos'];
-        
+        const collectionsToReset = ['ids', 'payments', 'likes', 'notifications', 'reports', 'bans', 'promos', 'wishlist'];
         const results = {};
         for (const colName of collectionsToReset) {
           const col = db.collection(colName);
@@ -647,9 +608,7 @@ module.exports = async function handler(req, res) {
           const result = await col.deleteMany({});
           results[colName] = { deleted: result.deletedCount, total: count };
         }
-        
         console.log('[RESET] Database reset by admin:', results);
-        
         return ok(res, { 
           message: 'Database berhasil direset',
           details: results,
