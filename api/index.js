@@ -494,57 +494,58 @@ module.exports = async function handler(req, res) {
     }
 
     // ────────────────────────────────────────────── PAYMENT ──────────────────
-    if (r0 === 'payment' && !r1 && M === 'POST') {
-      const b = await readBody(req);
-      const { idNumber, method, buyer, email, phone, promoCode } = b;
-      if (!idNumber || !method || !buyer || !email) {
-        return fail(res, 400, 'idNumber, method, buyer, email wajib');
-      }
-      
-      const idDoc = await db.collection('ids').findOne({ number: String(idNumber) });
-      if (!idDoc) return fail(res, 404, 'ID tidak ditemukan');
-      if (idDoc.sold) return fail(res, 409, 'ID sudah terjual');
-      
-      const settings = await db.collection('settings').find().toArray();
-      const settingsMap = {};
-      settings.forEach(s => { settingsMap[s.key] = s.value; });
-      
-      const prices = settingsMap.prices || {};
-      const fees = settingsMap.adminFee || {};
-      const base = prices[idDoc.tier] || 0;
-      
-      let disc = 0, promoUsed = null;
-      if (promoCode) {
-        const pr = await db.collection('promos').findOne({ code: promoCode.toUpperCase().trim(), active: true });
-        if (pr && (pr.maxUses == null || pr.uses < pr.maxUses) && (!pr.expiresAt || new Date() < new Date(pr.expiresAt))) {
-          disc = pr.discount;
-          promoUsed = pr.code;
-          await db.collection('promos').updateOne({ code: pr.code }, { $inc: { uses: 1 } });
-        }
-      }
-      
-      const adminFee = fees[method] || 0;
-      const finalPrice = Math.round(base * (1 - disc / 100)) + adminFee;
-      
-      const payment = {
-        idNumber: String(idNumber),
-        tier: idDoc.tier,
-        price: base,
-        method: method,
-        buyer: buyer,
-        email: email,
-        phone: phone || '',
-        promoCode: promoUsed,
-        discount: disc,
-        adminFee: adminFee,
-        finalPrice: finalPrice,
-        status: 'pending',
-        createdAt: new Date()
-      };
-      
-      const ins = await db.collection('payments').insertOne(payment);
-      return created(res, { data: { ...payment, _id: ins.insertedId } });
+if (r0 === 'payment' && !r1 && M === 'POST') {
+  const b = await readBody(req);
+  const { idNumber, method, buyer, phone, promoCode } = b;
+  
+  // WAJIB: idNumber, method, buyer, phone (no WA)
+  if (!idNumber || !method || !buyer || !phone) {
+    return fail(res, 400, 'idNumber, method, buyer, nomor WhatsApp wajib diisi');
+  }
+  
+  const idDoc = await db.collection('ids').findOne({ number: String(idNumber) });
+  if (!idDoc) return fail(res, 404, 'ID tidak ditemukan');
+  if (idDoc.sold) return fail(res, 409, 'ID sudah terjual');
+  
+  const settings = await db.collection('settings').find().toArray();
+  const settingsMap = {};
+  settings.forEach(s => { settingsMap[s.key] = s.value; });
+  
+  const prices = settingsMap.prices || {};
+  const fees = settingsMap.adminFee || {};
+  const base = prices[idDoc.tier] || 0;
+  
+  let disc = 0, promoUsed = null;
+  if (promoCode) {
+    const pr = await db.collection('promos').findOne({ code: promoCode.toUpperCase().trim(), active: true });
+    if (pr && (pr.maxUses == null || pr.uses < pr.maxUses) && (!pr.expiresAt || new Date() < new Date(pr.expiresAt))) {
+      disc = pr.discount;
+      promoUsed = pr.code;
+      await db.collection('promos').updateOne({ code: pr.code }, { $inc: { uses: 1 } });
     }
+  }
+  
+  const adminFee = fees[method] || 0;
+  const finalPrice = Math.round(base * (1 - disc / 100)) + adminFee;
+  
+  const payment = {
+    idNumber: String(idNumber),
+    tier: idDoc.tier,
+    price: base,
+    method: method,
+    buyer: buyer,
+    phone: phone,  // No WA wajib
+    promoCode: promoUsed,
+    discount: disc,
+    adminFee: adminFee,
+    finalPrice: finalPrice,
+    status: 'pending',
+    createdAt: new Date()
+  };
+  
+  const ins = await db.collection('payments').insertOne(payment);
+  return created(res, { data: { ...payment, _id: ins.insertedId } });
+}
 
     if (r0 === 'payments') {
       // GET /api/payments (Admin)
