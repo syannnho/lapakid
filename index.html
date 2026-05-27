@@ -5,11 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <title>lapakID — Koleksi ID Premium v2.2.2</title>
 <link rel="icon" type="image/png" href="https://files.catbox.moe/em51di.png"/>
+<meta name="description" content="Jual beli ID premium aman dan terpercaya. Tersedia berbagai tier Low, Medium, High, Legend. Proses cepat, garansi 100%."/>
+<meta name="keywords" content="jual id, id premium, id murah, lapak id, beli id"/>
+<meta name="author" content="lapakID"/>
 <meta property="og:title" content="lapakID — Koleksi ID Premium"/>
-<meta property="og:description" content="Koleksi ID premium pilihan. Tersedia dalam 4 tier: Low, Medium, High, dan Legend."/>
+<meta property="og:description" content="Koleksi ID premium pilihan dengan harga terbaik."/>
 <meta property="og:image" content="https://files.catbox.moe/em51di.png"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<!-- Google Analytics (Ganti G-XXXXXXXXXX dengan ID tracking Anda) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+  
+  // Track custom events
+  function trackEvent(category, action, label) {
+    gtag('event', action, {
+      'event_category': category,
+      'event_label': label
+    });
+  }
+</script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -117,6 +140,10 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .like-btn:hover{color:var(--purple);background:rgba(99,102,241,.06)}
 .like-btn.liked{color:var(--purple)}
 .like-btn svg{width:11px;height:11px}
+.wishlist-btn{display:flex;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-size:.55rem;color:var(--muted);font-family:var(--mono);transition:.15s;padding:3px 5px;border-radius:7px}
+.wishlist-btn:hover{color:var(--warning);background:rgba(245,158,11,.06)}
+.wishlist-btn.wished{color:var(--warning)}
+.wishlist-btn svg{width:11px;height:11px}
 
 /* ── FILTER ── */
 .filter-sec{margin:0}
@@ -133,7 +160,27 @@ body.dark nav{background:rgba(9,9,11,.92)}
 .search-box input::placeholder{color:var(--muted)}
 .search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
 .search-icon svg{width:13px;height:13px}
-.result-label{font-size:.6rem;color:var(--muted);font-family:var(--mono)}
+
+/* ── FILTER HARGA (SLIDER) ── */
+.price-filter{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;padding-top:6px;border-top:1px solid var(--border)}
+.price-range{display:flex;align-items:center;gap:8px;flex:1;flex-wrap:wrap}
+.price-range span{font-size:.6rem;color:var(--muted);font-family:var(--mono)}
+.price-slider{flex:1;min-width:150px;height:3px;background:var(--border2);border-radius:99px;position:relative}
+.price-slider input{position:absolute;width:100%;height:3px;background:transparent;pointer-events:none;appearance:none}
+.price-slider input::-webkit-slider-thumb{pointer-events:auto;width:12px;height:12px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;appearance:none}
+.price-slider input::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.price-values{display:flex;gap:8px;font-size:.6rem;font-family:var(--mono)}
+.price-values input{width:70px;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:4px 6px;font-size:.55rem;font-family:var(--mono);color:var(--text)}
+.price-reset{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.55rem;cursor:pointer;transition:.15s}
+.price-reset:hover{background:var(--bg3)}
+
+/* ── WISHLIST BUTTON ── */
+.wishlist-filter{display:flex;align-items:center;gap:6px;margin-left:auto}
+.wishlist-filter-btn{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.55rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:.15s}
+.wishlist-filter-btn.active{background:var(--warning);border-color:var(--warning);color:#fff}
+.wishlist-filter-btn svg{width:10px;height:10px}
+
+.result-label{font-size:.6rem;color:var(--muted);font-family:var(--mono);margin-top:6px}
 .result-label b{color:var(--text)}
 
 /* ── TIER BLOCKS ── */
@@ -187,6 +234,9 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .btn-like-modal{background:var(--bg2);border:1px solid var(--border);padding:10px 14px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:.68rem;font-weight:600;color:var(--text);transition:.15s}
 .btn-like-modal svg{width:13px;height:13px}
 .btn-like-modal.liked svg{color:var(--sold);fill:var(--sold)}
+.btn-wishlist-modal{background:var(--bg2);border:1px solid var(--border);padding:10px 14px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:.68rem;font-weight:600;color:var(--text);transition:.15s}
+.btn-wishlist-modal.wished{color:var(--warning)}
+.btn-wishlist-modal svg{width:13px;height:13px}
 
 /* ── NOTIF PANEL ── */
 .notif-panel{position:fixed;top:62px;right:12px;width:290px;max-height:360px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:300;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s cubic-bezier(.4,0,.2,1)}
@@ -214,14 +264,13 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .notif-detail-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);max-width:360px;width:90%;padding:20px;transform:scale(.95);transition:.2s}
 .notif-detail-overlay.open .notif-detail-box{transform:scale(1)}
 
-/* ── MUSIC PLAYER (BAR & FAB) ── */
+/* ── MUSIC PLAYER ── */
 .music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:1;pointer-events:all}
 .music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
 .music-album{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
 .music-album svg{width:16px;height:16px;color:#fff}
 .music-album.spin{animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.music-progress-ring{position:absolute;inset:-3px;border-radius:50%}
 .music-info{flex:1;min-width:0}
 .music-title-wrap{overflow:hidden;width:100%}
 .music-title-inner{display:inline-block;white-space:nowrap;font-size:.63rem;font-weight:700;color:#fff}
@@ -357,6 +406,32 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
         <input type="text" id="searchInput" placeholder="Cari nomor ID..."/>
       </div>
     </div>
+    
+    <!-- FILTER HARGA (SLIDER) -->
+    <div class="price-filter">
+      <div class="price-range">
+        <span>💰 Harga:</span>
+        <div class="price-slider">
+          <input type="range" id="priceMin" min="0" max="2000000" step="10000" value="0">
+          <input type="range" id="priceMax" min="0" max="2000000" step="10000" value="2000000">
+        </div>
+      </div>
+      <div class="price-values">
+        <input type="number" id="minPriceInput" placeholder="Min" value="0">
+        <span>-</span>
+        <input type="number" id="maxPriceInput" placeholder="Max" value="2000000">
+      </div>
+      <button class="price-reset" id="priceResetBtn">Reset</button>
+      
+      <!-- WISHLIST FILTER -->
+      <div class="wishlist-filter">
+        <button class="wishlist-filter-btn" id="wishlistFilterBtn">
+          <i data-lucide="bookmark" style="width:10px;height:10px"></i>
+          Wishlist
+        </button>
+      </div>
+    </div>
+    
     <div class="result-label" id="resultInfo">Memuat...</div>
   </div>
 </div>
@@ -376,6 +451,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <div class="modal-acts">
       <button class="btn-buy" id="modalBuyBtn"><i data-lucide="shopping-cart" style="width:13px;height:13px"></i>Beli ID Ini</button>
       <button class="btn-like-modal" id="modalLikeBtn"><i data-lucide="heart" style="width:13px;height:13px"></i><span id="modalLikeCnt">0</span></button>
+      <button class="btn-wishlist-modal" id="modalWishlistBtn"><i data-lucide="bookmark" style="width:13px;height:13px"></i></button>
     </div>
   </div>
 </div>
@@ -383,10 +459,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 <footer>
   <span>&copy; 2026 <a href="index.html">LapakID</a></span>
   <span class="version-tag">v2.2.2</span>
-  <span><a href="docs.html">Docs</a>
+  <span><a href="about.html">Docs</a> &mdash; <a href="docs.html">Admin</a></span>
 </footer>
 
-<!-- POPUP PROMO (FIXED) -->
+<!-- POPUP PROMO -->
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box">
     <button class="popup-close-btn" id="popupClose"><i data-lucide="x" style="width:12px;height:12px"></i></button>
@@ -406,7 +482,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- MUSIC PLAYER (FAB & BAR) -->
+<!-- MUSIC PLAYER -->
 <audio id="musicAudio" preload="none"></audio>
 <div class="music-bar hidden" id="musicBar">
   <div class="music-album" id="musicAlbum">
@@ -432,9 +508,16 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 <script>
 const API='/api';
 const PER_PAGE=20;
-let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]')),currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
+let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]'));
+let wishlistSet=new Set(JSON.parse(localStorage.getItem('lapakid_wishlist')||'[]'));
+let currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0,musicHideTimer=null;
 let notifOpen=false;
+
+// Filter harga
+let minPrice=0,maxPrice=2000000;
+let showWishlistOnly=false;
+
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
 const TCLS={low:'t-low',medium:'t-medium',high:'t-high',legend:'t-legend'};
@@ -566,77 +649,40 @@ let bTx=0;
 bWrap.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bWrap.addEventListener('touchend',e=>{const diff=bTx-e.changedTouches[0].clientX;if(Math.abs(diff)>40)diff>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerStartAuto();},{passive:true});
 
-// ── POPUP (FIXED: selalu muncul, checkbox untuk menyimpan preferensi) ────────
+// ── POPUP ────────────────────────────────────────────────────────────────────
 const POPUP_STORAGE_KEY = 'lapakid_popup_hide_permanent';
-
 function initPopup(s){
-  // Cek apakah user pernah checklist "Jangan tampilkan lagi"
-  if (localStorage.getItem(POPUP_STORAGE_KEY) === '1') {
-    console.log('Popup: User sudah memilih untuk tidak ditampilkan lagi');
-    return;
-  }
-  
+  if (localStorage.getItem(POPUP_STORAGE_KEY) === '1') return;
   const popup = s.popup || {};
-  if (!popup.active) {
-    console.log('Popup: Tidak aktif di settings');
-    return;
-  }
-  
+  if (!popup.active) return;
   const img = document.getElementById('popupImg');
-  if (popup.imageUrl && popup.imageUrl.trim()){
-    img.src = popup.imageUrl;
-    img.style.display = 'block';
-  } else {
-    img.style.display = 'none';
-  }
-  
-  document.getElementById('popupTitle').innerHTML = popup.title || '🎉 Promo Spesial!';
-  document.getElementById('popupDesc').textContent = popup.desc || 'Gunakan kode promo saat checkout.';
-  document.getElementById('popupCode').textContent = popup.code || 'LAPAK10';
-  
-  const closePopup = () => {
-    // Simpan preferensi jika checkbox dicentang
-    if (document.getElementById('dontShowPopup').checked) {
-      localStorage.setItem(POPUP_STORAGE_KEY, '1');
-      console.log('Popup: User memilih untuk tidak ditampilkan lagi');
-    }
+  if(popup.imageUrl && popup.imageUrl.trim()){img.src=popup.imageUrl;img.style.display='block';}
+  else{img.style.display='none';}
+  document.getElementById('popupTitle').innerHTML=popup.title||'🎉 Promo Spesial!';
+  document.getElementById('popupDesc').textContent=popup.desc||'Gunakan kode promo saat checkout.';
+  document.getElementById('popupCode').textContent=popup.code||'LAPAK10';
+  const closePopup=()=>{
+    if(document.getElementById('dontShowPopup').checked) localStorage.setItem(POPUP_STORAGE_KEY,'1');
     document.getElementById('promoPopup').classList.remove('open');
   };
-  
-  // Hapus event listener lama untuk menghindari duplikasi
-  const popupCloseBtn = document.getElementById('popupClose');
-  const popupOkBtn = document.getElementById('popupOk');
-  const popupCopyBtn = document.getElementById('popupCopyBtn');
-  
-  const newClose = popupCloseBtn.cloneNode(true);
-  const newOk = popupOkBtn.cloneNode(true);
-  const newCopy = popupCopyBtn.cloneNode(true);
-  
-  popupCloseBtn.parentNode.replaceChild(newClose, popupCloseBtn);
-  popupOkBtn.parentNode.replaceChild(newOk, popupOkBtn);
-  popupCopyBtn.parentNode.replaceChild(newCopy, popupCopyBtn);
-  
-  newClose.onclick = closePopup;
-  newOk.onclick = closePopup;
-  newCopy.onclick = () => {
-    const code = document.getElementById('popupCode').textContent;
-    navigator.clipboard.writeText(code).then(() => {
-      showToast('Kode ' + code + ' disalin!');
-    }).catch(() => showToast('Kode: ' + code));
-  };
-  
-  // Reset checkbox setiap kali popup muncul
-  document.getElementById('dontShowPopup').checked = false;
-  
-  // Overlay click close
-  const overlay = document.getElementById('promoPopup');
-  const overlayHandler = (e) => { if (e.target === overlay) closePopup(); };
-  overlay.removeEventListener('click', overlayHandler);
-  overlay.addEventListener('click', overlayHandler);
-  
-  // Tampilkan popup dengan delay
-  console.log('Popup: Menampilkan popup');
-  setTimeout(() => overlay.classList.add('open'), 1500);
+  const popupCloseBtn=document.getElementById('popupClose');
+  const popupOkBtn=document.getElementById('popupOk');
+  const popupCopyBtn=document.getElementById('popupCopyBtn');
+  const newClose=popupCloseBtn.cloneNode(true);
+  const newOk=popupOkBtn.cloneNode(true);
+  const newCopy=popupCopyBtn.cloneNode(true);
+  popupCloseBtn.parentNode.replaceChild(newClose,popupCloseBtn);
+  popupOkBtn.parentNode.replaceChild(newOk,popupOkBtn);
+  popupCopyBtn.parentNode.replaceChild(newCopy,popupCopyBtn);
+  newClose.onclick=closePopup;
+  newOk.onclick=closePopup;
+  newCopy.onclick=()=>{const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));};
+  document.getElementById('dontShowPopup').checked=false;
+  const overlay=document.getElementById('promoPopup');
+  const overlayHandler=(e)=>{if(e.target===overlay)closePopup();};
+  overlay.removeEventListener('click',overlayHandler);
+  overlay.addEventListener('click',overlayHandler);
+  setTimeout(()=>overlay.classList.add('open'),1500);
 }
 
 // ── POPULAR ──────────────────────────────────────────────────────────────────
@@ -672,6 +718,39 @@ async function loadIds(){
   if(!r||!r.ok){document.getElementById('gridContainer').innerHTML='<div class="empty"><p>Gagal memuat ID</p></div>';return;}
   const{data}=await r.json();allIds=data||[];render();
 }
+
+// Dapatkan harga berdasarkan tier
+function getPriceByTier(tier){
+  const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  return prices[tier]||0;
+}
+
+// Filter berdasarkan harga dan wishlist
+function filterIds(){
+  const tiers=activeFilter==='all'?['low','medium','high','legend']:activeFilter==='sold'?['low','medium','high','legend']:[activeFilter];
+  const result={};
+  for(const tier of tiers){
+    let ids=allIds.filter(id=>id.tier===tier);
+    if(activeFilter==='sold')ids=ids.filter(id=>id.sold);
+    else if(activeFilter!=='all')ids=ids.filter(id=>!id.sold);
+    if(searchQ)ids=ids.filter(id=>id.number.includes(searchQ));
+    
+    // Filter berdasarkan harga
+    ids=ids.filter(id=>{
+      const price=getPriceByTier(id.tier);
+      return price>=minPrice && price<=maxPrice;
+    });
+    
+    // Filter wishlist
+    if(showWishlistOnly){
+      ids=ids.filter(id=>wishlistSet.has(id.number));
+    }
+    
+    result[tier]=ids;
+  }
+  return result;
+}
+
 function render(){
   const filtered=filterIds();let total=0;Object.values(filtered).forEach(v=>total+=v.length);
   document.getElementById('resultInfo').innerHTML=`Menampilkan <b>${total.toLocaleString('id-ID')}</b> ID`;
@@ -712,33 +791,29 @@ function buildPagination(tier,cur,total){
   h+=`<button class="pg-btn" data-tier="${tier}" data-page="${cur+1}" ${cur===total?'disabled':''}><i data-lucide="chevron-right" style="width:12px;height:12px"></i></button>`;
   return h+'</div>';
 }
-function filterIds(){
-  const tiers=activeFilter==='all'?['low','medium','high','legend']:activeFilter==='sold'?['low','medium','high','legend']:[activeFilter];
-  const result={};
-  for(const tier of tiers){
-    let ids=allIds.filter(id=>id.tier===tier);
-    if(activeFilter==='sold')ids=ids.filter(id=>id.sold);
-    else if(activeFilter!=='all')ids=ids.filter(id=>!id.sold);
-    if(searchQ)ids=ids.filter(id=>id.number.includes(searchQ));
-    result[tier]=ids;
-  }
-  return result;
-}
 function hl(text){if(!searchQ)return text;const rx=new RegExp(`(${searchQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');return text.replace(rx,'<mark>$1</mark>');}
 function isNew(id){if(id.sold||!id.addedAt)return false;const added=new Date(id.addedAt).getTime();if(isNaN(added))return false;const diff=Date.now()-added;return diff>0&&diff<3*24*60*60*1000;}
 function buildCard(id){
   const liked=likedSet.has(id.number);
+  const wished=wishlistSet.has(id.number);
   const lc=id.likes||0;const lt=lc===0?'Suka':lc+' suka';
   const isNewId=isNew(id);
+  const price=fmt(getPriceByTier(id.tier));
   return `<div class="id-card${id.sold?' is-sold':''}" data-num="${id.number}" data-tier="${id.tier}">
     ${id.sold?`<div class="card-badge badge-sold"><i data-lucide="x-circle" style="width:8px;height:8px"></i>SOLD</div>`:isNewId?`<div class="card-badge badge-new"><i data-lucide="sparkles" style="width:8px;height:8px"></i>NEW</div>`:''}
     <div class="id-num"><img src="https://files.catbox.moe/em51di.png" alt=""/>${hl(id.number)}</div>
     <div class="id-foot">
       <span class="tier-tag ${TCLS[id.tier]}">${id.tier.toUpperCase()}</span>
-      <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-        <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple)':''}"></i>
-        <span>${lt}</span>
-      </button>
+      <span style="font-size:.55rem;font-family:var(--mono);color:var(--purple)">${price}</span>
+      <div style="display:flex;gap:4px;margin-left:auto">
+        <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
+          <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple)':''}"></i>
+          <span>${lc}</span>
+        </button>
+        <button class="wishlist-btn${wished?' wished':''}" data-num="${id.number}" onclick="event.stopPropagation()">
+          <i data-lucide="bookmark" style="width:11px;height:11px"></i>
+        </button>
+      </div>
     </div>
   </div>`;
 }
@@ -750,6 +825,7 @@ function attachCardEvents(container){
     });
   });
   container.querySelectorAll('.like-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();doLike(btn.dataset.num,btn);});});
+  container.querySelectorAll('.wishlist-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();toggleWishlist(btn.dataset.num,btn);});});
 }
 async function doLike(number,btn){
   if(likedSet.has(number)){showToast('Sudah menyukai ID ini');return;}
@@ -763,12 +839,33 @@ async function doLike(number,btn){
     document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.querySelector('span').textContent=d.likes+' suka';b.disabled=false;const ico=b.querySelector('[data-lucide]');if(ico){ico.style.fill='var(--purple)';}});
     if(currentModal?.number===number){document.getElementById('modalLikeCnt').textContent=d.likes;document.getElementById('modalLikeBtn').classList.add('liked');}
     showToast('Berhasil menyukai!');
+    trackEvent('Like', 'Like ID', number);
   }else{btn.disabled=false;showToast(d.message||'Gagal like');}
+}
+function toggleWishlist(number,btn){
+  if(wishlistSet.has(number)){
+    wishlistSet.delete(number);
+    btn.classList.remove('wished');
+    showToast('Dihapus dari wishlist');
+    trackEvent('Wishlist', 'Remove', number);
+  }else{
+    wishlistSet.add(number);
+    btn.classList.add('wished');
+    showToast('Ditambahkan ke wishlist');
+    trackEvent('Wishlist', 'Add', number);
+  }
+  localStorage.setItem('lapakid_wishlist',JSON.stringify([...wishlistSet]));
+  if(showWishlistOnly) render();
+  if(currentModal?.number===number){
+    const wBtn=document.getElementById('modalWishlistBtn');
+    if(wBtn) wBtn.classList.toggle('wished',wishlistSet.has(number));
+  }
 }
 async function openModal(number){
   const id=allIds.find(i=>i.number===number);if(!id)return;currentModal=id;
-  const price=settings.prices?fmt(settings.prices[id.tier]||0):'—';
+  const price=fmt(getPriceByTier(id.tier));
   const liked=likedSet.has(number);
+  const wished=wishlistSet.has(number);
   document.getElementById('modalIdNum').textContent=number;
   const tc={low:'var(--low)',medium:'var(--medium)',high:'var(--high)',legend:'var(--legend)'}[id.tier];
   document.getElementById('modalRows').innerHTML=`
@@ -781,7 +878,9 @@ async function openModal(number){
   document.getElementById('modalLikeCnt').textContent=id.likes||0;
   const lb=document.getElementById('modalLikeBtn');lb.className='btn-like-modal'+(liked?' liked':'');
   lb.onclick=()=>doLike(number,lb);
-  document.getElementById('modalBuyBtn').onclick=()=>{window.location.href=`payment.html?id=${encodeURIComponent(number)}`;};
+  const wb=document.getElementById('modalWishlistBtn');wb.className='btn-wishlist-modal'+(wished?' wished':'');
+  wb.onclick=()=>{toggleWishlist(number,wb);};
+  document.getElementById('modalBuyBtn').onclick=()=>{window.location.href=`payment.html?id=${encodeURIComponent(number)}`;trackEvent('Purchase', 'Click Buy', number);};
   document.getElementById('modalOverlay').classList.add('open');
   if(window.lucide) lucide.createIcons({nodes:document.querySelectorAll('#modalRows [data-lucide]')});
 }
@@ -793,6 +892,43 @@ document.getElementById('filterBar').querySelectorAll('.fp').forEach(btn=>{
   btn.addEventListener('click',()=>{activeFilter=btn.dataset.f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));btn.classList.add('act');render();});
 });
 document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.trim();tierPages={low:1,medium:1,high:1,legend:1};render();});
+
+// ── FILTER HARGA (SLIDER) ────────────────────────────────────────────────────
+const priceMinSlider=document.getElementById('priceMin');
+const priceMaxSlider=document.getElementById('priceMax');
+const minPriceInput=document.getElementById('minPriceInput');
+const maxPriceInput=document.getElementById('maxPriceInput');
+const priceResetBtn=document.getElementById('priceResetBtn');
+
+function updatePriceFilter(){
+  minPrice=parseInt(priceMinSlider.value);
+  maxPrice=parseInt(priceMaxSlider.value);
+  if(minPrice>maxPrice){
+    [minPrice,maxPrice]=[maxPrice,minPrice];
+    priceMinSlider.value=minPrice;
+    priceMaxSlider.value=maxPrice;
+  }
+  minPriceInput.value=minPrice;
+  maxPriceInput.value=maxPrice;
+  tierPages={low:1,medium:1,high:1,legend:1};
+  render();
+}
+priceMinSlider.addEventListener('input',()=>{if(parseInt(priceMinSlider.value)>parseInt(priceMaxSlider.value))priceMaxSlider.value=priceMinSlider.value;updatePriceFilter();});
+priceMaxSlider.addEventListener('input',()=>{if(parseInt(priceMaxSlider.value)<parseInt(priceMinSlider.value))priceMinSlider.value=priceMaxSlider.value;updatePriceFilter();});
+minPriceInput.addEventListener('change',()=>{let v=parseInt(minPriceInput.value)||0;if(v<0)v=0;if(v>2000000)v=2000000;priceMinSlider.value=v;updatePriceFilter();});
+maxPriceInput.addEventListener('change',()=>{let v=parseInt(maxPriceInput.value)||2000000;if(v<0)v=0;if(v>2000000)v=2000000;priceMaxSlider.value=v;updatePriceFilter();});
+priceResetBtn.addEventListener('click',()=>{priceMinSlider.value=0;priceMaxSlider.value=2000000;minPriceInput.value=0;maxPriceInput.value=2000000;updatePriceFilter();});
+
+// ── WISHLIST FILTER ──────────────────────────────────────────────────────────
+const wishlistFilterBtn=document.getElementById('wishlistFilterBtn');
+wishlistFilterBtn.addEventListener('click',()=>{
+  showWishlistOnly=!showWishlistOnly;
+  wishlistFilterBtn.classList.toggle('active',showWishlistOnly);
+  tierPages={low:1,medium:1,high:1,legend:1};
+  render();
+  if(showWishlistOnly) trackEvent('Filter', 'Wishlist Only', 'active');
+  else trackEvent('Filter', 'Wishlist Only', 'inactive');
+});
 
 // ── TIER STICKY ───────────────────────────────────────────────────────────────
 let tierScrollFn=null;
@@ -812,7 +948,7 @@ function setupTierSticky(){
   window.addEventListener('scroll',tierScrollFn,{passive:true});tierScrollFn();
 }
 
-// ── MUSIC PLAYER (BAR muncul hanya saat FAB diklik, hilang setelah 5 detik) ──
+// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
 const audio=document.getElementById('musicAudio');
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
@@ -866,6 +1002,17 @@ musicBar.addEventListener('mouseleave',()=>{
   }, 5000);
 });
 
+// ── TRACK EVENT untuk Google Analytics ───────────────────────────────────────
+function trackEvent(category, action, label){
+  if(typeof gtag !== 'undefined'){
+    gtag('event', action, {
+      'event_category': category,
+      'event_label': label
+    });
+  }
+  console.log(`[GA] ${category} - ${action}: ${label}`);
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
   initTheme();
@@ -873,6 +1020,9 @@ async function init(){
   await loadBanners();
   await Promise.all([loadPopular(),loadIds()]);
   if(window.lucide) lucide.createIcons();
+  
+  // Track page view
+  trackEvent('Page', 'View', 'Landing Page');
 }
 
 // ── TOAST ────────────────────────────────────────────────────────────────────
