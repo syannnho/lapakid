@@ -214,8 +214,8 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .notif-detail-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);max-width:360px;width:90%;padding:20px;transform:scale(.95);transition:.2s}
 .notif-detail-overlay.open .notif-detail-box{transform:scale(1)}
 
-/* ── MUSIC PLAYER ── */
-.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease}
+/* ── MUSIC PLAYER (Bar & FAB) ── */
+.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:1;pointer-events:all}
 .music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
 .music-album{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
 .music-album svg{width:16px;height:16px;color:#fff}
@@ -237,73 +237,6 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .music-fab{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(15,15,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:7px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;color:rgba(255,255,255,.7);font-size:.6rem;font-weight:600}
 .music-fab.show{opacity:1;pointer-events:all}
 .music-fab svg{width:14px;height:14px}
-
-/* ── LIVE CHAT ── */
-.chat-fab{position:fixed;bottom:22px;right:16px;z-index:9999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(99,102,241,.4);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
-.chat-fab:hover{transform:scale(1.08)}
-.chat-fab svg{width:20px;height:20px;color:#fff}
-.chat-unread-dot{position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:var(--sold);border-radius:50%;border:2px solid var(--bg);display:none}
-.chat-unread-dot.show{display:block}
-
-.chat-window{position:fixed;bottom:76px;right:16px;z-index:9998;width:300px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);box-shadow:0 12px 48px rgba(0,0,0,.18);overflow:hidden;opacity:0;pointer-events:none;transform:translateY(10px) scale(.96);transition:.25s cubic-bezier(.4,0,.2,1)}
-.chat-window.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
-@media(min-width:480px){.chat-window{width:320px}}
-.chat-win-head{background:linear-gradient(135deg,var(--purple),var(--purple2));padding:12px 14px;display:flex;align-items:center;gap:9px}
-.chat-win-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.chat-win-avatar svg{width:15px;height:15px;color:#fff}
-.chat-win-info{flex:1}
-.chat-win-title{font-size:.74rem;font-weight:700;color:#fff}
-.chat-win-status{font-size:.56rem;color:rgba(255,255,255,.7);margin-top:1px;display:flex;align-items:center;gap:4px}
-.status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:statusPulse 2s infinite}
-@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.5}}
-.chat-win-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);display:flex;align-items:center}
-.chat-win-close svg{width:16px;height:16px}
-.chat-msgs{height:220px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
-.chat-bubble{max-width:85%;padding:7px 10px;border-radius:12px;font-size:.65rem;line-height:1.5}
-.chat-bubble.bot{background:var(--bg2);border:1px solid var(--border);border-bottom-left-radius:3px;align-self:flex-start}
-.chat-bubble.user{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
-.chat-bubble.reply{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success);border-bottom-left-radius:3px;align-self:flex-start}
-.chat-bubble-time{font-size:.48rem;opacity:.6;margin-top:3px;text-align:right}
-.chat-typing{display:flex;align-items:center;gap:3px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;border-bottom-left-radius:3px;align-self:flex-start;width:fit-content}
-.typing-dot{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.chat-input-row{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border)}
-.chat-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:7px 10px;font-family:var(--font);font-size:.68rem;color:var(--text);outline:none;transition:.15s}
-.chat-input:focus{border-color:var(--purple)}
-.chat-input::placeholder{color:var(--muted)}
-.chat-send-btn{background:var(--purple);border:none;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;flex-shrink:0;transition:.15s}
-.chat-send-btn:hover{background:var(--purple3)}
-.chat-send-btn svg{width:13px;height:13px}
-.chat-name-step{padding:12px}
-.chat-name-label{font-size:.65rem;color:var(--muted);margin-bottom:8px;line-height:1.5}
-.chat-name-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 10px;font-size:.7rem;color:var(--text);outline:none;margin-bottom:8px;font-family:var(--font)}
-.chat-name-input:focus{border-color:var(--purple)}
-.chat-start-btn{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:9px;border-radius:9px;font-size:.7rem;font-weight:700;cursor:pointer;font-family:var(--font)}
-
-/* ── POPUP PROMO ── */
-.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
-.popup-overlay.open{opacity:1;pointer-events:all}
-.popup-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r3);max-width:340px;width:90%;overflow:hidden;transform:scale(.9) translateY(16px);transition:.3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 24px 64px rgba(0,0,0,.25)}
-.popup-overlay.open .popup-box{transform:scale(1) translateY(0)}
-.popup-img{width:100%;display:block;max-height:180px;object-fit:cover}
-.popup-body{padding:18px}
-.popup-title{font-size:1rem;font-weight:800;margin-bottom:5px}
-.popup-desc{font-size:.68rem;color:var(--muted);line-height:1.6;margin-bottom:14px}
-.popup-code-wrap{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px dashed var(--purple);border-radius:10px;padding:8px 12px;margin-bottom:14px}
-.popup-code{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--purple);letter-spacing:1px}
-.popup-copy-btn{background:var(--purple);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:.58rem;font-weight:700;cursor:pointer}
-.popup-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.popup-check{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:.62rem;color:var(--muted)}
-.popup-check input{accent-color:var(--purple);cursor:pointer}
-.popup-ok-btn{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;border-radius:99px;padding:8px 20px;font-size:.68rem;font-weight:700;cursor:pointer}
-.popup-close-btn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.4);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.popup-close-btn svg{width:12px;height:12px}
-
-/* ── BANNER SLIDER ── */
-.banner-sec{max-width:1320px;margin:0 auto;padding:0 16px 20px}
-@media(min-width:768px){.banner-sec{padding:0 28px 28px}}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:99px;font-size:.63rem;font-weight:600;z-index:99999;white-space:nowrap;animation:toastIn .2s ease;pointer-events:none}
@@ -431,7 +364,7 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <span><a href="about.html">Docs</a> &mdash; <a href="docs.html">Admin</a></span>
 </footer>
 
-<!-- POPUP PROMO -->
+<!-- POPUP PROMO (tetap muncul setiap kali buka website) -->
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box" style="position:relative">
     <button class="popup-close-btn" id="popupClose"><i data-lucide="x" style="width:12px;height:12px"></i></button>
@@ -451,9 +384,9 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- MUSIC PLAYER -->
+<!-- MUSIC PLAYER (FAB & BAR) -->
 <audio id="musicAudio" preload="none"></audio>
-<div class="music-bar" id="musicBar">
+<div class="music-bar hidden" id="musicBar">
   <div class="music-album" id="musicAlbum">
     <i data-lucide="music" style="width:16px;height:16px;color:#fff"></i>
   </div>
@@ -467,39 +400,9 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <button class="mc" id="mcNext"><i data-lucide="skip-forward" style="width:14px;height:14px"></i></button>
   </div>
 </div>
-<div class="music-fab" id="musicFab">
+<div class="music-fab show" id="musicFab">
   <i data-lucide="music-2" style="width:14px;height:14px"></i>
   <span>Musik</span>
-</div>
-
-<!-- LIVE CHAT FAB -->
-<button class="chat-fab" id="chatFab" title="Hubungi Admin">
-  <i data-lucide="message-circle" style="width:20px;height:20px"></i>
-  <div class="chat-unread-dot" id="chatUnreadDot"></div>
-</button>
-
-<!-- CHAT WINDOW -->
-<div class="chat-window" id="chatWindow">
-  <div class="chat-win-head">
-    <div class="chat-win-avatar"><i data-lucide="headphones" style="width:15px;height:15px;color:#fff"></i></div>
-    <div class="chat-win-info">
-      <div class="chat-win-title">Admin lapakID</div>
-      <div class="chat-win-status"><div class="status-dot"></div>Online &bull; Siap membantu</div>
-    </div>
-    <button class="chat-win-close" id="chatClose"><i data-lucide="x" style="width:16px;height:16px"></i></button>
-  </div>
-  <div id="chatNameStep" class="chat-name-step">
-    <div class="chat-name-label">Hai! 👋 Sebelum mulai, perkenalkan dirimu dulu ya.</div>
-    <input class="chat-name-input" id="chatNameInput" type="text" placeholder="Nama kamu..."/>
-    <button class="chat-start-btn" onclick="startChat()">Mulai Chat <i data-lucide="arrow-right" style="width:12px;height:12px;vertical-align:middle"></i></button>
-  </div>
-  <div id="chatMain" style="display:none">
-    <div class="chat-msgs" id="chatMsgs"></div>
-    <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" placeholder="Ketik pesan..." onkeydown="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send-btn" onclick="sendChat()"><i data-lucide="send" style="width:13px;height:13px"></i></button>
-    </div>
-  </div>
 </div>
 
 <audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
@@ -509,7 +412,6 @@ const API='/api';
 const PER_PAGE=20;
 let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]')),currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0,musicHideTimer=null;
-let chatName=localStorage.getItem('lapakid_chat_name')||'',chatOpen=false,chatPolling=null,lastMsgId=null;
 let notifOpen=false;
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
@@ -626,7 +528,7 @@ async function loadBanners(){
     bannerStartAuto();
     // Init musik dari settings
     applyMusic(settings);
-    // Init popup dari settings
+    // Init popup dari settings (tetap muncul setiap buka, abaikan checkbox)
     initPopup(settings);
   }catch(e){}
 }
@@ -644,10 +546,9 @@ let bTx=0;
 bWrap.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bWrap.addEventListener('touchend',e=>{const diff=bTx-e.changedTouches[0].clientX;if(Math.abs(diff)>40)diff>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerStartAuto();},{passive:true});
 
-// ── POPUP (from DB) ──────────────────────────────────────────────────────────
+// ── POPUP (muncul setiap buka website, abaikan checkbox) ──────────────────────────────────────────
 function initPopup(s){
-  const STORAGE_KEY='lapakid_popup_hide';
-  if(localStorage.getItem(STORAGE_KEY)==='1') return;
+  // ALWAYS SHOW POPUP every time website is opened, ignore localStorage completely
   const popup=s.popup||{};
   if(!popup.active) return;
   const img=document.getElementById('popupImg');
@@ -655,7 +556,10 @@ function initPopup(s){
   document.getElementById('popupTitle').textContent=popup.title||'🎉 Promo Spesial!';
   document.getElementById('popupDesc').textContent=popup.desc||'Gunakan kode promo saat checkout.';
   document.getElementById('popupCode').textContent=popup.code||'LAPAK10';
-  const closePopup=()=>{if(document.getElementById('dontShow').checked)localStorage.setItem(STORAGE_KEY,'1');document.getElementById('promoPopup').classList.remove('open');};
+  const closePopup=()=>{
+    // Do NOT save any "dont show" to localStorage, just close
+    document.getElementById('promoPopup').classList.remove('open');
+  };
   document.getElementById('popupClose').onclick=closePopup;
   document.getElementById('popupOk').onclick=closePopup;
   document.getElementById('promoPopup').addEventListener('click',e=>{if(e.target===document.getElementById('promoPopup'))closePopup();});
@@ -836,7 +740,7 @@ function setupTierSticky(){
   window.addEventListener('scroll',tierScrollFn,{passive:true});tierScrollFn();
 }
 
-// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
+// ── MUSIC PLAYER (BAR muncul hanya saat FAB diklik, hilang setelah 5 detik) ──
 const audio=document.getElementById('musicAudio');
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
@@ -856,101 +760,45 @@ function loadSong(idx){
 function togglePlay(){
   if(audio.paused){audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
   else{audio.pause();document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);}
-  resetMusicHide();
 }
 function updatePlayIcon(playing){
   const ico=document.getElementById('mcPlayIcon');
   ico.setAttribute('data-lucide',playing?'pause':'play');
   if(window.lucide) lucide.createIcons({nodes:[ico]});
 }
-function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);resetMusicHide();}
-function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);resetMusicHide();}
+function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
+function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
 audio.addEventListener('ended',nextSong);
 audio.addEventListener('pause',()=>{document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);});
 document.getElementById('mcPlay').addEventListener('click',togglePlay);
 document.getElementById('mcPrev').addEventListener('click',prevSong);
 document.getElementById('mcNext').addEventListener('click',nextSong);
-document.getElementById('musicFab').addEventListener('click',showMusicBar);
-function showMusicBar(){document.getElementById('musicBar').classList.remove('hidden');document.getElementById('musicFab').classList.remove('show');resetMusicHide();}
-function hideMusicBar(){document.getElementById('musicBar').classList.add('hidden');setTimeout(()=>document.getElementById('musicFab').classList.add('show'),400);}
-function resetMusicHide(){clearTimeout(musicHideTimer);musicHideTimer=setTimeout(()=>{hideMusicBar();setTimeout(showMusicBar,18000);},18000);}
-const mBar=document.getElementById('musicBar');
-mBar.addEventListener('mouseenter',()=>clearTimeout(musicHideTimer));
-mBar.addEventListener('mouseleave',resetMusicHide);
-mBar.addEventListener('touchstart',()=>{clearTimeout(musicHideTimer);setTimeout(resetMusicHide,3000);},{passive:true});
-
-// ── LIVE CHAT ─────────────────────────────────────────────────────────────────
-function openChat(){
-  chatOpen=true;document.getElementById('chatWindow').classList.add('open');
-  if(chatName){showChatMain();}else{document.getElementById('chatNameStep').style.display='block';document.getElementById('chatMain').style.display='none';}
+const musicBar=document.getElementById('musicBar');
+const musicFab=document.getElementById('musicFab');
+function showMusicBar(){
+  musicBar.classList.remove('hidden');
+  musicFab.classList.remove('show');
+  // Mulai timer 5 detik untuk menyembunyikan bar
+  clearTimeout(musicHideTimer);
+  musicHideTimer=setTimeout(()=>{
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
+  }, 5000);
 }
-function closeChat(){chatOpen=false;document.getElementById('chatWindow').classList.remove('open');if(chatPolling){clearInterval(chatPolling);chatPolling=null;}}
-document.getElementById('chatFab').addEventListener('click',()=>{if(chatOpen)closeChat();else openChat();});
-document.getElementById('chatClose').addEventListener('click',closeChat);
-function startChat(){
-  const name=document.getElementById('chatNameInput').value.trim();
-  if(!name){return;}
-  chatName=name;localStorage.setItem('lapakid_chat_name',name);
-  showChatMain();
+function hideMusicBar(){
+  musicBar.classList.add('hidden');
+  musicFab.classList.add('show');
 }
-function showChatMain(){
-  document.getElementById('chatNameStep').style.display='none';
-  document.getElementById('chatMain').style.display='block';
-  const msgs=document.getElementById('chatMsgs');
-  if(!msgs.children.length){addBotMsg('Halo '+chatName+'! 👋 Ada yang bisa kami bantu?');}
-  pollReply();
-}
-function addBotMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble bot';el.innerHTML=text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function addUserMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble user';el.innerHTML=text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function addReplyMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble reply';el.innerHTML='<b>Admin:</b> '+text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-  document.getElementById('chatUnreadDot').classList.add('show');
-}
-function showTyping(){
-  const msgs=document.getElementById('chatMsgs');
-  const el=document.createElement('div');el.className='chat-typing';el.id='typingIndicator';
-  el.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function hideTyping(){const el=document.getElementById('typingIndicator');if(el)el.remove();}
-async function sendChat(){
-  const inp=document.getElementById('chatInput');const msg=inp.value.trim();
-  if(!msg||!chatName)return;
-  inp.value='';addUserMsg(msg);showTyping();
-  try{
-    const r=await fetch(`${API}/reports`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:chatName,message:msg})});
-    const d=await r.json();
-    setTimeout(()=>{
-      hideTyping();
-      if(d.success)addBotMsg('Pesan kamu sudah kami terima! Admin akan membalas segera. 😊');
-      else addBotMsg(d.message||'Pesan gagal terkirim. Coba lagi ya.');
-    },1200);
-  }catch(e){setTimeout(()=>{hideTyping();addBotMsg('Gagal mengirim pesan. Cek koneksi kamu.');},1000);}
-}
-async function pollReply(){
-  if(chatPolling)clearInterval(chatPolling);
-  chatPolling=setInterval(async()=>{
-    if(!chatName||!chatOpen)return;
-    try{
-      const r=await fetch(`${API}/reports/reply-check?name=${encodeURIComponent(chatName)}`);
-      if(!r.ok)return;const d=await r.json();
-      if(d.reply&&d.reply!==lastMsgId){lastMsgId=d.reply;addReplyMsg(d.replyText);}
-    }catch(e){}
-  },8000);
-}
+musicFab.addEventListener('click',showMusicBar);
+// reset timer saat mouse enter
+musicBar.addEventListener('mouseenter',()=>clearTimeout(musicHideTimer));
+musicBar.addEventListener('mouseleave',()=>{
+  clearTimeout(musicHideTimer);
+  musicHideTimer=setTimeout(()=>{
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
+  }, 5000);
+});
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
@@ -958,7 +806,6 @@ async function init(){
   loadNotifications();
   await loadBanners(); // loads settings + music + popup
   await Promise.all([loadPopular(),loadIds()]);
-  resetMusicHide();
   if(window.lucide) lucide.createIcons();
 }
 
