@@ -214,14 +214,13 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .notif-detail-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);max-width:360px;width:90%;padding:20px;transform:scale(.95);transition:.2s}
 .notif-detail-overlay.open .notif-detail-box{transform:scale(1)}
 
-/* ── MUSIC PLAYER ── */
-.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease}
-.music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
+/* ── MUSIC PLAYER (only show when clicked) ── */
+.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);z-index:10000;background:rgba(15,15,20,.88);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:99px;padding:8px 16px 8px 10px;display:flex;align-items:center;gap:10px;min-width:220px;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;opacity:0;pointer-events:none}
+.music-bar.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:all}
 .music-album{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
 .music-album svg{width:16px;height:16px;color:#fff}
 .music-album.spin{animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.music-progress-ring{position:absolute;inset:-3px;border-radius:50%}
 .music-info{flex:1;min-width:0}
 .music-title-wrap{overflow:hidden;width:100%}
 .music-title-inner{display:inline-block;white-space:nowrap;font-size:.63rem;font-weight:700;color:#fff}
@@ -234,53 +233,11 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .mc svg{width:14px;height:14px}
 .mc-play{background:rgba(99,102,241,.75)!important;color:#fff!important;width:30px;height:30px}
 .mc-play:hover{background:var(--purple)!important}
-.music-fab{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(15,15,20,.85);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:7px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;color:rgba(255,255,255,.7);font-size:.6rem;font-weight:600}
-.music-fab.show{opacity:1;pointer-events:all}
-.music-fab svg{width:14px;height:14px}
 
-/* ── LIVE CHAT ── */
-.chat-fab{position:fixed;bottom:22px;right:16px;z-index:9999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(99,102,241,.4);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
-.chat-fab:hover{transform:scale(1.08)}
-.chat-fab svg{width:20px;height:20px;color:#fff}
-.chat-unread-dot{position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:var(--sold);border-radius:50%;border:2px solid var(--bg);display:none}
-.chat-unread-dot.show{display:block}
-
-.chat-window{position:fixed;bottom:76px;right:16px;z-index:9998;width:300px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);box-shadow:0 12px 48px rgba(0,0,0,.18);overflow:hidden;opacity:0;pointer-events:none;transform:translateY(10px) scale(.96);transition:.25s cubic-bezier(.4,0,.2,1)}
-.chat-window.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
-@media(min-width:480px){.chat-window{width:320px}}
-.chat-win-head{background:linear-gradient(135deg,var(--purple),var(--purple2));padding:12px 14px;display:flex;align-items:center;gap:9px}
-.chat-win-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.chat-win-avatar svg{width:15px;height:15px;color:#fff}
-.chat-win-info{flex:1}
-.chat-win-title{font-size:.74rem;font-weight:700;color:#fff}
-.chat-win-status{font-size:.56rem;color:rgba(255,255,255,.7);margin-top:1px;display:flex;align-items:center;gap:4px}
-.status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:statusPulse 2s infinite}
-@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.5}}
-.chat-win-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.7);display:flex;align-items:center}
-.chat-win-close svg{width:16px;height:16px}
-.chat-msgs{height:220px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
-.chat-bubble{max-width:85%;padding:7px 10px;border-radius:12px;font-size:.65rem;line-height:1.5}
-.chat-bubble.bot{background:var(--bg2);border:1px solid var(--border);border-bottom-left-radius:3px;align-self:flex-start}
-.chat-bubble.user{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
-.chat-bubble.reply{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success);border-bottom-left-radius:3px;align-self:flex-start}
-.chat-bubble-time{font-size:.48rem;opacity:.6;margin-top:3px;text-align:right}
-.chat-typing{display:flex;align-items:center;gap:3px;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;border-bottom-left-radius:3px;align-self:flex-start;width:fit-content}
-.typing-dot{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.chat-input-row{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border)}
-.chat-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:7px 10px;font-family:var(--font);font-size:.68rem;color:var(--text);outline:none;transition:.15s}
-.chat-input:focus{border-color:var(--purple)}
-.chat-input::placeholder{color:var(--muted)}
-.chat-send-btn{background:var(--purple);border:none;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;flex-shrink:0;transition:.15s}
-.chat-send-btn:hover{background:var(--purple3)}
-.chat-send-btn svg{width:13px;height:13px}
-.chat-name-step{padding:12px}
-.chat-name-label{font-size:.65rem;color:var(--muted);margin-bottom:8px;line-height:1.5}
-.chat-name-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 10px;font-size:.7rem;color:var(--text);outline:none;margin-bottom:8px;font-family:var(--font)}
-.chat-name-input:focus{border-color:var(--purple)}
-.chat-start-btn{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;padding:9px;border-radius:9px;font-size:.7rem;font-weight:700;cursor:pointer;font-family:var(--font)}
+/* ── MUSIC FAB (button to show music player) ── */
+.music-fab{position:fixed;bottom:20px;left:20px;z-index:9999;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;border-radius:99px;padding:10px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;box-shadow:0 4px 15px rgba(99,102,241,.4);transition:all .25s cubic-bezier(.34,1.56,.64,1);color:#fff;font-size:.7rem;font-weight:600}
+.music-fab:hover{transform:scale(1.05)}
+.music-fab svg{width:16px;height:16px}
 
 /* ── POPUP PROMO ── */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
@@ -478,40 +435,12 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
     <button class="mc" id="mcNext"><i data-lucide="skip-forward" style="width:14px;height:14px"></i></button>
   </div>
 </div>
-<div class="music-fab" id="musicFab">
-  <i data-lucide="music-2" style="width:14px;height:14px"></i>
+
+<!-- MUSIC FAB (tombol untuk menampilkan player) -->
+<button class="music-fab" id="musicFab">
+  <i data-lucide="music-2" style="width:16px;height:16px"></i>
   <span>Musik</span>
-</div>
-
-<!-- LIVE CHAT FAB -->
-<button class="chat-fab" id="chatFab" title="Hubungi Admin">
-  <i data-lucide="message-circle" style="width:20px;height:20px"></i>
-  <div class="chat-unread-dot" id="chatUnreadDot"></div>
 </button>
-
-<!-- CHAT WINDOW -->
-<div class="chat-window" id="chatWindow">
-  <div class="chat-win-head">
-    <div class="chat-win-avatar"><i data-lucide="headphones" style="width:15px;height:15px;color:#fff"></i></div>
-    <div class="chat-win-info">
-      <div class="chat-win-title">Admin lapakID</div>
-      <div class="chat-win-status"><div class="status-dot"></div>Online &bull; Siap membantu</div>
-    </div>
-    <button class="chat-win-close" id="chatClose"><i data-lucide="x" style="width:16px;height:16px"></i></button>
-  </div>
-  <div id="chatNameStep" class="chat-name-step">
-    <div class="chat-name-label">Hai! 👋 Sebelum mulai, perkenalkan dirimu dulu ya.</div>
-    <input class="chat-name-input" id="chatNameInput" type="text" placeholder="Nama kamu..."/>
-    <button class="chat-start-btn" onclick="startChat()">Mulai Chat <i data-lucide="arrow-right" style="width:12px;height:12px;vertical-align:middle"></i></button>
-  </div>
-  <div id="chatMain" style="display:none">
-    <div class="chat-msgs" id="chatMsgs"></div>
-    <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" placeholder="Ketik pesan..." onkeydown="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send-btn" onclick="sendChat()"><i data-lucide="send" style="width:13px;height:13px"></i></button>
-    </div>
-  </div>
-</div>
 
 <audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
 
@@ -520,7 +449,6 @@ const API='/api';
 const PER_PAGE=20;
 let allIds=[],activeFilter='all',searchQ='',settings={},likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]')),currentModal=null,tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0,musicHideTimer=null;
-let chatName=localStorage.getItem('lapakid_chat_name')||'',chatOpen=false,chatPolling=null,lastMsgId=null;
 let notifOpen=false;
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
@@ -661,6 +589,10 @@ function initPopup(s, forceShow = false){
   const urlForce = window.location.search.includes('forcepopup=1');
   
   // Jika forceShow=true ATAU ada parameter forcepopup, abaikan localStorage
+  if (forceShow || urlForce) {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+  
   if (!forceShow && !urlForce && localStorage.getItem(STORAGE_KEY) === '1') return;
   
   const popup = s.popup || {};
@@ -696,16 +628,13 @@ function initPopup(s, forceShow = false){
   newClose.onclick = closePopup;
   newOk.onclick = closePopup;
   
-  // Reset checkbox setiap kali popup muncul (biar user bisa milih lagi)
   document.getElementById('dontShow').checked = false;
   
-  // Overlay click close
   const overlay = document.getElementById('promoPopup');
   const overlayHandler = (e) => { if (e.target === overlay) closePopup(); };
   overlay.removeEventListener('click', overlayHandler);
   overlay.addEventListener('click', overlayHandler);
   
-  // Tampilkan popup
   setTimeout(() => overlay.classList.add('open'), 1500);
 }
 
@@ -723,7 +652,6 @@ async function checkAdminAndShowForceBtn(){
   if(adminToken){
     document.getElementById('forcePopupBtn').classList.add('show');
   } else {
-    // Coba cek apakah user adalah admin (login dulu)
     try{
       const r = await fetch(`${API}/admin/login`, {
         method: 'POST',
@@ -739,13 +667,10 @@ async function checkAdminAndShowForceBtn(){
 }
 
 document.getElementById('forcePopupBtn').addEventListener('click', async () => {
-  // Reset localStorage hide popup
   localStorage.removeItem('lapakid_popup_hide');
-  // Ambil settings terbaru dari server
   try{
     const r = await fetch(`${API}/settings`);
     const d = await r.json();
-    // Force show popup
     initPopup(d.data || {}, true);
     showToast('Popup dipaksa tampil!');
   }catch(e){
@@ -926,14 +851,22 @@ function setupTierSticky(){
   window.addEventListener('scroll',tierScrollFn,{passive:true});tierScrollFn();
 }
 
-// ── MUSIC PLAYER ─────────────────────────────────────────────────────────────
+// ── MUSIC PLAYER (only show when clicked, auto hide after 5 sec) ─────────────
 const audio=document.getElementById('musicAudio');
+let musicAutoHideTimer=null;
+let isMusicBarVisible=false;
+
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
   songs=list;
-  if(songs.length)loadSong(0);
-  else{document.getElementById('musicTitle').textContent='Belum ada musik';document.getElementById('musicSub').textContent='—';}
+  if(songs.length){
+    loadSong(0);
+  } else {
+    document.getElementById('musicTitle').textContent='Belum ada musik';
+    document.getElementById('musicSub').textContent='—';
+  }
 }
+
 function loadSong(idx){
   currentSong=idx;audio.src=songs[idx].src;
   const title=songs[idx].title;
@@ -943,104 +876,94 @@ function loadSong(idx){
   ti.classList.remove('marquee');
   setTimeout(()=>{if(ti.scrollWidth>wrap.clientWidth)ti.classList.add('marquee');},200);
 }
+
 function togglePlay(){
-  if(audio.paused){audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);}
-  else{audio.pause();document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);}
-  resetMusicHide();
+  if(audio.paused){
+    audio.play();
+    document.getElementById('musicAlbum').classList.add('spin');
+    updatePlayIcon(true);
+  } else {
+    audio.pause();
+    document.getElementById('musicAlbum').classList.remove('spin');
+    updatePlayIcon(false);
+  }
+  resetMusicAutoHide();
 }
+
 function updatePlayIcon(playing){
   const ico=document.getElementById('mcPlayIcon');
   ico.setAttribute('data-lucide',playing?'pause':'play');
   if(window.lucide) lucide.createIcons({nodes:[ico]});
 }
-function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);resetMusicHide();}
-function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlbum').classList.add('spin');updatePlayIcon(true);resetMusicHide();}
+
+function nextSong(){
+  if(songs.length===0) return;
+  currentSong=(currentSong+1)%songs.length;
+  loadSong(currentSong);
+  audio.play();
+  document.getElementById('musicAlbum').classList.add('spin');
+  updatePlayIcon(true);
+  resetMusicAutoHide();
+}
+
+function prevSong(){
+  if(songs.length===0) return;
+  currentSong=(currentSong-1+songs.length)%songs.length;
+  loadSong(currentSong);
+  audio.play();
+  document.getElementById('musicAlbum').classList.add('spin');
+  updatePlayIcon(true);
+  resetMusicAutoHide();
+}
+
 audio.addEventListener('ended',nextSong);
-audio.addEventListener('pause',()=>{document.getElementById('musicAlbum').classList.remove('spin');updatePlayIcon(false);});
+audio.addEventListener('pause',()=>{
+  document.getElementById('musicAlbum').classList.remove('spin');
+  updatePlayIcon(false);
+});
+
 document.getElementById('mcPlay').addEventListener('click',togglePlay);
 document.getElementById('mcPrev').addEventListener('click',prevSong);
 document.getElementById('mcNext').addEventListener('click',nextSong);
-document.getElementById('musicFab').addEventListener('click',showMusicBar);
-function showMusicBar(){document.getElementById('musicBar').classList.remove('hidden');document.getElementById('musicFab').classList.remove('show');resetMusicHide();}
-function hideMusicBar(){document.getElementById('musicBar').classList.add('hidden');setTimeout(()=>document.getElementById('musicFab').classList.add('show'),400);}
-function resetMusicHide(){clearTimeout(musicHideTimer);musicHideTimer=setTimeout(()=>{hideMusicBar();setTimeout(showMusicBar,18000);},18000);}
-const mBar=document.getElementById('musicBar');
-mBar.addEventListener('mouseenter',()=>clearTimeout(musicHideTimer));
-mBar.addEventListener('mouseleave',resetMusicHide);
-mBar.addEventListener('touchstart',()=>{clearTimeout(musicHideTimer);setTimeout(resetMusicHide,3000);},{passive:true});
 
-// ── LIVE CHAT ─────────────────────────────────────────────────────────────────
-function openChat(){
-  chatOpen=true;document.getElementById('chatWindow').classList.add('open');
-  if(chatName){showChatMain();}else{document.getElementById('chatNameStep').style.display='block';document.getElementById('chatMain').style.display='none';}
+// Show music bar when fab clicked, auto hide after 5 seconds
+function showMusicBar(){
+  if(songs.length===0){
+    showToast('Belum ada musik yang tersedia');
+    return;
+  }
+  const bar=document.getElementById('musicBar');
+  bar.classList.add('show');
+  isMusicBarVisible=true;
+  resetMusicAutoHide();
 }
-function closeChat(){chatOpen=false;document.getElementById('chatWindow').classList.remove('open');if(chatPolling){clearInterval(chatPolling);chatPolling=null;}}
-document.getElementById('chatFab').addEventListener('click',()=>{if(chatOpen)closeChat();else openChat();});
-document.getElementById('chatClose').addEventListener('click',closeChat);
-function startChat(){
-  const name=document.getElementById('chatNameInput').value.trim();
-  if(!name){return;}
-  chatName=name;localStorage.setItem('lapakid_chat_name',name);
-  showChatMain();
+
+function hideMusicBar(){
+  if(!isMusicBarVisible) return;
+  const bar=document.getElementById('musicBar');
+  bar.classList.remove('show');
+  isMusicBarVisible=false;
+  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
 }
-function showChatMain(){
-  document.getElementById('chatNameStep').style.display='none';
-  document.getElementById('chatMain').style.display='block';
-  const msgs=document.getElementById('chatMsgs');
-  if(!msgs.children.length){addBotMsg('Halo '+chatName+'! 👋 Ada yang bisa kami bantu?');}
-  pollReply();
+
+function resetMusicAutoHide(){
+  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
+  musicAutoHideTimer=setTimeout(() => {
+    hideMusicBar();
+  }, 5000); // 5 detik
 }
-function addBotMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble bot';el.innerHTML=text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function addUserMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble user';el.innerHTML=text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function addReplyMsg(text){
-  const msgs=document.getElementById('chatMsgs');
-  const t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  const el=document.createElement('div');el.className='chat-bubble reply';el.innerHTML='<b>Admin:</b> '+text+'<div class="chat-bubble-time">'+t+'</div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-  document.getElementById('chatUnreadDot').classList.add('show');
-}
-function showTyping(){
-  const msgs=document.getElementById('chatMsgs');
-  const el=document.createElement('div');el.className='chat-typing';el.id='typingIndicator';
-  el.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-  msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
-}
-function hideTyping(){const el=document.getElementById('typingIndicator');if(el)el.remove();}
-async function sendChat(){
-  const inp=document.getElementById('chatInput');const msg=inp.value.trim();
-  if(!msg||!chatName)return;
-  inp.value='';addUserMsg(msg);showTyping();
-  try{
-    const r=await fetch(`${API}/reports`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:chatName,message:msg})});
-    const d=await r.json();
-    setTimeout(()=>{
-      hideTyping();
-      if(d.success)addBotMsg('Pesan kamu sudah kami terima! Admin akan membalas segera. 😊');
-      else addBotMsg(d.message||'Pesan gagal terkirim. Coba lagi ya.');
-    },1200);
-  }catch(e){setTimeout(()=>{hideTyping();addBotMsg('Gagal mengirim pesan. Cek koneksi kamu.');},1000);}
-}
-async function pollReply(){
-  if(chatPolling)clearInterval(chatPolling);
-  chatPolling=setInterval(async()=>{
-    if(!chatName||!chatOpen)return;
-    try{
-      const r=await fetch(`${API}/reports/reply-check?name=${encodeURIComponent(chatName)}`);
-      if(!r.ok)return;const d=await r.json();
-      if(d.reply&&d.reply!==lastMsgId){lastMsgId=d.reply;addReplyMsg(d.replyText);}
-    }catch(e){}
-  },8000);
-}
+
+// Music fab button
+document.getElementById('musicFab').addEventListener('click', showMusicBar);
+
+// Keep music bar visible when hover, reset timer when mouse leaves
+const musicBarElement = document.getElementById('musicBar');
+musicBarElement.addEventListener('mouseenter', () => {
+  if(musicAutoHideTimer) clearTimeout(musicAutoHideTimer);
+});
+musicBarElement.addEventListener('mouseleave', () => {
+  if(isMusicBarVisible) resetMusicAutoHide();
+});
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
@@ -1048,7 +971,6 @@ async function init(){
   loadNotifications();
   await loadBanners();
   await Promise.all([loadPopular(),loadIds()]);
-  resetMusicHide();
   await checkAdminAndShowForceBtn();
   if(window.lucide) lucide.createIcons();
 }
