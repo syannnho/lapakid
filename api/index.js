@@ -1,14 +1,11 @@
 // api/index.js — lapakID Backend (Complete Version)
-// Features: IDs, Like, Promo, Payment, Settings, Notifications, Reports, GitHub Editor, Bans
+// Features: IDs, Like, Promo, Payment, Settings, Notifications, Reports, Broadcast, Bans
 
 const { MongoClient, ObjectId } = require('mongodb');
 
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://n4taza_db:N44E8WEKlOJLZIHQ@cluster0.pdfnlfb.mongodb.net/?appName=Cluster0';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'lapakid_admin_secret_2026';
 const DB_NAME = 'lapakid';
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
-const GITHUB_REPO = process.env.GITHUB_REPO || 'nataza/lapakid';
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
 
 // ── MongoDB connection pool ───────────────────────────────────────────────────
 let cachedClient = null;
@@ -82,11 +79,11 @@ async function ensureSettings(db) {
   
   const defaults = {
     prices: { low: 125000, medium: 450000, high: 850000, legend: 1350000 },
-    adminFee: { google: 5000, file: 0 },
+    adminFee: { qris: 0, google: 5000 },
     siteInfo: { name: 'lapakID', description: 'Koleksi ID Premium', contact: '' },
-    music: { enabled: false, url: '' },
+    music: { enabled: false, url: '', list: [] },
     banners: [],
-    popup: { enabled: false, title: '', message: '', image: '' }
+    popup: { active: false, title: '', desc: '', code: '', imageUrl: '' }
   };
   
   for (const [key, value] of Object.entries(defaults)) {
@@ -367,15 +364,17 @@ module.exports = async function handler(req, res) {
 
     // ────────────────────────────────────────────── NOTIFICATIONS ────────────
     if (r0 === 'notifications') {
+      // GET /api/notifications
       if (!r1 && M === 'GET') {
         const notifs = await db.collection('notifications')
           .find({ active: true })
           .sort({ createdAt: -1 })
-          .limit(20)
+          .limit(50)
           .toArray();
         return ok(res, { data: notifs });
       }
       
+      // POST /api/notifications
       if (!r1 && M === 'POST') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const b = await readBody(req);
@@ -385,12 +384,43 @@ module.exports = async function handler(req, res) {
           message: b.message,
           type: b.type || 'info',
           active: b.active !== false,
+          readBy: [],
           createdAt: new Date()
         };
         await db.collection('notifications').insertOne(doc);
         return created(res, { data: doc });
       }
       
+      // POST /api/notifications/broadcast (BROADCAST ke semua user)
+      if (r1 === 'broadcast' && M === 'POST') {
+        if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
+        const b = await readBody(req);
+        if (!b.title || !b.message) return fail(res, 400, 'title dan message wajib');
+        
+        const notification = {
+          title: b.title,
+          message: b.message,
+          type: b.type || 'info',
+          active: true,
+          readBy: [],
+          createdAt: new Date()
+        };
+        
+        await db.collection('notifications').insertOne(notification);
+        
+        return ok(res, { 
+          message: 'Broadcast terkirim ke semua user', 
+          data: notification 
+        });
+      }
+      
+      // PUT /api/notifications/read (mark all as read for current user)
+      if (r1 === 'read' && M === 'PUT') {
+        // This would require user identification, for now just return ok
+        return ok(res, { message: 'Notifikasi ditandai dibaca' });
+      }
+      
+      // DELETE /api/notifications/:id
       if (r1 && M === 'DELETE') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         let oid;
@@ -402,13 +432,12 @@ module.exports = async function handler(req, res) {
 
     // ────────────────────────────────────────────── REPORTS (Live Chat) ──────
     if (r0 === 'reports') {
-      // POST /api/reports - Kirim pesan (1x per IP per hari)
+      // POST /api/reports
       if (!r1 && M === 'POST') {
         const ip = getIP(req);
         const b = await readBody(req);
         if (!b.name || !b.message) return fail(res, 400, 'name dan message wajib');
         
-        // Cek limit 1x per hari per IP
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const existing = await db.collection('reports').countDocuments({
@@ -444,12 +473,12 @@ module.exports = async function handler(req, res) {
           { sort: { repliedAt: -1 } }
         );
         if (reply && reply.reply) {
-          return ok(res, { hasReply: true, reply: reply.reply, repliedAt: reply.repliedAt });
+          return ok(res, { hasReply: true, replyText: reply.reply, repliedAt: reply.repliedAt });
         }
         return ok(res, { hasReply: false });
       }
       
-      // GET /api/reports (Admin) - Lihat semua laporan
+      // GET /api/reports (Admin)
       if (!r1 && M === 'GET') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
         const reports = await db.collection('reports')
@@ -494,58 +523,58 @@ module.exports = async function handler(req, res) {
     }
 
     // ────────────────────────────────────────────── PAYMENT ──────────────────
-if (r0 === 'payment' && !r1 && M === 'POST') {
-  const b = await readBody(req);
-  const { idNumber, method, buyer, phone, promoCode } = b;
-  
-  // WAJIB: idNumber, method, buyer, phone (no WA)
-  if (!idNumber || !method || !buyer || !phone) {
-    return fail(res, 400, 'idNumber, method, buyer, nomor WhatsApp wajib diisi');
-  }
-  
-  const idDoc = await db.collection('ids').findOne({ number: String(idNumber) });
-  if (!idDoc) return fail(res, 404, 'ID tidak ditemukan');
-  if (idDoc.sold) return fail(res, 409, 'ID sudah terjual');
-  
-  const settings = await db.collection('settings').find().toArray();
-  const settingsMap = {};
-  settings.forEach(s => { settingsMap[s.key] = s.value; });
-  
-  const prices = settingsMap.prices || {};
-  const fees = settingsMap.adminFee || {};
-  const base = prices[idDoc.tier] || 0;
-  
-  let disc = 0, promoUsed = null;
-  if (promoCode) {
-    const pr = await db.collection('promos').findOne({ code: promoCode.toUpperCase().trim(), active: true });
-    if (pr && (pr.maxUses == null || pr.uses < pr.maxUses) && (!pr.expiresAt || new Date() < new Date(pr.expiresAt))) {
-      disc = pr.discount;
-      promoUsed = pr.code;
-      await db.collection('promos').updateOne({ code: pr.code }, { $inc: { uses: 1 } });
+    if (r0 === 'payment' && !r1 && M === 'POST') {
+      const b = await readBody(req);
+      const { idNumber, method, buyer, phone, promoCode } = b;
+      
+      if (!idNumber || !method || !buyer || !phone) {
+        return fail(res, 400, 'idNumber, method, buyer, nomor WhatsApp wajib diisi');
+      }
+      
+      const idDoc = await db.collection('ids').findOne({ number: String(idNumber) });
+      if (!idDoc) return fail(res, 404, 'ID tidak ditemukan');
+      if (idDoc.sold) return fail(res, 409, 'ID sudah terjual');
+      
+      const settings = await db.collection('settings').find().toArray();
+      const settingsMap = {};
+      settings.forEach(s => { settingsMap[s.key] = s.value; });
+      
+      const prices = settingsMap.prices || {};
+      const fees = settingsMap.adminFee || {};
+      const base = prices[idDoc.tier] || 0;
+      
+      let disc = 0, promoUsed = null;
+      if (promoCode) {
+        const pr = await db.collection('promos').findOne({ code: promoCode.toUpperCase().trim(), active: true });
+        if (pr && (pr.maxUses == null || pr.uses < pr.maxUses) && (!pr.expiresAt || new Date() < new Date(pr.expiresAt))) {
+          disc = pr.discount;
+          promoUsed = pr.code;
+          await db.collection('promos').updateOne({ code: pr.code }, { $inc: { uses: 1 } });
+        }
+      }
+      
+      const methodKey = method.toLowerCase();
+      const adminFee = fees[methodKey] || 0;
+      const finalPrice = Math.round(base * (1 - disc / 100)) + adminFee;
+      
+      const payment = {
+        idNumber: String(idNumber),
+        tier: idDoc.tier,
+        price: base,
+        method: method,
+        buyer: buyer,
+        phone: phone,
+        promoCode: promoUsed,
+        discount: disc,
+        adminFee: adminFee,
+        finalPrice: finalPrice,
+        status: 'pending',
+        createdAt: new Date()
+      };
+      
+      const ins = await db.collection('payments').insertOne(payment);
+      return created(res, { data: { ...payment, _id: ins.insertedId } });
     }
-  }
-  
-  const adminFee = fees[method] || 0;
-  const finalPrice = Math.round(base * (1 - disc / 100)) + adminFee;
-  
-  const payment = {
-    idNumber: String(idNumber),
-    tier: idDoc.tier,
-    price: base,
-    method: method,
-    buyer: buyer,
-    phone: phone,  // No WA wajib
-    promoCode: promoUsed,
-    discount: disc,
-    adminFee: adminFee,
-    finalPrice: finalPrice,
-    status: 'pending',
-    createdAt: new Date()
-  };
-  
-  const ins = await db.collection('payments').insertOne(payment);
-  return created(res, { data: { ...payment, _id: ins.insertedId } });
-}
 
     if (r0 === 'payments') {
       // GET /api/payments (Admin)
@@ -580,10 +609,11 @@ if (r0 === 'payment' && !r1 && M === 'POST') {
         
         // Buat notifikasi otomatis
         await db.collection('notifications').insertOne({
-          title: 'Pembayaran Dikonfirmasi',
+          title: '✅ Pembayaran Dikonfirmasi',
           message: `Pembelian ID ${payment.idNumber} telah dikonfirmasi. Terima kasih ${payment.buyer}!`,
           type: 'success',
           active: true,
+          readBy: [],
           createdAt: new Date()
         });
         
@@ -591,80 +621,7 @@ if (r0 === 'payment' && !r1 && M === 'POST') {
       }
     }
 
-    // ────────────────────────────────────────────── GITHUB EDITOR ────────────
-    if (r0 === 'github') {
-      // GET /api/github/file?path=index.html
-      if (r1 === 'file' && M === 'GET') {
-        if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
-        const q = qs(req.url);
-        const filePath = q.path;
-        if (!filePath) return fail(res, 400, 'path required');
-        if (!GITHUB_TOKEN) return fail(res, 503, 'GitHub token not configured');
-        
-        try {
-          const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`;
-          const response = await fetch(url, {
-            headers: {
-              'Authorization': `Bearer ${GITHUB_TOKEN}`,
-              'Accept': 'application/vnd.github.v3+json'
-            }
-          });
-          
-          if (!response.ok) {
-            if (response.status === 404) return ok(res, { content: null, sha: null, exists: false });
-            return fail(res, response.status, 'Failed to fetch file');
-          }
-          
-          const data = await response.json();
-          const content = Buffer.from(data.content, 'base64').toString('utf-8');
-          return ok(res, { content, sha: data.sha, exists: true });
-        } catch (err) {
-          return fail(res, 500, 'GitHub error: ' + err.message);
-        }
-      }
-      
-      // PUT /api/github/file (Admin)
-      if (r1 === 'file' && M === 'PUT') {
-        if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
-        const b = await readBody(req);
-        const { path, content, sha, message } = b;
-        if (!path || !content) return fail(res, 400, 'path and content required');
-        if (!GITHUB_TOKEN) return fail(res, 503, 'GitHub token not configured');
-        
-        try {
-          const encodedContent = Buffer.from(content, 'utf-8').toString('base64');
-          const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`;
-          const body = {
-            message: message || `Update ${path} from lapakID admin`,
-            content: encodedContent,
-            branch: GITHUB_BRANCH
-          };
-          if (sha) body.sha = sha;
-          
-          const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${GITHUB_TOKEN}`,
-              'Accept': 'application/vnd.github.v3+json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          });
-          
-          if (!response.ok) {
-            const errData = await response.json();
-            return fail(res, response.status, errData.message || 'Failed to push to GitHub');
-          }
-          
-          const data = await response.json();
-          return ok(res, { message: 'File uploaded successfully', sha: data.content.sha });
-        } catch (err) {
-          return fail(res, 500, 'GitHub error: ' + err.message);
-        }
-      }
-    }
-
-    // ────────────────────────────────────────────── BANS ─────────────────────
+    // ── BANS ─────────────────────────────────────────────────────────────────
     if (r0 === 'bans') {
       if (!r1 && M === 'GET') {
         if (!isAdmin(req)) return fail(res, 401, 'Unauthorized');
