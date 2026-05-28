@@ -199,6 +199,7 @@ mark{background:rgba(99,102,241,.15);color:var(--purple);border-radius:3px;paddi
 .btn-like-modal.liked svg{color:var(--sold);fill:var(--sold)}
 .btn-wishlist-modal{background:var(--bg2);border:1px solid var(--border);padding:10px 14px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:.68rem;font-weight:600;color:var(--text);transition:.15s}
 .btn-wishlist-modal.wished{color:var(--warning)}
+.btn-wishlist-modal.wished svg{fill:var(--warning);color:var(--warning)}
 .btn-wishlist-modal svg{width:13px;height:13px}
 
 .notif-panel{position:fixed;top:62px;right:12px;width:290px;max-height:360px;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:300;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s cubic-bezier(.4,0,.2,1)}
@@ -426,6 +427,10 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
 </div>
 
 <audio id="musicAudio" preload="none"></audio>
+<audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
+<audio id="likeSfx" src="https://files.catbox.moe/y7q0ij.mp3" preload="auto"></audio>
+<audio id="wishSfx" src="https://files.catbox.moe/g6spg1.mp3" preload="auto"></audio>
+
 <div class="music-bar hidden" id="musicBar">
   <div class="music-album" id="musicAlbum">
     <i data-lucide="music" style="width:16px;height:16px;color:#fff"></i>
@@ -445,10 +450,6 @@ footer a{color:var(--purple);text-decoration:none;font-weight:600}
   <span>Musik</span>
 </div>
 
-<audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
-<audio id="likeSfx" src="https://files.catbox.moe/y7q0ij.mp3" preload="auto"></audio>
-<audio id="wishSfx" src="https://files.catbox.moe/g6spg1.mp3" preload="auto"></audio>
-
 <script>
 const API='/api';
 const PER_PAGE=20;
@@ -467,6 +468,8 @@ const TCLS={low:'t-low',medium:'t-medium',high:'t-high',legend:'t-legend'};
 const clk=document.getElementById('clickSfx');
 const likeSfx=document.getElementById('likeSfx');
 const wishSfx=document.getElementById('wishSfx');
+
+function playSfx(el){try{el.currentTime=0;el.play().catch(()=>{});}catch(e){}}
 
 document.addEventListener('DOMContentLoaded',()=>{ if(window.lucide) lucide.createIcons(); });
 
@@ -645,45 +648,58 @@ async function loadWishlistCounts(){
   }catch(e){console.log('Gagal load wishlist counts',e);}
 }
 
-async function toggleWishlist(number,btn){
-  const isWished=wishlistSet.has(number);
+async function toggleWishlist(number, btn){
+  const isWished = wishlistSet.has(number);
   let response;
   if(isWished){
-    response=await fetch(`${API}/wishlist/${number}`,{method:'DELETE'});
+    response = await fetch(`${API}/wishlist/${number}`, {method:'DELETE'});
     if(response.ok){
       wishlistSet.delete(number);
-      wishSfx.currentTime=0;
-      wishSfx.play().catch(()=>{});
+      // Update semua wishlist-btn dengan nomor ini di DOM
       document.querySelectorAll(`.wishlist-btn[data-num="${number}"]`).forEach(b=>{
         b.classList.remove('wished');
-        const ico=b.querySelector('[data-lucide]');
-        if(ico){ico.removeAttribute('fill');ico.style.fill='';ico.style.color='';}
+        const ico = b.querySelector('[data-lucide="bookmark"]');
+        if(ico){ ico.style.fill=''; ico.style.color=''; }
+        b.querySelector('span').textContent = '';
       });
       showToast('Dihapus dari wishlist');
       await loadWishlistCounts();
-      render();
+      // Update count di semua btn
+      const wc = wishlistCounts[number] || 0;
+      document.querySelectorAll(`.wishlist-btn[data-num="${number}"] span`).forEach(s=>{ s.textContent = wc===0?'':wc; });
+      if(showWishlistOnly) render();
     }
-  }else{
-    response=await fetch(`${API}/wishlist/${number}`,{method:'POST'});
+  } else {
+    response = await fetch(`${API}/wishlist/${number}`, {method:'POST'});
     if(response.ok){
-      wishSfx.currentTime=0;
-      wishSfx.play().catch(()=>{});
+      playSfx(wishSfx);
       wishlistSet.add(number);
+      // Update semua wishlist-btn dengan nomor ini di DOM
       document.querySelectorAll(`.wishlist-btn[data-num="${number}"]`).forEach(b=>{
         b.classList.add('wished');
-        const ico=b.querySelector('[data-lucide]');
-        if(ico){ico.setAttribute('fill','var(--warning)');ico.style.fill='var(--warning)';ico.style.color='var(--warning)';}
+        const ico = b.querySelector('[data-lucide="bookmark"]');
+        if(ico){ ico.style.fill='var(--warning)'; ico.style.color='var(--warning)'; }
       });
       showToast('Ditambahkan ke wishlist');
       await loadWishlistCounts();
-      render();
+      // Update count di semua btn
+      const wc = wishlistCounts[number] || 0;
+      document.querySelectorAll(`.wishlist-btn[data-num="${number}"] span`).forEach(s=>{ s.textContent = wc===0?'':wc; });
+      if(showWishlistOnly) render();
     }
   }
-  if(currentModal?.number===number){
-    const wBtn=document.getElementById('modalWishlistBtn');
-    if(wBtn) wBtn.classList.toggle('wished',wishlistSet.has(number));
+  // Sync modal wishlist button jika modal terbuka untuk ID ini
+  if(currentModal?.number === number){
+    const wBtn = document.getElementById('modalWishlistBtn');
+    if(wBtn){
+      wBtn.classList.toggle('wished', wishlistSet.has(number));
+      const ico = wBtn.querySelector('[data-lucide="bookmark"]');
+      if(ico){
+        ico.style.fill = wishlistSet.has(number) ? 'var(--warning)' : '';
+        ico.style.color = wishlistSet.has(number) ? 'var(--warning)' : '';
+      }
+    }
   }
-  if(showWishlistOnly) render();
 }
 
 const wishlistFilterBtn=document.getElementById('wishlistFilterBtn');
@@ -821,8 +837,21 @@ function buildPagination(tier,cur,total){
   h+=`<button class="pg-btn" data-tier="${tier}" data-page="${cur+1}" ${cur===total?'disabled':''}><i data-lucide="chevron-right" style="width:12px;height:12px"></i></button>`;
   return h+'</div>';
 }
-function hl(text){if(!searchQ)return text;const rx=new RegExp(`(${searchQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');return text.replace(rx,'<mark>$1</mark>');}
-function isNew(id){if(id.sold||!id.addedAt)return false;const added=new Date(id.addedAt).getTime();if(isNaN(added))return false;const diff=Date.now()-added;return diff>0&&diff<3*24*60*60*1000;}
+
+function hl(text){
+  if(!searchQ) return text;
+  const rx=new RegExp(`(${searchQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(rx,'<mark>$1</mark>');
+}
+
+function isNew(id){
+  if(id.sold||!id.addedAt) return false;
+  const added=new Date(id.addedAt).getTime();
+  if(isNaN(added)) return false;
+  const diff=Date.now()-added;
+  return diff>0&&diff<3*24*60*60*1000;
+}
+
 function buildCard(id){
   const liked = likedSet.has(id.number);
   const wished = wishlistSet.has(id.number);
@@ -831,53 +860,81 @@ function buildCard(id){
   const isNewId = isNew(id);
   const likeText = lc === 0 ? '' : lc;
   const wishText = wishCount === 0 ? '' : wishCount;
-  
+
   return `<div class="id-card${id.sold?' is-sold':''}" data-num="${id.number}" data-tier="${id.tier}">
-    ${id.sold?`<div class="card-badge badge-sold"><i data-lucide="x-circle" style="width:8px;height:8px"></i>SOLD</div>`:isNewId?`<div class="card-badge badge-new"><i data-lucide="sparkles" style="width:8px;height:8px"></i>NEW</div>`:''}
+    ${id.sold
+      ? `<div class="card-badge badge-sold"><i data-lucide="x-circle" style="width:8px;height:8px"></i>SOLD</div>`
+      : isNewId
+        ? `<div class="card-badge badge-new"><i data-lucide="sparkles" style="width:8px;height:8px"></i>NEW</div>`
+        : ''}
     <div class="id-num"><img src="https://files.catbox.moe/em51di.png" alt=""/>${hl(id.number)}</div>
     <div class="id-foot">
       <span class="tier-tag ${TCLS[id.tier]}">${id.tier.toUpperCase()}</span>
       <div class="id-actions">
         <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-          <i data-lucide="heart" style="width:11px;height:11px${liked?';fill:var(--purple);color:var(--purple)':''}"></i>
+          <i data-lucide="heart" style="width:11px;height:11px;${liked?'fill:var(--purple);color:var(--purple)':''}"></i>
           <span>${likeText}</span>
         </button>
         <button class="wishlist-btn${wished?' wished':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-          <i data-lucide="bookmark" style="width:11px;height:11px${wished?';fill:var(--warning);color:var(--warning)':''}"></i>
+          <i data-lucide="bookmark" style="width:11px;height:11px;${wished?'fill:var(--warning);color:var(--warning)':''}"></i>
           <span>${wishText}</span>
         </button>
       </div>
     </div>
   </div>`;
 }
+
 function attachCardEvents(container){
   container.querySelectorAll('.id-card:not(.is-sold)').forEach(card=>{
     card.addEventListener('click',()=>{
-      try{clk.currentTime=0;clk.play().catch(()=>{});}catch(e){}
+      playSfx(clk);
       openModal(card.dataset.num);
     });
   });
-  container.querySelectorAll('.like-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();doLike(btn.dataset.num,btn);});});
-  container.querySelectorAll('.wishlist-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();toggleWishlist(btn.dataset.num,btn);});});
+  container.querySelectorAll('.like-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{e.stopPropagation();doLike(btn.dataset.num,btn);});
+  });
+  container.querySelectorAll('.wishlist-btn').forEach(btn=>{
+    btn.addEventListener('click',e=>{e.stopPropagation();toggleWishlist(btn.dataset.num,btn);});
+  });
 }
-async function doLike(number,btn){
+
+async function doLike(number, btn){
   if(likedSet.has(number)){showToast('Sudah menyukai ID ini');return;}
   btn.disabled=true;
   const r=await fetch(`${API}/like/${number}`,{method:'POST'}).catch(()=>null);
   if(!r){btn.disabled=false;showToast('Gagal, coba lagi');return;}
   const d=await r.json();
   if(d.success){
-    likedSet.add(number);localStorage.setItem('lapakid_liked',JSON.stringify([...likedSet]));
-    likeSfx.currentTime=0;
-    likeSfx.play().catch(()=>{});
-    const idx=allIds.findIndex(i=>i.number===number);if(idx!==-1)allIds[idx].likes=d.likes;
-    document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.querySelector('span').textContent=d.likes===0?'':d.likes;b.disabled=false;const ico=b.querySelector('[data-lucide]');if(ico){ico.setAttribute('fill','var(--purple)');ico.style.fill='var(--purple)';}});
-    if(currentModal?.number===number){document.getElementById('modalLikeCnt').textContent=d.likes;document.getElementById('modalLikeBtn').classList.add('liked');}
+    playSfx(likeSfx);
+    likedSet.add(number);
+    localStorage.setItem('lapakid_liked',JSON.stringify([...likedSet]));
+    const idx=allIds.findIndex(i=>i.number===number);
+    if(idx!==-1) allIds[idx].likes=d.likes;
+    document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{
+      b.classList.add('liked');
+      b.querySelector('span').textContent=d.likes===0?'':d.likes;
+      b.disabled=false;
+      const ico=b.querySelector('[data-lucide="heart"]');
+      if(ico){ico.style.fill='var(--purple)';ico.style.color='var(--purple)';}
+    });
+    if(currentModal?.number===number){
+      document.getElementById('modalLikeCnt').textContent=d.likes;
+      document.getElementById('modalLikeBtn').classList.add('liked');
+      const ico=document.getElementById('modalLikeBtn').querySelector('[data-lucide="heart"]');
+      if(ico){ico.style.fill='var(--sold)';ico.style.color='var(--sold)';}
+    }
     showToast('Berhasil menyukai!');
-  }else{btn.disabled=false;showToast(d.message||'Gagal like');}
+  }else{
+    btn.disabled=false;
+    showToast(d.message||'Gagal like');
+  }
 }
+
 async function openModal(number){
-  const id=allIds.find(i=>i.number===number);if(!id)return;currentModal=id;
+  const id=allIds.find(i=>i.number===number);
+  if(!id) return;
+  currentModal=id;
   const liked=likedSet.has(number);
   const wished=wishlistSet.has(number);
   const wishCount=wishlistCounts[number]||0;
@@ -890,21 +947,49 @@ async function openModal(number){
     ${id.note?`<div class="modal-row"><div class="modal-lbl"><i data-lucide="file-text" style="width:12px;height:12px"></i>Catatan</div><div class="modal-val">${id.note}</div></div>`:''}
   `;
   document.getElementById('modalLikeCnt').textContent=id.likes||0;
-  const lb=document.getElementById('modalLikeBtn');lb.className='btn-like-modal'+(liked?' liked':'');
+  
+  const lb=document.getElementById('modalLikeBtn');
+  lb.className='btn-like-modal'+(liked?' liked':'');
+  const licoEl=lb.querySelector('[data-lucide="heart"]');
+  if(licoEl){licoEl.style.fill=liked?'var(--sold)':'';licoEl.style.color=liked?'var(--sold)':'';}
   lb.onclick=()=>doLike(number,lb);
-  const wb=document.getElementById('modalWishlistBtn');wb.className='btn-wishlist-modal'+(wished?' wished':'');
-  wb.onclick=()=>{toggleWishlist(number,wb);};
-  document.getElementById('modalBuyBtn').onclick=()=>{window.location.href=`payment.html?id=${encodeURIComponent(number)}`;};
+  
+  const wb=document.getElementById('modalWishlistBtn');
+  wb.className='btn-wishlist-modal'+(wished?' wished':'');
+  const wicoEl=wb.querySelector('[data-lucide="bookmark"]');
+  if(wicoEl){wicoEl.style.fill=wished?'var(--warning)':'';wicoEl.style.color=wished?'var(--warning)':'';}
+  wb.onclick=()=>toggleWishlist(number,wb);
+  
+  document.getElementById('modalBuyBtn').onclick=()=>{
+    window.location.href=`payment.html?id=${encodeURIComponent(number)}`;
+  };
   document.getElementById('modalOverlay').classList.add('open');
   if(window.lucide) lucide.createIcons({nodes:document.querySelectorAll('#modalRows [data-lucide]')});
 }
-document.getElementById('modalClose').addEventListener('click',()=>{document.getElementById('modalOverlay').classList.remove('open');currentModal=null;});
-document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay')){document.getElementById('modalOverlay').classList.remove('open');currentModal=null;}});
+
+document.getElementById('modalClose').addEventListener('click',()=>{
+  document.getElementById('modalOverlay').classList.remove('open');currentModal=null;
+});
+document.getElementById('modalOverlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modalOverlay')){
+    document.getElementById('modalOverlay').classList.remove('open');currentModal=null;
+  }
+});
 
 document.getElementById('filterBar').querySelectorAll('.fp').forEach(btn=>{
-  btn.addEventListener('click',()=>{activeFilter=btn.dataset.f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));btn.classList.add('act');render();});
+  btn.addEventListener('click',()=>{
+    activeFilter=btn.dataset.f;
+    tierPages={low:1,medium:1,high:1,legend:1};
+    document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));
+    btn.classList.add('act');
+    render();
+  });
 });
-document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value.trim();tierPages={low:1,medium:1,high:1,legend:1};render();});
+document.getElementById('searchInput').addEventListener('input',e=>{
+  searchQ=e.target.value.trim();
+  tierPages={low:1,medium:1,high:1,legend:1};
+  render();
+});
 
 const priceSelect=document.getElementById('priceSelect');
 priceSelect.addEventListener('change',()=>{
@@ -991,7 +1076,13 @@ async function init(){
   if(window.lucide) lucide.createIcons();
 }
 
-function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+function showToast(msg){
+  const t=document.createElement('div');
+  t.className='toast';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2500);
+}
 
 window.addEventListener('resize',()=>{setupTierSticky();});
 init();
