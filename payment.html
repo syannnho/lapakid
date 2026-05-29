@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
+<title>Checkout – LAPAK ID</title>
+<link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
+<meta property="og:title" content="Checkout – LAPAK ID"/>
+<meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif;overflow:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e1a}::-webkit-scrollbar-thumb{background:#7b2fff;border-radius:2px}
+
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
+
+/* TOP NAV */
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
+.logo{display:flex;align-items:center;gap:0}
+.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
+.logo-mark img{width:100%;height:100%;object-fit:cover}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.nav-icon:hover{background:rgba(123,47,255,.2)}
+.nav-icon svg{color:#a06bff;width:16px;height:16px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
+.notif-badge.show{display:flex}
+
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 8px;font-size:12px;color:#6060a0;flex-shrink:0}
+.breadcrumb a{color:#6060a0;text-decoration:none}
+.breadcrumb a:hover{color:#e8e8f5}
+.breadcrumb .active{color:#a06bff;font-weight:700}
+.breadcrumb .sep{font-size:10px;opacity:.5}
+
+/* SCROLL AREA */
+#scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+
+/* WRAPPER */
+.wrap{padding:12px 16px 20px;display:flex;flex-direction:column;gap:16px}
+
+/* STEPPER */
+.stepper{display:flex;align-items:center;margin-bottom:4px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:.62rem;font-weight:600;color:#6060a0}
+.step-num{width:24px;height:24px;border-radius:50%;border:2px solid #4040a0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;flex-shrink:0;transition:.3s}
+.step-item.active .step-num{background:#7b2fff;border-color:#7b2fff;color:#fff}
+.step-item.active{color:#e8e8f5}
+.step-item.done .step-num{background:#22bb72;border-color:#22bb72;color:#fff}
+.step-line{flex:1;height:2px;background:#232338;margin:0 8px;transition:.3s;max-width:60px}
+.step-line.done{background:#22bb72}
+
+/* ID BANNER */
+.id-banner{background:#181826;border:1px solid #232338;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px}
+.id-banner-ico{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7b2fff,#a06bff);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.id-banner-ico svg{width:20px;height:20px;color:#fff}
+.id-banner-num{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.5px}
+.id-banner-meta{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.tier-pill{font-size:.5rem;font-weight:800;padding:2px 8px;border-radius:99px;border:1px solid;text-transform:uppercase;letter-spacing:.4px}
+.tier-low{background:rgba(192,192,192,.12);color:#c0c0c0;border-color:rgba(192,192,192,.2)}
+.tier-medium{background:rgba(59,130,246,.1);color:#3b82f6;border-color:rgba(59,130,246,.2)}
+.tier-high{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.2)}
+.tier-legend{background:rgba(251,191,36,.12);color:#fbbf24;border-color:rgba(251,191,36,.25)}
+.id-price{font-size:.7rem;font-weight:800;font-family:'Rajdhani',sans-serif;color:#a06bff}
+
+/* GUARANTEE */
+.guarantee-box{background:#181826;border:1px solid #232338;border-radius:16px;padding:16px;margin-bottom:0}
+.guarantee-title{font-size:.68rem;font-weight:800;color:#22bb72;display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.guarantee-title svg{width:14px;height:14px}
+.guarantee-item{display:flex;align-items:center;gap:8px;font-size:.65rem;color:#9090cc;padding:5px 0}
+.guarantee-item svg{width:13px;height:13px;color:#22bb72;flex-shrink:0}
+
+/* FORM CARD */
+.form-card{background:#181826;border:1px solid #232338;border-radius:16px;padding:16px;margin-bottom:0}
+.form-card h3{font-size:.78rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.form-card h3 svg{width:15px;height:15px;color:#a06bff}
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:.6rem;font-weight:700;color:#6060a0;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.field input{width:100%;background:#0e0e1a;border:1px solid #232338;border-radius:10px;padding:10px 13px;color:#e8e8f5;font-family:'Exo 2',sans-serif;font-size:.75rem;outline:none;transition:.15s}
+.field input:focus{border-color:#7b2fff;box-shadow:0 0 0 3px rgba(123,47,255,.1)}
+.field input::placeholder{color:#4040a0}
+.field-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:380px){.field-2{grid-template-columns:1fr;gap:10px}}
+
+/* PROMO */
+.promo-row{display:flex;gap:10px;align-items:flex-end}
+.promo-row .field{flex:1;margin-bottom:0}
+.btn-promo{background:#7b2fff;color:#fff;border:none;padding:10px 16px;border-radius:10px;font-size:.68rem;font-weight:700;cursor:pointer;height:40px;flex-shrink:0;font-family:'Exo 2',sans-serif;transition:.15s}
+.btn-promo:hover{background:#5a1fd1}
+.promo-msg{margin-top:10px;font-size:.65rem;padding:8px 12px;border-radius:10px;display:none;align-items:center;gap:6px}
+.promo-msg svg{width:13px;height:13px;flex-shrink:0}
+.promo-ok{background:rgba(34,187,114,.08);color:#22bb72;border:1px solid rgba(34,187,114,.2)}
+.promo-err{background:rgba(239,68,68,.08);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+
+/* METHOD */
+.method-opt{display:flex;align-items:center;gap:12px;background:#0e0e1a;border:2px solid #232338;border-radius:14px;padding:14px 16px;cursor:pointer;transition:.15s;margin-bottom:0}
+.method-opt:hover{border-color:#4040a0}
+.method-opt.selected{border-color:#7b2fff;background:rgba(123,47,255,.03)}
+.method-opt input[type=radio]{accent-color:#7b2fff;width:16px;height:16px;flex-shrink:0}
+.method-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;flex-shrink:0;color:#fff;background:#e60000}
+.method-info{flex:1}
+.method-name{font-size:.75rem;font-weight:700}
+.method-desc{font-size:.6rem;color:#6060a0;margin-top:2px}
+.method-free{font-size:.6rem;font-weight:700;color:#22bb72}
+
+/* SUMMARY */
+.summary{background:#181826;border:1px solid #232338;border-radius:16px;padding:16px}
+.sum-row{display:flex;justify-content:space-between;font-size:.7rem;padding:6px 0}
+.sum-row:last-child{padding-top:12px;margin-top:4px;border-top:1px solid #1a1a2e}
+.sum-row:last-child .sum-lbl{font-weight:800;font-size:.75rem}
+.sum-row:last-child .sum-val{font-weight:900;font-size:.9rem;color:#a06bff;font-family:'Rajdhani',sans-serif}
+.sum-lbl{color:#6060a0}
+.sum-val{font-weight:600;font-family:'Rajdhani',sans-serif}
+.sum-green{color:#22bb72}
+
+.btn-next{width:100%;background:#7b2fff;color:#fff;border:none;padding:14px;border-radius:14px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Rajdhani',sans-serif;transition:.2s;box-shadow:0 4px 18px rgba(123,47,255,.35);margin-top:4px}
+.btn-next:hover{background:#5a1fd1}
+.btn-next:disabled{opacity:.4;cursor:not-allowed}
+.btn-next svg{width:15px;height:15px}
+
+/* STEP 2 */
+.step2{display:none}
+.qris-card{background:#181826;border:1px solid #232338;border-radius:16px;padding:20px;text-align:center}
+.qris-head{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+.qris-title{font-size:.85rem;font-weight:800}
+.qris-badge{background:#e60000;color:#fff;font-size:.5rem;font-weight:800;padding:2px 8px;border-radius:99px}
+.qris-sub{font-size:.62rem;color:#6060a0;margin-bottom:18px}
+.qris-canvas{display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:14px;border:2px solid #e60000;margin-bottom:14px}
+.qris-canvas canvas{width:180px;height:180px}
+.qris-amount-lbl{font-size:.58rem;color:#6060a0;margin-bottom:3px}
+.qris-amount{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:900;color:#e60000;margin-bottom:6px}
+.qris-merchant{font-size:.62rem;color:#6060a0;margin-bottom:16px}
+.qris-merchant b{color:#e8e8f5}
+.btn-dl-qr{display:inline-flex;align-items:center;gap:6px;background:#0e0e1a;border:1px solid #232338;border-radius:99px;padding:7px 16px;font-size:.65rem;font-weight:700;color:#6060a0;cursor:pointer;transition:.15s}
+.btn-dl-qr:hover{border-color:#a06bff;color:#a06bff}
+.btn-dl-qr svg{width:13px;height:13px}
+
+/* ORDER INFO */
+.order-info{background:#181826;border:1px solid #232338;border-radius:16px;padding:16px}
+.oi-title{font-size:.72rem;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.oi-title svg{width:14px;height:14px;color:#a06bff}
+.oi-row{display:flex;justify-content:space-between;font-size:.68rem;padding:6px 0;border-bottom:1px solid #1a1a2e}
+.oi-row:last-child{border:none;padding-top:10px;margin-top:4px}
+.oi-row:last-child .oi-lbl{font-weight:800;font-size:.72rem}
+.oi-row:last-child .oi-val{font-weight:900;font-size:.85rem;color:#a06bff;font-family:'Rajdhani',sans-serif}
+.oi-lbl{color:#6060a0}
+.oi-val{font-weight:600;font-family:'Rajdhani',sans-serif}
+
+.btn-paid{width:100%;background:#22bb72;color:#fff;border:none;padding:14px;border-radius:14px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Rajdhani',sans-serif;transition:.2s;margin-top:12px;box-shadow:0 4px 18px rgba(34,187,114,.35)}
+.btn-paid:hover{background:#1a9e60}
+.btn-paid:disabled{opacity:.4;cursor:not-allowed}
+.btn-paid svg{width:15px;height:15px}
+.paid-note{font-size:.62rem;color:#6060a0;text-align:center;margin-top:10px;line-height:1.5}
+
+/* SUCCESS OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
+.overlay.open{opacity:1;pointer-events:all}
+.overlay-box{background:#181826;border:1px solid #232338;border-radius:20px;max-width:340px;width:90%;padding:28px;text-align:center;transform:scale(.94);transition:.22s}
+.overlay.open .overlay-box{transform:scale(1)}
+.ok-ico{width:56px;height:56px;border-radius:50%;background:rgba(34,187,114,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.ok-ico svg{width:24px;height:24px;color:#22bb72}
+.overlay-box h3{font-size:1rem;font-weight:800;margin-bottom:8px}
+.overlay-box p{font-size:.7rem;color:#6060a0;line-height:1.6;margin-bottom:18px}
+.btn-back-home{display:inline-flex;align-items:center;gap:6px;background:#0e0e1a;border:1px solid #232338;padding:9px 20px;border-radius:99px;font-size:.7rem;font-weight:700;color:#e8e8f5;text-decoration:none;transition:.15s}
+.btn-back-home:hover{border-color:#a06bff;color:#a06bff}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- TOP NAV -->
+<nav id="topnav">
+  <div class="logo">
+    <div class="logo-mark"><img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID"></div>
+  </div>
+  <div class="nav-r">
+    <a href="index.html" class="nav-icon" title="Kembali">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+  <a href="index.html">Beranda</a>
+  <span class="sep">›</span>
+  <span class="active">Checkout</span>
+</nav>
+
+<!-- SCROLL AREA -->
+<div id="scrollarea">
+  <div class="wrap">
+
+    <!-- STEPPER -->
+    <div class="stepper">
+      <div class="step-item active" id="s1"><div class="step-num" id="sn1">1</div><span>Informasi</span></div>
+      <div class="step-line" id="sl1"></div>
+      <div class="step-item" id="s2"><div class="step-num" id="sn2">2</div><span>Pembayaran</span></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step1">
+      <!-- ID BANNER -->
+      <div class="id-banner">
+        <div class="id-banner-ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="14" y1="3" x2="12" y2="21"/></svg>
+        </div>
+        <div id="bannerContent"><span style="color:#6060a0;font-size:.72rem">Memuat data ID...</span></div>
+      </div>
+
+      <!-- GARANSI -->
+      <div class="guarantee-box">
+        <div class="guarantee-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Garansi Pembelian
+        </div>
+        <div class="guarantee-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Garansi ID berbeda — ID yang kamu beli 100% unik</div>
+        <div class="guarantee-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Garansi beda region — ID tidak bermasalah di regionmu</div>
+        <div class="guarantee-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Proses cepat & aman — konfirmasi dalam 24 jam</div>
+      </div>
+
+      <!-- DATA PEMBELI -->
+      <div class="form-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Data Pembeli</h3>
+        <div class="field-2">
+          <div class="field"><label>Nama Lengkap</label><input type="text" id="buyerName" placeholder="Nama kamu..."/></div>
+          <div class="field"><label>Nomor WhatsApp</label><input type="tel" id="buyerPhone" placeholder="628xxxxxxxxx"/></div>
+        </div>
+      </div>
+
+      <!-- PROMO -->
+      <div class="form-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2H2v10l9.2 9.2a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8L12 2z"/><path d="M7 7h.01"/></svg>Kode Promo <span style="font-weight:400;color:#6060a0;font-size:.68rem">(opsional)</span></h3>
+        <div class="promo-row">
+          <div class="field"><label>Kode</label><input type="text" id="promoInput" placeholder="Contoh: LAPAK10" style="text-transform:uppercase"/></div>
+          <button class="btn-promo" onclick="validatePromo()">Terapkan</button>
+        </div>
+        <div class="promo-msg" id="promoMsg"></div>
+      </div>
+
+      <!-- METODE -->
+      <div class="form-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Metode Pembayaran</h3>
+        <label class="method-opt selected">
+          <input type="radio" name="method" value="qris" checked/>
+          <div class="method-ico">QR</div>
+          <div class="method-info">
+            <div class="method-name">QRIS</div>
+            <div class="method-desc">GoPay, OVO, Dana, ShopeePay, m-banking</div>
+          </div>
+          <div class="method-free">Gratis</div>
+        </label>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary">
+        <div class="sum-row"><div class="sum-lbl">ID</div><div class="sum-val" id="sumId">—</div></div>
+        <div class="sum-row"><div class="sum-lbl">Tier</div><div class="sum-val" id="sumTier">—</div></div>
+        <div class="sum-row"><div class="sum-lbl">Harga dasar</div><div class="sum-val" id="sumBase">—</div></div>
+        <div class="sum-row" id="sumDiscRow" style="display:none"><div class="sum-lbl">Diskon promo</div><div class="sum-val sum-green" id="sumDisc">—</div></div>
+        <div class="sum-row"><div class="sum-lbl">Total</div><div class="sum-val" id="sumTotal">—</div></div>
+      </div>
+      <button class="btn-next" id="btnNext" onclick="goStep2()" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>Lanjut Pembayaran</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step2" id="step2">
+      <div class="qris-card">
+        <div class="qris-head"><div class="qris-title">Bayar via QRIS</div><div class="qris-badge">QRIS</div></div>
+        <div class="qris-sub">Scan dengan e-wallet atau m-banking • Berlaku 10 menit</div>
+        <div class="qris-canvas"><div id="qrCanvas"></div></div>
+        <div class="qris-amount-lbl">Nominal Pembayaran</div>
+        <div class="qris-amount" id="qrisAmt">—</div>
+        <div class="qris-merchant">Penerima: <b>Aestroshop, GREGED</b> • Cirebon</div>
+        <button class="btn-dl-qr" onclick="downloadQR()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download QR</button>
+      </div>
+      <div class="order-info">
+        <div class="oi-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Detail Pesanan</div>
+        <div class="oi-row"><div class="oi-lbl">ID</div><div class="oi-val" id="oiId">—</div></div>
+        <div class="oi-row"><div class="oi-lbl">Tier</div><div class="oi-val" id="oiTier">—</div></div>
+        <div class="oi-row"><div class="oi-lbl">Harga dasar</div><div class="oi-val" id="oiBase">—</div></div>
+        <div class="oi-row" id="oiDiscRow" style="display:none"><div class="oi-lbl">Diskon</div><div class="oi-val sum-green" id="oiDisc">—</div></div>
+        <div class="oi-row"><div class="oi-lbl">Total</div><div class="oi-val" id="oiTotal">—</div></div>
+      </div>
+      <button class="btn-paid" id="btnPaid" onclick="doSubmit()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar</button>
+      <div class="paid-note">Setelah klik di atas, admin akan memverifikasi dan menghubungi via WhatsApp.</div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="overlay" id="successOverlay">
+  <div class="overlay-box">
+    <div class="ok-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Pesanan Diterima!</h3>
+    <p id="successMsg">Pesanan berhasil. Admin akan menghubungi kamu via WhatsApp.</p>
+    <a href="index.html" class="btn-back-home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>Kembali ke Beranda</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<audio id="paidSfx" src="https://files.catbox.moe/gs2pl3.mp3" preload="auto"></audio>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+const API='/api';
+const DEFAULT_QRIS='00020101021126610014COM.GO-JEK.WWW01189360091438891755300210G8891755300303UMI51440014ID.CO.QRIS.WWW0215ID10243566855930303UMI5204573253033605802ID5918Aestroshop, GREGED6007CIREBON61054518162070703A016304C52D';
+let settings={},idDoc=null,promoDisc=0,promoCode='';
+let qrcodeInstance=null;
+
+const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
+const TCLS={low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
+
+function showToast(msg, isError=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=isError?'rgba(239,68,68,.15)':'rgba(34,187,114,.15)';
+  t.style.borderColor=isError?'#ef4444':'#22bb72';
+  t.style.color=isError?'#ef4444':'#22bb72';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// QRIS Functions
+function crc16(str){
+  let c=0xFFFF;
+  for(let i=0;i<str.length;i++){
+    c^=str.charCodeAt(i)<<8;
+    for(let j=0;j<8;j++) c=((c&0x8000)>0)?(c<<1)^0x1021:c<<1,c&=0xFFFF;
+  }
+  return c.toString(16).toUpperCase().padStart(4,'0');
+}
+
+function makeDynQRIS(qris,amount){
+  let d=qris.replace('010211','010212').slice(0,-4);
+  const at='54'+String(amount).length.toString().padStart(2,'0')+amount;
+  d=d.replace('5802ID',at+'5802ID');
+  return d+crc16(d);
+}
+
+function renderQR(amount){
+  const qris=makeDynQRIS(DEFAULT_QRIS,String(Math.round(amount)));
+  const container=document.getElementById('qrCanvas');
+  container.innerHTML='';
+  qrcodeInstance=new QRCode(container,{
+    text:qris,width:180,height:180,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M
+  });
+  document.getElementById('qrisAmt').textContent=fmt(amount);
+}
+
+function downloadQR(){
+  const canvas=document.querySelector('#qrCanvas canvas');
+  if(!canvas){showToast('QR belum siap',true);return;}
+  const pad=20,infoH=70,c2=document.createElement('canvas');
+  c2.width=canvas.width+pad*2;c2.height=canvas.height+pad*2+infoH;
+  const ctx=c2.getContext('2d');
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,c2.width,c2.height);
+  ctx.drawImage(canvas,pad,pad);
+  ctx.fillStyle='#0f172a';ctx.font='bold 13px Rajdhani,Inter,Arial';ctx.textAlign='center';ctx.fillText('LAPAK ID — QRIS Payment',c2.width/2,canvas.height+pad+20);
+  ctx.font='11px Exo 2,Inter,Arial';ctx.fillStyle='#64748b';
+  ctx.fillText(document.getElementById('qrisAmt').textContent,c2.width/2,canvas.height+pad+38);
+  ctx.fillText('Aestroshop, GREGED • Cirebon',c2.width/2,canvas.height+pad+54);
+  const a=document.createElement('a');
+  a.download=`lapakID-QRIS-${idDoc?.number||'payment'}.png`;
+  a.href=c2.toDataURL('image/png');
+  a.click();
+}
+
+// Load ID dari URL
+async function loadId(number){
+  const r=await fetch(`${API}/ids/${encodeURIComponent(number)}`).catch(()=>null);
+  if(!r||!r.ok){
+    document.getElementById('bannerContent').innerHTML=`<span style="color:#ef4444;font-size:.72rem">ID tidak ditemukan</span>`;
+    return;
+  }
+  const{data}=await r.json();
+  idDoc=data;
+  const prices=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  const price=prices[data.tier]||0;
+  document.getElementById('bannerContent').innerHTML=`
+    <div><div class="id-banner-num">${data.number}</div>
+    <div class="id-banner-meta">
+      <span class="tier-pill ${TCLS[data.tier]}">${data.tier.toUpperCase()}</span>
+      <span class="id-price">${fmt(price)}</span>
+      ${data.sold?'<span style="font-size:.56rem;color:#ef4444;font-weight:800">SUDAH TERJUAL</span>':''}
+    </div></div>`;
+  updateSummary();
+  checkNext();
+  if(data.sold){
+    document.getElementById('btnNext').disabled=true;
+    document.getElementById('btnNext').textContent='ID Ini Sudah Terjual';
+  }
+}
+
+// Promo
+async function validatePromo(){
+  const code=document.getElementById('promoInput').value.trim().toUpperCase();
+  const msgDiv=document.getElementById('promoMsg');
+  if(!code){
+    showMsg(msgDiv,'err','Masukkan kode promo');
+    return;
+  }
+  const r=await fetch(`${API}/promo/validate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})}).catch(()=>null);
+  if(!r){
+    showMsg(msgDiv,'err','Gagal terhubung');
+    return;
+  }
+  const d=await r.json();
+  if(d.success){
+    promoDisc=d.discount;
+    promoCode=d.code;
+    showMsg(msgDiv,'ok',`Diskon ${d.discount}% berhasil diterapkan!`);
+  }else{
+    promoDisc=0;
+    promoCode='';
+    showMsg(msgDiv,'err',d.message||'Kode tidak valid');
+  }
+  updateSummary();
+}
+
+function showMsg(el,type,text){
+  el.className='promo-msg '+(type==='ok'?'promo-ok':'promo-err');
+  el.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="${type==='ok'?'20 6 9 17 4 12':'18 6 6 18'}"/><line x1="6" y1="6" x2="18" y2="18"/></svg>${text}`;
+  el.style.display='flex';
+}
+
+// Summary
+function calcTotal(){
+  if(!idDoc)return 0;
+  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  return Math.round((p[idDoc.tier]||0)*(1-promoDisc/100));
+}
+
+function updateSummary(){
+  if(!idDoc)return;
+  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  const base=p[idDoc.tier]||0;
+  const disc=Math.round(base*promoDisc/100);
+  const total=base-disc;
+  document.getElementById('sumId').textContent=idDoc.number;
+  document.getElementById('sumTier').textContent=idDoc.tier.charAt(0).toUpperCase()+idDoc.tier.slice(1);
+  document.getElementById('sumBase').textContent=fmt(base);
+  document.getElementById('sumTotal').textContent=fmt(total);
+  const dr=document.getElementById('sumDiscRow');
+  if(promoDisc>0){
+    dr.style.display='flex';
+    document.getElementById('sumDisc').textContent=`-${fmt(disc)} (${promoDisc}%)`;
+  }else dr.style.display='none';
+}
+
+function checkNext(){
+  const name=document.getElementById('buyerName').value.trim();
+  const phone=document.getElementById('buyerPhone').value.trim();
+  document.getElementById('btnNext').disabled=!(name&&phone&&idDoc&&!idDoc?.sold);
+}
+
+// Step 2
+async function goStep2(){
+  const name=document.getElementById('buyerName').value.trim();
+  const phone=document.getElementById('buyerPhone').value.trim();
+  if(!name||!phone||!idDoc){
+    showToast('Lengkapi data dulu',true);
+    return;
+  }
+  
+  // Update stepper
+  document.getElementById('s1').classList.remove('active');
+  document.getElementById('s1').classList.add('done');
+  document.getElementById('sn1').innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+  document.getElementById('sl1').classList.add('done');
+  document.getElementById('s2').classList.add('active');
+  document.getElementById('step1').style.display='none';
+  document.getElementById('step2').style.display='block';
+  
+  // Fill order info
+  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
+  const base=p[idDoc.tier]||0;
+  const disc=Math.round(base*promoDisc/100);
+  const total=base-disc;
+  document.getElementById('oiId').textContent=idDoc.number;
+  document.getElementById('oiTier').textContent=idDoc.tier.charAt(0).toUpperCase()+idDoc.tier.slice(1);
+  document.getElementById('oiBase').textContent=fmt(base);
+  document.getElementById('oiTotal').textContent=fmt(total);
+  const dr=document.getElementById('oiDiscRow');
+  if(promoDisc>0){
+    dr.style.display='flex';
+    document.getElementById('oiDisc').textContent=`-${fmt(disc)} (${promoDisc}%)`;
+  }else dr.style.display='none';
+  
+  renderQR(total);
+  document.getElementById('scrollarea').scrollTop=0;
+}
+
+// Submit Payment
+async function doSubmit(){
+  const name=document.getElementById('buyerName').value.trim();
+  const phone=document.getElementById('buyerPhone').value.trim();
+  if(!name||!phone||!idDoc){
+    showToast('Data tidak lengkap',true);
+    return;
+  }
+  const btn=document.getElementById('btnPaid');
+  btn.disabled=true;
+  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>Memproses...';
+  
+  const r=await fetch(`${API}/payment`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({idNumber:idDoc.number,method:'qris',buyer:name,phone,promoCode})
+  }).catch(()=>null);
+  
+  if(!r){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';
+    showToast('Gagal terhubung ke server',true);
+    return;
+  }
+  
+  const d=await r.json();
+  if(d.success){
+    // Play success sound
+    try{
+      const sfx=document.getElementById('paidSfx');
+      sfx.currentTime=0;
+      sfx.play().catch(()=>{});
+    }catch(e){}
+    document.getElementById('successMsg').textContent=`Pesanan ID ${idDoc.number} berhasil. Admin akan menghubungi kamu via WhatsApp di ${phone}.`;
+    document.getElementById('successOverlay').classList.add('open');
+  }else{
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';
+    showToast(d.message||'Gagal memproses pembayaran',true);
+  }
+}
+
+// Notifikasi badge
+async function loadNotifications(){
+  try{
+    const r=await fetch(`${API}/notifications?limit=1`);
+    if(!r.ok)return;
+    const d=await r.json();
+    const badge=document.getElementById('notifBadge');
+    if(d.unread>0){
+      badge.textContent=d.unread>99?'99+':String(d.unread);
+      badge.classList.add('show');
+    }else{
+      badge.classList.remove('show');
+    }
+  }catch(e){}
+}
+
+// Init
+async function init(){
+  // Load settings
+  const r=await fetch(`${API}/settings`).catch(()=>null);
+  if(r&&r.ok){
+    const d=await r.json();
+    settings=d.data||{};
+  }
+  
+  const params=new URLSearchParams(window.location.search);
+  const preId=params.get('id');
+  if(preId){
+    await loadId(preId);
+  }else{
+    document.getElementById('bannerContent').innerHTML=`<span style="color:#ef4444;font-size:.72rem">Tidak ada ID dipilih. <a href="index.html" style="color:#a06bff">Pilih ID dulu</a></span>`;
+  }
+  
+  // Input listeners
+  ['buyerName','buyerPhone'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',checkNext);
+  });
+  
+  // Method radio
+  document.querySelectorAll('.method-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      document.querySelectorAll('.method-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+  
+  loadNotifications();
+  setInterval(loadNotifications,30000);
+}
+
+init();
+</script>
+</body>
+</html>
