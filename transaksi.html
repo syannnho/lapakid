@@ -25,6 +25,30 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0b0b16;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
 
+/* NOTIF PANEL */
+.notif-panel{position:absolute;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
+.notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e}
+.notif-head-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700}
+.notif-mark{font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none}
+.notif-list{overflow-y:auto;max-height:260px}
+.notif-item{padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer}
+.notif-item:hover{background:#1e1e30}
+.notif-item.unread{background:rgba(123,47,255,.05)}
+.notif-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981}
+.notif-ico svg{width:12px;height:12px}
+.notif-msg{font-size:.62rem;color:#e8e8f5;line-height:1.4}
+.notif-time{font-size:.54rem;color:#6060a0;margin-top:2px}
+.notif-empty{text-align:center;padding:20px;color:#6060a0;font-size:.7rem}
+
+/* NOTIF DETAIL */
+.nd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
+.nd-overlay.open{opacity:1;pointer-events:all}
+.nd-box{background:#181826;border:1px solid #232338;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s}
+.nd-overlay.open .nd-box{transform:scale(1)}
+.modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
+.modal-close svg{width:12px;height:12px}
+
 /* BREADCRUMB */
 .breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
 .breadcrumb a{color:#6060a0;text-decoration:none}
@@ -71,7 +95,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .empty-state-title{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:#e8e8f5}
 .empty-state-desc{font-size:.7rem;margin-bottom:16px}
 
-/* BOTTOM NAV - SAMA DENGAN INDEX */
+/* BOTTOM NAV */
 #botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
 .bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none}
 .bni:hover{color:#a06bff;background:rgba(123,47,255,.07)}
@@ -98,6 +122,26 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
     </div>
   </div>
 </nav>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div class="notif-head-title">Aktivitas</div>
+    <button class="notif-mark" onclick="markAllRead()">Tandai dibaca</button>
+  </div>
+  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
+</div>
+
+<!-- NOTIF DETAIL -->
+<div class="nd-overlay" id="ndOverlay">
+  <div class="nd-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
+      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    </div>
+    <div id="ndContent"></div>
+  </div>
+</div>
 
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
@@ -137,7 +181,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 <script>
 const API = '/api';
 let hasPendingTransaction = false;
-let notifPanelOpen = false;
+let notifOpen = false;
 
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
@@ -153,33 +197,20 @@ function formatRupiah(num) {
   return 'Rp ' + Number(num).toLocaleString('id-ID');
 }
 
-// NOTIFIKASI PANEL (SAMA DENGAN INDEX)
-const notifPanelHTML = `
-<div class="notif-panel" id="notifPanel" style="position:fixed;top:52px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s">
-  <div class="notif-head" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e">
-    <div class="notif-head-title" style="font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700">Aktivitas</div>
-    <button class="notif-mark" onclick="markAllRead()" style="font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none">Tandai dibaca</button>
-  </div>
-  <div class="notif-list" id="notifList" style="overflow-y:auto;max-height:260px"><div class="notif-empty" style="text-align:center;padding:20px;color:#6060a0">Memuat...</div></div>
-</div>
-`;
-document.body.insertAdjacentHTML('beforeend', notifPanelHTML);
+// ========== NOTIFIKASI ==========
+document.getElementById('notifBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  notifOpen = !notifOpen;
+  document.getElementById('notifPanel').classList.toggle('open', notifOpen);
+  if (notifOpen) loadNotifications();
+});
 
-// NOTIF DETAIL (SAMA DENGAN INDEX)
-const notifDetailHTML = `
-<div class="nd-overlay" id="ndOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s">
-  <div class="nd-box" style="background:#181826;border:1px solid #232338;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
-      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')" style="background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </div>
-    </div>
-    <div id="ndContent"></div>
-  </div>
-</div>
-`;
-document.body.insertAdjacentHTML('beforeend', notifDetailHTML);
+document.addEventListener('click', (e) => {
+  if (notifOpen && !document.getElementById('notifPanel').contains(e.target) && e.target !== document.getElementById('notifBtn')) {
+    notifOpen = false;
+    document.getElementById('notifPanel').classList.remove('open');
+  }
+});
 
 async function loadNotifications() {
   try {
@@ -192,11 +223,12 @@ async function loadNotifications() {
       badge.classList.add('show');
     } else {
       badge.classList.remove('show');
+      badge.textContent = '';
     }
     
     const list = document.getElementById('notifList');
     if (!d.data || !d.data.length) {
-      list.innerHTML = '<div class="notif-empty" style="text-align:center;padding:20px;color:#6060a0">Belum ada aktivitas</div>';
+      list.innerHTML = '<div class="notif-empty">Belum ada aktivitas</div>';
       return;
     }
     
@@ -205,13 +237,11 @@ async function loadNotifications() {
       const diff = Date.now() - t.getTime();
       const ts = diff < 60000 ? 'Baru saja' : diff < 3600000 ? Math.floor(diff / 60000) + ' mnt lalu' : diff < 86400000 ? Math.floor(diff / 3600000) + ' jam lalu' : t.toLocaleDateString('id-ID', {day:'2-digit', month:'short'});
       return `
-        <div class="notif-item ${n.read ? '' : 'unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})' style="padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer">
-          <div class="notif-ico" style="width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
+        <div class="notif-item ${n.read ? '' : 'unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
+          <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div style="flex:1;min-width:0">
-            <div class="notif-msg" style="font-size:.62rem;color:#e8e8f5;line-height:1.4">${n.message}</div>
-            <div class="notif-time" style="font-size:.54rem;color:#6060a0;margin-top:2px">${ts}</div>
+            <div class="notif-msg">${n.message}</div>
+            <div class="notif-time">${ts}</div>
           </div>
         </div>
       `;
@@ -243,22 +273,7 @@ async function markAllRead() {
   loadNotifications();
 }
 
-// Event notifikasi
-document.getElementById('notifBtn').addEventListener('click', (e) => {
-  e.stopPropagation();
-  notifPanelOpen = !notifPanelOpen;
-  const panel = document.getElementById('notifPanel');
-  panel.classList.toggle('open', notifPanelOpen);
-  if (notifPanelOpen) loadNotifications();
-});
-
-document.addEventListener('click', (e) => {
-  if (notifPanelOpen && !document.getElementById('notifPanel').contains(e.target) && e.target !== document.getElementById('notifBtn')) {
-    notifPanelOpen = false;
-    document.getElementById('notifPanel').classList.remove('open');
-  }
-});
-
+// ========== TRANSAKSI ==========
 async function loadTransactions() {
   const container = document.getElementById('transactionContent');
   
@@ -386,7 +401,7 @@ async function loadTransactions() {
   }
 }
 
-// Auto refresh notifikasi
+// Auto refresh
 loadTransactions();
 loadNotifications();
 setInterval(loadNotifications, 30000);
