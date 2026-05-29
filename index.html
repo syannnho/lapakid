@@ -677,7 +677,7 @@ async function loadNotifications(){
     list.innerHTML=d.data.map(n=>{
       const t=new Date(n.createdAt);const diff=Date.now()-t.getTime();
       const ts=diff<60000?'Baru saja':diff<3600000?Math.floor(diff/60000)+' mnt lalu':diff<86400000?Math.floor(diff/3600000)+' jam lalu':t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
-      return `<div class="notif-item${n.read?'':' unread"}' onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
+      return `<div class="notif-item${n.read?'':' unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
         <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div style="flex:1;min-width:0"><div class="notif-msg">${n.message}</div><div class="notif-time">${ts}</div></div>
       </div>`;
