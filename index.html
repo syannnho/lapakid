@@ -189,7 +189,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
 
-/* MUSIC VISUALIZER - 3 GIF ANIMASI (Transparan, Tanpa Glow) */
+/* MUSIC VISUALIZER - 3 GIF ANIMASI (Transparan) */
 .music-visualizer {
   position: fixed;
   bottom: 100px;
@@ -371,6 +371,25 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   height: 13px;
 }
 
+/* MUSIC BAR BAWAAN */
+.music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(0);z-index:400;max-width:460px;width:calc(100% - 24px);background:rgba(14,14,26,.92);backdrop-filter:blur(20px);border:1px solid rgba(123,47,255,.25);border-radius:99px;padding:7px 14px 7px 9px;display:flex;align-items:center;gap:9px;box-shadow:0 4px 24px rgba(0,0,0,.4);transition:transform .3s,opacity .3s;cursor:pointer}
+.music-bar.hidden{transform:translateX(-50%) translateY(100px);opacity:0;pointer-events:none}
+.music-alb{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7b2fff,#a06bff);display:grid;place-items:center;flex-shrink:0}
+.music-alb svg{width:15px;height:15px;color:#fff}
+.music-alb.spin{animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.music-info{flex:1;min-width:0}
+.music-title{font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;color:#e8e8f5;white-space:nowrap;overflow:hidden}
+.music-title.marquee{animation:marquee 7s linear infinite}
+.music-sub{font-size:.54rem;color:#5050a0}
+.music-ctrls{display:flex;align-items:center;gap:3px}
+.mc{background:none;border:none;cursor:pointer;color:#6060a0;display:grid;place-items:center;border-radius:50%;width:26px;height:26px;transition:.15s}
+.mc:hover{color:#e8e8f5;background:rgba(255,255,255,.07)}
+.mc svg{width:13px;height:13px}
+.mc-play{background:rgba(123,47,255,.8)!important;color:#fff!important;width:29px;height:29px}
+.music-fab{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:399;background:rgba(14,14,26,.88);border:1px solid rgba(123,47,255,.2);border-radius:99px;padding:6px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;color:#a06bff;font-size:.62rem;font-weight:600;opacity:0;pointer-events:none;transition:.3s}
+.music-fab.show{opacity:1;pointer-events:all}
+
 /* BOTTOM NAV */
 #botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
 .bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none;position:relative}
@@ -537,6 +556,20 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   Kicau Mania
 </div>
 
+<!-- MUSIC BAR BAWAAN -->
+<div class="music-bar" id="musicBar" style="display:none">
+  <div class="music-alb" id="musicAlb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+  <div class="music-info"><div class="music-title" id="musicTitle">Memuat...</div><div class="music-sub" id="musicSub">—</div></div>
+  <div class="music-ctrls">
+    <button class="mc" id="mcPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
+    <button class="mc mc-play" id="mcPlay"><svg id="mcPlayIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg></button>
+    <button class="mc" id="mcNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
+  </div>
+</div>
+<div class="music-fab" id="musicFab" onclick="showMusicBar()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Musik
+</div>
+
 <!-- BOTTOM NAV -->
 <nav id="botnav">
   <a class="bni active" href="index.html">
@@ -686,7 +719,7 @@ async function loadBanners(){
     bannerAuto();
     applyMusic(settings);
     initPopup(settings);
-  }catch(e){ console.error('loadBanners error:', e); }
+  }catch(e){}
 }
 function bannerGo(idx){bannerCur=(idx+bannerTotal)%bannerTotal;document.getElementById('bannerTrack').style.transform=`translateX(-${bannerCur*100}%)`;document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===bannerCur));}
 function bannerAuto(){clearInterval(bannerTimer);bannerTimer=setInterval(()=>bannerGo(bannerCur+1),4200);}
@@ -918,7 +951,7 @@ async function markAllRead(){await fetch(`${API}/notifications/read`,{method:'PU
 setInterval(loadNotifications,30000);
 setInterval(checkPendingTransaction,5000);
 
-// ── MUSIK (BAWAAN) ──────────────────────────────────────────
+// ── MUSIK BAWAAN ──────────────────────────────────────────
 const audio=document.getElementById('musicAudio');
 let autoHideTimer=null;
 
