@@ -189,7 +189,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
 
-/* MUSIC VISUALIZER - 3 GIF ANIMASI (Transparan) */
+/* MUSIC VISUALIZER - 3 GIF ANIMASI */
 .music-visualizer {
   position: fixed;
   bottom: 100px;
@@ -434,7 +434,7 @@ const musicSub = document.getElementById('musicSub');
 const visualizer = document.getElementById('musicVisualizer');
 let autoHideTimer = null;
 
-// Hardcoded Kicau Mania
+// Hardcoded Kicau Mania dengan link baru
 const KICAU_MANIA = {
   title: 'Kicau Mania',
   src: 'https://files.catbox.moe/wf7j5e.mp3'
@@ -453,7 +453,7 @@ function updateVisualizer() {
   const currentSongObj = songs[currentSong];
   const isPlaying = !audio.paused && audio.currentTime > 0;
   const isKicauMania = currentSongObj.title === 'Kicau Mania' || 
-                        (currentSongObj.title && currentSongObj.title.toLowerCase().includes('kicau mania'));
+                        (currentSongObj.title && currentSongObj.title.toLowerCase().includes('kicau'));
   
   if (isKicauMania && isPlaying) {
     visualizer.classList.add('show');
