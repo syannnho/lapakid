@@ -130,17 +130,15 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .inf-lbl{font-size:.56rem;color:#4040a0;text-transform:uppercase;letter-spacing:.3px}
 .inf-val{font-size:.75rem;font-weight:600;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cbot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:4px}
-.card-likes{display:flex;align-items:center;gap:4px;font-size:.68rem;color:#5050a0}
-.card-likes svg{width:11px;height:11px;color:#7b2fff;fill:#7b2fff}
 .card-price{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:#a06bff}
 .btn-beli{background:#7b2fff;border:none;border-radius:7px;padding:5px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;box-shadow:0 0 8px rgba(123,47,255,.35);transition:.18s;flex-shrink:0}
 .btn-beli:hover{filter:brightness(1.15)}
 
-/* HANYA 1 LIKE BUTTON - di kanan bawah */
-.like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.62rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:3px 5px;border-radius:6px;margin-top:4px;width:fit-content}
-.like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
-.like-btn.liked{color:#7b2fff}
-.like-btn svg{width:11px;height:11px}
+/* LIKE BUTTON - SATU-SATUNYA INDIKATOR LIKE */
+.like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:4px;font-size:.65rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:4px 8px;border-radius:20px;margin-top:4px;width:fit-content}
+.like-btn:hover{color:#a06bff;background:rgba(123,47,255,.1)}
+.like-btn.liked{color:#7b2fff;background:rgba(123,47,255,.1)}
+.like-btn svg{width:12px;height:12px}
 
 /* PAGINATION */
 #pagination{padding:8px 10px 6px;display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
@@ -607,7 +605,6 @@ function buildCard(id,ani=0){
         <div class="inf"><span class="inf-lbl">STATUS</span><span class="inf-val" style="color:${id.sold?'#ef4444':'#22bb72'}">${id.sold?'Terjual':'Tersedia'}</span></div>
       </div>
       <div class="cbot">
-        <div class="card-likes"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${lc}</div>
         <span class="card-price">${price}</span>
         <button class="btn-beli" data-num="${id.number}" ${id.sold?'disabled':''}>Beli</button>
       </div>
