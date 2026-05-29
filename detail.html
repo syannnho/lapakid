@@ -49,15 +49,26 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 /* MAIN CARD */
 .main-card{background:#181826;border:1px solid #232338;border-radius:16px;overflow:hidden;animation:fadeUp .4s ease both}
 .main-top{display:flex;gap:0}
-.main-left{flex:1.2;padding:16px;border-right:1px solid #232338}
+.main-left{flex:1;padding:16px;border-right:1px solid #232338}
 .badge-tier{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;padding:3px 10px;border-radius:6px;margin-bottom:10px;text-transform:uppercase}
 .tier-low{background:rgba(192,192,192,.15);color:#c0c0c0;border:1px solid rgba(192,192,192,.2)}
 .tier-medium{background:rgba(59,130,246,.15);color:#3b82f6;border:1px solid rgba(59,130,246,.2)}
 .tier-high{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
 .tier-legend{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
-.account-id{font-size:22px;font-weight:900;font-family:'Rajdhani',sans-serif;letter-spacing:.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* ID ROW DENGAN LIKE SEJAJAR */
+.id-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.account-id{font-size:22px;font-weight:900;font-family:'Rajdhani',sans-serif;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
 .copy-btn{background:rgba(123,47,255,.15);border:1px solid rgba(123,47,255,.3);border-radius:6px;color:#a06bff;cursor:pointer;padding:3px 7px;font-size:11px;font-weight:700;transition:background .2s}
 .copy-btn:hover{background:rgba(123,47,255,.3)}
+
+/* LIKE BUTTON SEJAJAR DENGAN ID */
+.like-btn-detail{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);border-radius:30px;padding:5px 12px;font-size:12px;font-weight:600;color:#e8e8f5;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.like-btn-detail:hover{background:rgba(123,47,255,.2);transform:scale(1.02)}
+.like-btn-detail.liked{color:#a06bff;border-color:#a06bff}
+.like-btn-detail.liked svg{fill:#a06bff;stroke:#a06bff}
+.like-btn-detail svg{width:14px;height:14px}
+
 .info-list{display:flex;flex-direction:column;gap:10px}
 .info-row{display:flex;align-items:center;gap:8px;font-size:13px}
 .info-row .icon-wrap{width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#a06bff}
@@ -90,12 +101,10 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .note-title{font-size:13px;font-weight:800;margin-bottom:6px;color:#a06bff}
 .note-text{font-size:12px;color:rgba(232,232,240,.7);line-height:1.6}
 
-/* BOTTOM BAR */
+/* BOTTOM BAR - TANPA ICON CART DI SEBELAH KIRI BELI SEKARANG */
 .bottom-bar-outer{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(14,14,26,.92);backdrop-filter:blur(14px);border-top:1px solid #232338}
 .bottom-bar-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:16px}
 .bottom-price{font-size:22px;font-weight:900;font-family:'Rajdhani',sans-serif;color:#a06bff;white-space:nowrap}
-.btn-cart-bottom{display:flex;align-items:center;justify-content:center;background:transparent;color:#e8e8f5;border:1.5px solid #232338;border-radius:14px;width:48px;height:48px;flex-shrink:0;cursor:pointer;transition:all .2s}
-.btn-cart-bottom:hover{border-color:#a06bff;background:rgba(123,47,255,.1)}
 .btn-bottom{display:flex;align-items:center;justify-content:center;gap:8px;background:#7b2fff;color:#fff;border:none;border-radius:14px;padding:13px 22px;font-size:14px;font-weight:800;font-family:'Rajdhani',sans-serif;cursor:pointer;flex:1;transition:background .2s;box-shadow:0 4px 18px rgba(123,47,255,.4)}
 .btn-bottom:hover{background:#5a1fd1}
 .btn-bottom:disabled{opacity:0.5;cursor:not-allowed}
@@ -119,6 +128,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   .stat-cell:nth-child(3){border-top:1px solid #232338;border-right:1px solid #232338}
   .main-top{flex-direction:column}
   .main-left{border-right:none;border-bottom:1px solid #232338}
+  .id-row{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
@@ -157,23 +167,11 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   </div>
 </div>
 
-<!-- BOTTOM BAR -->
+<!-- BOTTOM BAR - TANPA ICON CART -->
 <div class="bottom-bar-outer" id="bottomBar" style="display:none">
   <div class="bottom-bar-inner">
     <span class="bottom-price" id="bottomPrice">Rp 0</span>
-    <button class="btn-cart-bottom" id="cartBtn" onclick="tambahKeKeranjang()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        <line x1="12" y1="9" x2="12" y2="15"/>
-        <line x1="9" y1="12" x2="15" y2="12"/>
-      </svg>
-    </button>
     <button class="btn-bottom" id="buyBtn" onclick="beliSekarang()">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
       Beli Sekarang
     </button>
   </div>
@@ -267,6 +265,38 @@ async function loadIdDetail() {
   }
 }
 
+async function doLike() {
+  if (!currentIdData) return;
+  if (likedSet.has(currentIdData.number)) {
+    showToast('Sudah menyukai ID ini', true);
+    return;
+  }
+  
+  const btn = document.getElementById('likeButtonDetail');
+  if (btn) btn.disabled = true;
+  
+  try {
+    const res = await fetch(`${API}/like/${currentIdData.number}`, { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+      likedSet.add(currentIdData.number);
+      localStorage.setItem('lapakid_liked', JSON.stringify([...likedSet]));
+      if (btn) {
+        btn.classList.add('liked');
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${data.likes} Suka`;
+        btn.disabled = false;
+      }
+      showToast('Berhasil menyukai!');
+    } else {
+      if (btn) btn.disabled = false;
+      showToast(data.message || 'Gagal like', true);
+    }
+  } catch (err) {
+    if (btn) btn.disabled = false;
+    showToast('Gagal, coba lagi', true);
+  }
+}
+
 function renderDetail() {
   if (!currentIdData) return;
 
@@ -279,12 +309,15 @@ function renderDetail() {
   const createdAt = id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
   const description = id.description || 'ID premium dengan id cantik dan rapih. Akun dijamin aman, siap bind email &amp; lainnya.';
   const nickname = id.name || 'N4TAZAXXX';
+  const isLiked = likedSet.has(id.number);
+  const likeCount = id.likes || 0;
   
+  // INFORMASI AKUN SEMUA 0
   const stats = {
-    likes: id.likes || 0,
-    characters: id.characters || 0,
-    level: id.level || 0,
-    season: id.season || 0
+    likes: 0,
+    characters: 0,
+    level: 0,
+    season: 0
   };
 
   const html = `
@@ -292,13 +325,21 @@ function renderDetail() {
       <div class="main-top">
         <div class="main-left">
           <span class="badge-tier ${tierClass}">${tierName}</span>
-          <div class="account-id">
-            ${id.number}
-            <button class="copy-btn" onclick="copyID()" title="Salin ID">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          <div class="id-row">
+            <div class="account-id">
+              ${id.number}
+              <button class="copy-btn" onclick="copyID()" title="Salin ID">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+            </div>
+            <button class="like-btn-detail ${isLiked ? 'liked' : ''}" id="likeButtonDetail" onclick="doLike()">
+              <svg viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
+              ${likeCount === 0 ? 'Suka' : likeCount + ' Suka'}
             </button>
           </div>
           <div class="info-list">
@@ -354,7 +395,7 @@ function renderDetail() {
           <p class="stat-label">Likes</p>
           <div class="stat-value">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-            ${stats.likes.toLocaleString()}
+            ${stats.likes}
           </div>
         </div>
         <div class="stat-cell">
@@ -423,9 +464,7 @@ function renderDetail() {
   
   if (isSold) {
     document.getElementById('buyBtn').disabled = true;
-    document.getElementById('cartBtn').disabled = true;
     document.getElementById('buyBtn').style.opacity = '0.5';
-    document.getElementById('cartBtn').style.opacity = '0.5';
   }
   
   loadNotifications();
@@ -477,27 +516,6 @@ function beliSekarang() {
   setTimeout(() => {
     window.location.href = `payment.html?id=${encodeURIComponent(currentIdData.number)}`;
   }, 500);
-}
-
-function tambahKeKeranjang() {
-  if (!currentIdData) return;
-  if (currentIdData.sold) {
-    showToast('❌ ID ini sudah terjual!', true);
-    return;
-  }
-  let cart = JSON.parse(localStorage.getItem('lapakid_cart') || '[]');
-  if (cart.some(item => item.number === currentIdData.number)) {
-    showToast('⚠️ ID sudah ada di keranjang', true);
-    return;
-  }
-  cart.push({
-    number: currentIdData.number,
-    tier: currentIdData.tier,
-    price: getPrice(currentIdData),
-    name: currentIdData.name || currentIdData.number
-  });
-  localStorage.setItem('lapakid_cart', JSON.stringify(cart));
-  showToast('✓ Ditambahkan ke keranjang!');
 }
 
 async function loadNotifications() {
