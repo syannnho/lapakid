@@ -8,26 +8,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;min-height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif}
-#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
+html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif;overflow:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e1a}::-webkit-scrollbar-thumb{background:#7b2fff;border-radius:2px}
+
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
 
 /* TOP NAV */
-#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50;position:sticky;top:0}
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
 .logo{display:flex;align-items:center;gap:0}
 .logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
 .logo-mark img{width:100%;height:100%;object-fit:cover}
 .nav-r{display:flex;align-items:center;gap:8px}
 .nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer}
+.nav-icon:hover{background:rgba(123,47,255,.2)}
 .nav-icon svg{color:#a06bff;width:16px;height:16px}
-.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:flex;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
+.notif-badge.show{display:flex}
 
-.breadcrumb{padding:12px 16px 4px;font-size:12px;color:#6060a0}
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
 .breadcrumb a{color:#6060a0;text-decoration:none}
 .breadcrumb a:hover{color:#e8e8f5}
 .breadcrumb .active{color:#a06bff;font-weight:700}
-.breadcrumb .sep{font-size:10px;opacity:.5;margin:0 4px}
+.breadcrumb .sep{font-size:10px;opacity:.5}
 
-#scrollarea{flex:1;overflow-y:auto;padding:12px 16px}
+/* SCROLL AREA */
+#scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+
+/* WRAPPER */
+.wrap{padding:12px 16px;display:flex;flex-direction:column;gap:12px}
 
 /* Status Card */
 .status-card{background:#181826;border:1px solid #232338;border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
@@ -58,7 +67,7 @@ html,body{width:100%;min-height:100%;background:#0e0e1a;color:#e8e8f5;font-famil
 
 /* BOTTOM NAV */
 #botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
-.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;text-decoration:none;background:none;border:none}
+.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none}
 .bni:hover{color:#a06bff;background:rgba(123,47,255,.07)}
 .bni.active{color:#a06bff}
 .bni svg{width:19px;height:19px}
@@ -77,22 +86,24 @@ html,body{width:100%;min-height:100%;background:#0e0e1a;color:#e8e8f5;font-famil
     <div class="logo-mark"><img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID"></div>
   </div>
   <div class="nav-r">
-    <div class="nav-icon" id="notifBtn">
+    <div class="nav-icon" id="notifBtn" title="Notifikasi">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      <div class="notif-badge" id="notifBadge" style="display:none">0</div>
+      <div class="notif-badge" id="notifBadge"></div>
     </div>
   </div>
 </nav>
 
-<div class="breadcrumb">
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
   <a href="index.html">Beranda</a>
   <span class="sep">›</span>
   <span class="active">Transaksi Saya</span>
-</div>
+</nav>
 
+<!-- SCROLL AREA -->
 <div id="scrollarea">
-  <div id="transactionContent">
-    <div style="text-align:center;padding:60px 20px;color:#6060a0">
+  <div class="wrap" id="transactionContent">
+    <div class="empty-state">
       <div style="width:40px;height:40px;border:3px solid #232338;border-top-color:#7b2fff;border-radius:50%;margin:0 auto 12px;animation:spin 1s linear infinite"></div>
       Memuat transaksi...
     </div>
@@ -156,8 +167,9 @@ async function loadTransactions() {
       return;
     }
     
-    // Status Card
     let html = '';
+    
+    // Status Card
     if (hasPendingTransaction) {
       html += `
         <div class="status-card">
@@ -247,9 +259,9 @@ async function loadNotifications() {
     const badge = document.getElementById('notifBadge');
     if (d.unread > 0) {
       badge.textContent = d.unread > 99 ? '99+' : String(d.unread);
-      badge.style.display = 'flex';
+      badge.classList.add('show');
     } else {
-      badge.style.display = 'none';
+      badge.classList.remove('show');
     }
   } catch (e) {}
 }
