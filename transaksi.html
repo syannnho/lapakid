@@ -13,22 +13,22 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(123,47,255,.18),transparent 35%),#0b0b16}
 
-/* TOP NAV */
-#topnav{flex-shrink:0;background:rgba(10,10,20,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;z-index:50}
+/* TOP NAV - SAMA DENGAN INDEX */
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
 .logo{display:flex;align-items:center;gap:0}
-.logo-mark{width:72px;height:auto}
+.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
 .logo-mark img{width:100%;height:100%;object-fit:cover}
 .nav-r{display:flex;align-items:center;gap:8px}
-.nav-icon{position:relative;background:rgba(123,47,255,.12);border:1px solid rgba(123,47,255,.22);width:42px;height:42px;border-radius:14px;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.2s}
 .nav-icon:hover{background:rgba(123,47,255,.2)}
-.nav-icon svg{color:#b78cff;width:18px;height:18px}
-.notif-badge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;background:#ef4444;border-radius:99px;border:2px solid #0b0b16;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 3px}
+.nav-icon svg{color:#a06bff;width:16px;height:16px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0b0b16;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:8px;padding:18px 18px 0;font-size:12px;color:#66669a;flex-shrink:0}
-.breadcrumb a{color:#66669a;text-decoration:none}
-.breadcrumb a:hover{color:#fff}
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
+.breadcrumb a{color:#6060a0;text-decoration:none}
+.breadcrumb a:hover{color:#e8e8f5}
 .breadcrumb .active{color:#a06bff;font-weight:700}
 .breadcrumb .sep{font-size:10px;opacity:.5}
 
@@ -36,10 +36,10 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 #scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 
 /* WRAPPER */
-.wrap{padding:18px;display:flex;flex-direction:column;gap:18px}
+.wrap{padding:12px 16px;display:flex;flex-direction:column;gap:12px}
 
 /* Status Card */
-.status-card{background:#161625;border:1px solid rgba(255,255,255,.05);border-radius:22px;padding:20px;text-align:center}
+.status-card{background:#181826;border:1px solid #232338;border-radius:16px;padding:20px;text-align:center}
 .status-icon{width:60px;height:60px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .status-icon.pending{background:rgba(245,200,66,.15)}
 .status-icon.confirmed{background:rgba(34,187,114,.1)}
@@ -47,36 +47,36 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .status-icon.pending svg{color:#f5c842}
 .status-icon.confirmed svg{color:#22bb72}
 .status-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:6px}
-.status-desc{font-size:.75rem;color:#7777aa}
+.status-desc{font-size:.75rem;color:#6060a0}
 
 /* Transaction Card */
-.trans-card{background:#161625;border:1px solid rgba(255,255,255,.05);border-radius:20px;padding:18px;margin-bottom:12px}
+.trans-card{background:#181826;border:1px solid #232338;border-radius:14px;padding:14px;margin-bottom:12px}
 .trans-card:last-child{margin-bottom:0}
-.trans-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.05)}
+.trans-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1a1a2e}
 .trans-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:#a06bff}
-.trans-badge{padding:4px 10px;border-radius:99px;font-size:.6rem;font-weight:700}
-.trans-badge.pending{background:rgba(245,200,66,.12);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
-.trans-badge.confirmed{background:rgba(34,187,114,.12);color:#22bb72;border:1px solid rgba(34,187,114,.2)}
-.trans-row{display:flex;justify-content:space-between;padding:8px 0;font-size:.72rem}
-.trans-label{color:#7777aa}
-.trans-value{font-weight:600;color:#fff}
+.trans-badge{padding:3px 8px;border-radius:20px;font-size:.6rem;font-weight:700}
+.trans-badge.pending{background:rgba(245,200,66,.15);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
+.trans-badge.confirmed{background:rgba(34,187,114,.15);color:#22bb72;border:1px solid rgba(34,187,114,.2)}
+.trans-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.7rem}
+.trans-label{color:#6060a0}
+.trans-value{font-weight:600;color:#e8e8f5}
 .trans-price{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff}
-.warning-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:16px;padding:14px;margin-top:16px;text-align:center}
-.warning-box svg{width:18px;height:18px;color:#ef4444;margin-right:6px;vertical-align:middle}
+.warning-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:12px;margin-top:16px;text-align:center}
+.warning-box svg{width:16px;height:16px;color:#ef4444;margin-right:6px;vertical-align:middle}
 .warning-text{font-size:.7rem;color:#ef4444}
-.btn-back{background:linear-gradient(135deg,#7b2fff,#9e57ff);color:#fff;border:none;border-radius:16px;padding:14px;width:100%;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px;transition:.2s}
-.btn-back:hover{transform:translateY(-1px)}
-.empty-state{text-align:center;padding:50px 20px;color:#7777aa}
-.empty-state svg{width:64px;height:64px;margin-bottom:16px;opacity:.5}
-.empty-state-title{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:#fff}
+.btn-back{background:#7b2fff;color:#fff;border:none;border-radius:12px;padding:12px;width:100%;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px;transition:.2s}
+.btn-back:hover{background:#5a1fd1}
+.empty-state{text-align:center;padding:40px 20px;color:#6060a0}
+.empty-state svg{width:48px;height:48px;margin-bottom:12px;opacity:.5}
+.empty-state-title{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:#e8e8f5}
 .empty-state-desc{font-size:.7rem;margin-bottom:16px}
 
-/* BOTTOM NAV */
-#botnav{flex-shrink:0;background:rgba(10,10,20,.97);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:50}
-.bni{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.58rem;color:#66669a;cursor:pointer;padding:6px 12px;border-radius:12px;transition:.18s;text-decoration:none}
-.bni:hover{color:#a06bff;background:rgba(123,47,255,.08)}
+/* BOTTOM NAV - SAMA DENGAN INDEX */
+#botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
+.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none}
+.bni:hover{color:#a06bff;background:rgba(123,47,255,.07)}
 .bni.active{color:#a06bff}
-.bni svg{width:20px;height:20px}
+.bni svg{width:19px;height:19px}
 
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -112,7 +112,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
     <div class="empty-state">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <circle cx="12" cy="12" r="10"/>
-        <path d="M4 4 L20 20"/>
+        <line x1="4" y1="4" x2="20" y2="20"/>
       </svg>
       <div class="empty-state-title">Memuat...</div>
     </div>
@@ -137,6 +137,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 <script>
 const API = '/api';
 let hasPendingTransaction = false;
+let notifPanelOpen = false;
 
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
@@ -151,6 +152,112 @@ function showToast(msg, isError = false) {
 function formatRupiah(num) {
   return 'Rp ' + Number(num).toLocaleString('id-ID');
 }
+
+// NOTIFIKASI PANEL (SAMA DENGAN INDEX)
+const notifPanelHTML = `
+<div class="notif-panel" id="notifPanel" style="position:fixed;top:52px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s">
+  <div class="notif-head" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e">
+    <div class="notif-head-title" style="font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700">Aktivitas</div>
+    <button class="notif-mark" onclick="markAllRead()" style="font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none">Tandai dibaca</button>
+  </div>
+  <div class="notif-list" id="notifList" style="overflow-y:auto;max-height:260px"><div class="notif-empty" style="text-align:center;padding:20px;color:#6060a0">Memuat...</div></div>
+</div>
+`;
+document.body.insertAdjacentHTML('beforeend', notifPanelHTML);
+
+// NOTIF DETAIL (SAMA DENGAN INDEX)
+const notifDetailHTML = `
+<div class="nd-overlay" id="ndOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s">
+  <div class="nd-box" style="background:#181826;border:1px solid #232338;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
+      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')" style="background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div id="ndContent"></div>
+  </div>
+</div>
+`;
+document.body.insertAdjacentHTML('beforeend', notifDetailHTML);
+
+async function loadNotifications() {
+  try {
+    const r = await fetch(`${API}/notifications?limit=20`);
+    if (!r.ok) return;
+    const d = await r.json();
+    const badge = document.getElementById('notifBadge');
+    if (d.unread > 0) {
+      badge.textContent = d.unread > 99 ? '99+' : String(d.unread);
+      badge.classList.add('show');
+    } else {
+      badge.classList.remove('show');
+    }
+    
+    const list = document.getElementById('notifList');
+    if (!d.data || !d.data.length) {
+      list.innerHTML = '<div class="notif-empty" style="text-align:center;padding:20px;color:#6060a0">Belum ada aktivitas</div>';
+      return;
+    }
+    
+    list.innerHTML = d.data.map(n => {
+      const t = new Date(n.createdAt);
+      const diff = Date.now() - t.getTime();
+      const ts = diff < 60000 ? 'Baru saja' : diff < 3600000 ? Math.floor(diff / 60000) + ' mnt lalu' : diff < 86400000 ? Math.floor(diff / 3600000) + ' jam lalu' : t.toLocaleDateString('id-ID', {day:'2-digit', month:'short'});
+      return `
+        <div class="notif-item ${n.read ? '' : 'unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})' style="padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer">
+          <div class="notif-ico" style="width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div class="notif-msg" style="font-size:.62rem;color:#e8e8f5;line-height:1.4">${n.message}</div>
+            <div class="notif-time" style="font-size:.54rem;color:#6060a0;margin-top:2px">${ts}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {}
+}
+
+function openNotifDetail(jsonStr) {
+  const n = JSON.parse(jsonStr);
+  document.getElementById('ndContent').innerHTML = `
+    <div style="text-align:center;margin-bottom:12px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px">${n.title || 'Aktivitas'}</div>
+      <div style="font-size:.68rem;color:#6060a0;line-height:1.6">${n.message}</div>
+    </div>
+    <div style="font-size:.56rem;color:#6060a0;text-align:center;margin-top:9px">${new Date(n.createdAt).toLocaleString('id-ID')}</div>
+  `;
+  document.getElementById('ndOverlay').classList.add('open');
+}
+
+async function markAllRead() {
+  await fetch(`${API}/notifications/read`, { method: 'PUT' }).catch(() => {});
+  const badge = document.getElementById('notifBadge');
+  badge.classList.remove('show');
+  badge.textContent = '';
+  document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+  loadNotifications();
+}
+
+// Event notifikasi
+document.getElementById('notifBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  notifPanelOpen = !notifPanelOpen;
+  const panel = document.getElementById('notifPanel');
+  panel.classList.toggle('open', notifPanelOpen);
+  if (notifPanelOpen) loadNotifications();
+});
+
+document.addEventListener('click', (e) => {
+  if (notifPanelOpen && !document.getElementById('notifPanel').contains(e.target) && e.target !== document.getElementById('notifBtn')) {
+    notifPanelOpen = false;
+    document.getElementById('notifPanel').classList.remove('open');
+  }
+});
 
 async function loadTransactions() {
   const container = document.getElementById('transactionContent');
@@ -211,7 +318,7 @@ async function loadTransactions() {
     }
     
     // Daftar Transaksi
-    html += `<div style="margin-top:8px"><div style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+    html += `<div style="margin-top:8px"><div style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Riwayat Transaksi
     </div></div>`;
@@ -279,25 +386,7 @@ async function loadTransactions() {
   }
 }
 
-async function loadNotifications() {
-  try {
-    const res = await fetch(`${API}/notifications?limit=1`);
-    if (!res.ok) return;
-    const d = await res.json();
-    const badge = document.getElementById('notifBadge');
-    if (d.unread > 0) {
-      badge.textContent = d.unread > 99 ? '99+' : String(d.unread);
-      badge.classList.add('show');
-    } else {
-      badge.classList.remove('show');
-    }
-  } catch (e) {}
-}
-
-document.getElementById('notifBtn').addEventListener('click', () => {
-  showToast('Belum ada notifikasi baru');
-});
-
+// Auto refresh notifikasi
 loadTransactions();
 loadNotifications();
 setInterval(loadNotifications, 30000);
