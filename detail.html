@@ -31,7 +31,6 @@
       font-family: 'Exo 2', sans-serif;
     }
 
-    /* ── APP SHELL ── */
     #app {
       max-width: 480px;
       margin: 0 auto;
@@ -41,7 +40,7 @@
       flex-direction: column;
     }
 
-    /* ── TOP NAV ── */
+    /* TOP NAV */
     #topnav {
       flex-shrink: 0;
       background: rgba(14,14,26,.96);
@@ -109,7 +108,7 @@
     }
     .notif-badge.show { display: flex; }
 
-    /* ── BREADCRUMB ── */
+    /* BREADCRUMB */
     .breadcrumb {
       display: flex;
       align-items: center;
@@ -127,7 +126,6 @@
     .breadcrumb .active { color: var(--purple-light); font-weight: 700; }
     .breadcrumb .sep { font-size: 10px; opacity: .5; }
 
-    /* ── SCROLL AREA ── */
     #scrollarea {
       flex: 1;
       overflow-y: auto;
@@ -135,7 +133,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* ── WRAPPER ── */
     .wrap {
       padding: 12px 16px;
       display: flex;
@@ -143,7 +140,25 @@
       gap: 12px;
     }
 
-    /* ── MAIN CARD ── */
+    /* LOADING */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { color: var(--red); text-align: center; padding: 40px; }
+
+    /* MAIN CARD */
     .main-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -151,12 +166,9 @@
       overflow: hidden;
       animation: fadeUp .4s ease both;
     }
-    .main-top {
-      display: flex;
-      gap: 0;
-    }
+    .main-top { display: flex; gap: 0; }
     .main-left {
-      flex: 1.2;
+      flex: 1;
       padding: 16px;
       border-right: 1px solid var(--border);
     }
@@ -172,9 +184,7 @@
       margin-bottom: 10px;
       text-transform: uppercase;
     }
-    .badge-sold {
-      background: var(--red);
-    }
+    .badge-sold { background: var(--red); }
     .account-id {
       font-size: 22px;
       font-weight: 900;
@@ -227,6 +237,46 @@
       gap: 5px;
     }
     .status-active svg { width: 14px; height: 14px; }
+    .status-deactive {
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-deactive svg { width: 14px; height: 14px; }
+
+    .main-right {
+      flex: 0.5;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-share {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(123,47,255,.15);
+      border: 1.5px solid rgba(123,47,255,.3);
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--purple-light);
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      width: 100%;
+    }
+    .btn-share:hover {
+      background: rgba(123,47,255,.25);
+      border-color: var(--purple-light);
+      transform: translateY(-1px);
+    }
+    .btn-share:active { transform: translateY(1px); }
+    .btn-share svg { width: 18px; height: 18px; }
 
     .tier-badge {
       display: inline-flex;
@@ -242,63 +292,6 @@
     .t-high { background: rgba(100,160,255,.1); color: #70aaff; border: 1px solid rgba(100,160,255,.2); }
     .t-legend { background: rgba(160,107,255,.12); color: var(--purple-light); border: 1px solid rgba(160,107,255,.25); }
 
-    .main-right {
-      flex: 0.8;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .price-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-    .price-value {
-      font-size: 26px;
-      font-weight: 900;
-      font-family: 'Rajdhani', sans-serif;
-      color: var(--purple-light);
-      margin-bottom: 14px;
-      line-height: 1.1;
-    }
-    .btn-primary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: var(--purple);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 14px;
-      font-weight: 800;
-      font-family: 'Rajdhani', sans-serif;
-      cursor: pointer;
-      transition: background .2s, transform .15s;
-      width: 100%;
-      margin-bottom: 8px;
-      box-shadow: 0 4px 18px rgba(123,47,255,.35);
-    }
-    .btn-primary:hover { background: var(--purple2); transform: translateY(-1px); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .btn-secondary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 11px 16px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: border-color .2s, background .2s;
-      width: 100%;
-    }
-    .btn-secondary:hover { border-color: var(--purple-light); background: rgba(123,47,255,.08); }
-    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* ── SECTION CARD ── */
     .section-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -366,7 +359,7 @@
     .note-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; color: var(--purple-light); }
     .note-text { font-size: 12.5px; color: rgba(232,232,240,.7); line-height: 1.65; }
 
-    /* ── BOTTOM BAR ── */
+    /* BOTTOM BAR */
     .bottom-bar-outer {
       position: fixed;
       bottom: 0;
@@ -429,7 +422,7 @@
     .btn-bottom:hover { background: var(--purple2); }
     .btn-bottom:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ── BOTTOM NAV ── */
+    /* BOTTOM NAV */
     #botnav {
       flex-shrink: 0;
       background: rgba(14,14,26,.97);
@@ -456,7 +449,6 @@
     }
     .bni:hover { color: var(--purple-light); background: rgba(123,47,255,.07); }
     .bni.active { color: var(--purple-light); }
-    .bni.active svg { filter: drop-shadow(0 0 4px var(--purple)); }
     .bni svg { width: 19px; height: 19px; }
 
     @keyframes fadeUp {
@@ -492,13 +484,11 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .error-msg { color: var(--red); text-align: center; padding: 40px; }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- TOP NAV -->
   <nav id="topnav">
     <div class="logo">
       <div class="logo-mark">
@@ -521,190 +511,23 @@
     </div>
   </nav>
 
-  <!-- BREADCRUMB -->
   <nav class="breadcrumb">
     <a href="index.html">Beranda</a>
     <span class="sep">›</span>
     <a href="index.html">IDs Free Fire</a>
     <span class="sep">›</span>
-    <span class="active" id="breadcrumbId">355555</span>
+    <span class="active" id="breadcrumbId">Loading...</span>
   </nav>
 
-  <!-- SCROLL AREA -->
   <div id="scrollarea">
     <div class="wrap" id="mainContent">
-      <!-- MAIN CARD -->
-      <div class="main-card">
-        <div class="main-top">
-          <div class="main-left">
-            <span class="badge-premium">PREMIUM</span>
-            <div class="account-id">
-              355555
-              <button class="copy-btn" onclick="copyID()" title="Salin ID">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                </svg>
-              </button>
-            </div>
-            <div class="info-list">
-              <div class="info-row">
-                <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <span class="label">Region</span>
-                <span class="value">Indonesia</span>
-              </div>
-              <div class="info-row">
-                <span class="icon-wrap"><img src="https://files.catbox.moe/5pkqv0.png" alt="BR Rank" class="rank-icon"></span>
-                <span class="label">BR Rank</span>
-                <span class="value">Bronze</span>
-              </div>
-              <div class="info-row">
-                <span class="icon-wrap"><img src="https://files.catbox.moe/5pkqv0.png" alt="CS Rank" class="rank-icon"></span>
-                <span class="label">CS Rank</span>
-                <span class="value">Bronze</span>
-              </div>
-              <div class="info-row">
-                <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-                <span class="label">Nickname</span>
-                <span class="value">N4TAZAXXX</span>
-              </div>
-              <div class="info-row">
-                <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-                <span class="label">Garansi</span>
-                <span class="value status-active">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  Aktif
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-                <span class="label">Dibuat</span>
-                <span class="value">20 Mei 2024</span>
-              </div>
-            </div>
-          </div>
-          <div class="main-right">
-            <div>
-              <p class="price-label">Harga</p>
-              <p class="price-value">Rp 120.000</p>
-            </div>
-            <div>
-              <button class="btn-primary" onclick="beliSekarang()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
-                Beli Sekarang
-              </button>
-              <button class="btn-secondary" onclick="tambahKeranjang()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                  <line x1="12" y1="9" x2="12" y2="15"/>
-                  <line x1="9" y1="12" x2="15" y2="12"/>
-                </svg>
-                Tambah ke Keranjang
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INFORMASI AKUN -->
-      <div class="section-card">
-        <p class="section-title">Informasi Akun</p>
-        <div class="stats-grid">
-          <div class="stat-cell">
-            <p class="stat-label">Likes</p>
-            <div class="stat-value">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-              </svg>
-              0
-            </div>
-          </div>
-          <div class="stat-cell">
-            <p class="stat-label">Karakter</p>
-            <div class="stat-value">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-              0
-            </div>
-          </div>
-          <div class="stat-cell">
-            <p class="stat-label">Level Akun</p>
-            <div class="stat-value">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-              0
-            </div>
-          </div>
-          <div class="stat-cell">
-            <p class="stat-label">Season</p>
-            <div class="stat-value">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              0
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DESKRIPSI -->
-      <div class="section-card">
-        <p class="section-title">Deskripsi</p>
-        <p class="desc-text">
-          ID premium dengan koleksi lengkap dan item langka.<br>
-          Akun dijamin aman, siap bind email &amp; all.
-        </p>
-      </div>
-
-      <!-- GARANSI -->
-      <div class="section-card">
-        <p class="section-title">Garansi</p>
-        <div class="guarantee-list">
-          <div class="guarantee-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Garansi ganti akun jika bermasalah
-          </div>
-          <div class="guarantee-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Akun tidak bermasalah saat pembelian
-          </div>
-          <div class="guarantee-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Bantuan CS 24/7
-          </div>
-        </div>
-      </div>
-
-      <!-- CATATAN -->
-      <div class="note-card">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        <div>
-          <p class="note-title">Catatan</p>
-          <p class="note-text">Setelah pembayaran berhasil, ID akan dikirim otomatis.<br>Jika tidak masuk, cek menu Pesanan saya.</p>
-        </div>
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <div>Memuat detail ID...</div>
       </div>
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
   <nav id="botnav">
     <a class="bni" href="index.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -738,10 +561,10 @@
   </nav>
 </div>
 
-<div class="bottom-bar-outer" id="bottomBar">
+<div class="bottom-bar-outer" id="bottomBar" style="display:none">
   <div class="bottom-bar-inner">
-    <span class="bottom-price" id="bottomPrice">Rp 120.000</span>
-    <button class="btn-cart-bottom" onclick="tambahKeranjang()" aria-label="Tambah ke Keranjang">
+    <span class="bottom-price" id="bottomPrice">Rp 0</span>
+    <button class="btn-cart-bottom" id="cartBtn" onclick="tambahKeKeranjang()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -749,7 +572,7 @@
         <line x1="9" y1="12" x2="15" y2="12"/>
       </svg>
     </button>
-    <button class="btn-bottom" onclick="beliSekarang()">
+    <button class="btn-bottom" id="buyBtn" onclick="beliSekarang()">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -762,6 +585,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
+const API = '/api';
+let currentId = null;
+let currentIdData = null;
+let settings = { prices: {} };
+
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -772,41 +600,323 @@ function showToast(msg, isError = false) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+function formatRupiah(num) {
+  return 'Rp ' + Number(num).toLocaleString('id-ID');
+}
+
+function getTierClass(tier) {
+  const map = { low: 't-low', medium: 't-medium', high: 't-high', legend: 't-legend' };
+  return map[tier] || 't-medium';
+}
+
+function getTierName(tier) {
+  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
+  return map[tier] || tier;
+}
+
+function getPrice(id) {
+  if (id.price != null && id.price > 0) return id.price;
+  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
+  return 0;
+}
+
+async function loadSettings() {
+  try {
+    const res = await fetch(`${API}/settings`);
+    if (res.ok) {
+      const data = await res.json();
+      settings = data.data || {};
+    }
+  } catch (e) { console.warn(e); }
+}
+
+async function loadIdDetail() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const idNumber = urlParams.get('id');
+  
+  if (!idNumber) {
+    document.getElementById('mainContent').innerHTML = '<div class="error-msg">❌ Tidak ada ID yang dipilih</div>';
+    document.getElementById('bottomBar').style.display = 'none';
+    return;
+  }
+
+  currentId = idNumber;
+  document.getElementById('breadcrumbId').textContent = idNumber;
+
+  try {
+    const res = await fetch(`${API}/ids/${encodeURIComponent(idNumber)}`);
+    if (!res.ok) {
+      if (res.status === 404) throw new Error('ID tidak ditemukan');
+      throw new Error('Gagal memuat data');
+    }
+    const data = await res.json();
+    currentIdData = data.data;
+    renderDetail();
+  } catch (err) {
+    document.getElementById('mainContent').innerHTML = `<div class="error-msg">❌ ${err.message}</div>`;
+    document.getElementById('bottomBar').style.display = 'none';
+  }
+}
+
+function renderDetail() {
+  if (!currentIdData) return;
+
+  const id = currentIdData;
+  const price = getPrice(id);
+  const priceFormatted = formatRupiah(price);
+  const tierClass = getTierClass(id.tier);
+  const tierName = getTierName(id.tier);
+  const isSold = id.sold || false;
+  const createdAt = id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  
+  const stats = {
+    likes: id.likes || 0,
+    characters: id.characters || 0,
+    level: id.level || 0,
+    season: id.season || 0
+  };
+
+  const html = `
+    <div class="main-card">
+      <div class="main-top">
+        <div class="main-left">
+          <span class="badge-premium ${isSold ? 'badge-sold' : ''}">${isSold ? 'TERJUAL' : 'PREMIUM'}</span>
+          <div class="account-id">
+            ${id.number}
+            <button class="copy-btn" onclick="copyID()" title="Salin ID">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+            </button>
+          </div>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="label">Region</span>
+              <span class="value">${id.region || 'Indonesia'}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><img src="https://files.catbox.moe/5pkqv0.png" alt="BR Rank" class="rank-icon"></span>
+              <span class="label">BR Rank</span>
+              <span class="value">${id.brRank || 'Bronze'}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><img src="https://files.catbox.moe/5pkqv0.png" alt="CS Rank" class="rank-icon"></span>
+              <span class="label">CS Rank</span>
+              <span class="value">${id.csRank || 'Bronze'}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <span class="label">Nickname</span>
+              <span class="value">${id.name || id.number.slice(-6)}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+              <span class="label">Garansi</span>
+              <span class="value status-active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                ${id.garansi ? 'Aktif' : 'Nonaktif'}
+              </span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+              <span class="label">Status</span>
+              <span class="value ${id.status === 'active' ? 'status-active' : 'status-deactive'}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  ${id.status === 'active' 
+                    ? '<polyline points="20 6 9 17 4 12"/>' 
+                    : '<circle cx="12" cy="12" r="10"/><line x1="18" y1="6" x2="6" y2="18"/>'}
+                </svg>
+                ${id.status === 'active' ? 'Active' : 'Deactive'}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="main-right">
+          <button class="btn-share" onclick="bagikanID()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+            Bagikan ID
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Informasi Akun</p>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <p class="stat-label">Likes</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+            </svg>
+            ${stats.likes.toLocaleString()}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Karakter</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            ${stats.characters}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Level Akun</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            ${stats.level}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Season</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            ${stats.season}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Deskripsi</p>
+      <p class="desc-text">${id.description || 'ID premium dengan koleksi lengkap dan item langka. Akun dijamin aman, siap bind email &amp; all.'}</p>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Garansi</p>
+      <div class="guarantee-list">
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Garansi ganti akun jika bermasalah
+        </div>
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Akun tidak bermasalah saat pembelian
+        </div>
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Bantuan CS 24/7
+        </div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div>
+        <p class="note-title">Catatan</p>
+        <p class="note-text">Setelah pembayaran berhasil, ID akan dikirim otomatis.<br>Jika tidak masuk, cek menu Pesanan saya.</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('mainContent').innerHTML = html;
+  document.getElementById('bottomPrice').textContent = priceFormatted;
+  document.getElementById('bottomBar').style.display = 'block';
+  
+  if (isSold) {
+    document.getElementById('buyBtn').disabled = true;
+    document.getElementById('cartBtn').disabled = true;
+    document.getElementById('buyBtn').style.opacity = '0.5';
+    document.getElementById('cartBtn').style.opacity = '0.5';
+  }
+  
+  loadNotifications();
+}
+
 function copyID() {
-  navigator.clipboard.writeText('355555').then(() => {
+  if (!currentId) return;
+  navigator.clipboard.writeText(currentId).then(() => {
     showToast('✓ ID berhasil disalin!');
   }).catch(() => {
-    showToast('ID: 355555');
+    showToast('ID: ' + currentId);
   });
 }
 
+function bagikanID() {
+  if (!currentIdData) return;
+  const shareData = {
+    title: 'LAPAK ID - ID Premium Free Fire',
+    text: `ID Free Fire Premium: ${currentIdData.number} | Nickname: ${currentIdData.name || currentIdData.number.slice(-6)} | Harga: ${formatRupiah(getPrice(currentIdData))}`,
+    url: window.location.href
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData)
+      .then(() => showToast('✓ Berhasil membagikan ID'))
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          showToast('Gagal membagikan', true);
+        }
+      });
+  } else {
+    const shareText = `${shareData.text}\n\nLihat detail: ${shareData.url}`;
+    navigator.clipboard.writeText(shareText).then(() => {
+      showToast('✓ Link dan info ID disalin! Silakan bagikan manual.');
+    }).catch(() => {
+      showToast('ID: ' + currentId, true);
+    });
+  }
+}
+
 function beliSekarang() {
+  if (!currentIdData) return;
+  if (currentIdData.sold) {
+    showToast('❌ ID ini sudah terjual!', true);
+    return;
+  }
   showToast('🛒 Menuju halaman pembayaran...');
   setTimeout(() => {
-    window.location.href = `payment.html?id=355555`;
+    window.location.href = `payment.html?id=${encodeURIComponent(currentId)}`;
   }, 500);
 }
 
-function tambahKeranjang() {
+function tambahKeKeranjang() {
+  if (!currentIdData) return;
+  if (currentIdData.sold) {
+    showToast('❌ ID ini sudah terjual!', true);
+    return;
+  }
   let cart = JSON.parse(localStorage.getItem('lapakid_cart') || '[]');
-  if (cart.some(item => item.number === '355555')) {
+  if (cart.some(item => item.number === currentIdData.number)) {
     showToast('⚠️ ID sudah ada di keranjang', true);
     return;
   }
   cart.push({
-    number: '355555',
-    tier: 'low',
-    price: 120000,
-    name: 'N4TAZAXXX'
+    number: currentIdData.number,
+    tier: currentIdData.tier,
+    price: getPrice(currentIdData),
+    name: currentIdData.name || currentIdData.number
   });
   localStorage.setItem('lapakid_cart', JSON.stringify(cart));
   showToast('✓ Ditambahkan ke keranjang!');
 }
 
-// Notifikasi badge
 async function loadNotifications() {
   try {
-    const r = await fetch('/api/notifications?limit=1');
+    const r = await fetch(`${API}/notifications?limit=1`);
     if (!r.ok) return;
     const d = await r.json();
     const badge = document.getElementById('notifBadge');
@@ -823,8 +933,13 @@ document.getElementById('notifBtn').addEventListener('click', () => {
   showToast('🔔 Belum ada notifikasi baru');
 });
 
-loadNotifications();
-setInterval(loadNotifications, 30000);
+async function init() {
+  await loadSettings();
+  await loadIdDetail();
+  setInterval(loadNotifications, 30000);
+}
+
+init();
 </script>
 </body>
 </html>
