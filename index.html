@@ -91,16 +91,13 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .pop-scroll{display:flex;gap:8px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none}
 .pop-scroll::-webkit-scrollbar{display:none}
 
-/* MINI CARD (popular) */
+/* MINI CARD (popular) - HANYA 1 LIKE BUTTON */
 .mini-card{background:#181826;border:1px solid #252540;border-radius:12px;padding:10px;min-width:120px;cursor:pointer;transition:.2s;flex-shrink:0;position:relative}
 .mini-card:hover{border-color:rgba(123,47,255,.4);transform:translateY(-2px)}
-.mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:5px;color:#e8e8f5;word-break:break-all}
-.mini-like-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-.mini-likes{font-size:.6rem;color:#5050a0;display:flex;align-items:center;gap:3px}
-.mini-likes svg{width:10px;height:10px;color:#7b2fff;fill:#7b2fff}
-.mini-like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.6rem;padding:2px 5px;border-radius:4px;transition:.15s}
+.mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:8px;color:#e8e8f5;word-break:break-all}
+.mini-like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:4px;font-size:.62rem;padding:3px 6px;border-radius:15px;transition:.15s;width:fit-content}
 .mini-like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
-.mini-like-btn.liked{color:#7b2fff}
+.mini-like-btn.liked{color:#7b2fff;background:rgba(123,47,255,.1)}
 .mini-like-btn svg{width:10px;height:10px}
 
 /* TIER BADGE */
@@ -501,7 +498,7 @@ function initPopup(s){
 }
 function copyPromo(){const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));}
 
-// ── POPULAR ────────────────────────────────────────
+// ── POPULAR (HANYA 1 LIKE BUTTON) ───────────────────
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const el=document.getElementById('popScroll');
@@ -510,14 +507,13 @@ async function loadPopular(){
   if(!data.length){el.innerHTML='<div class="empty" style="padding:.5rem">Belum ada</div>';return;}
   el.innerHTML=data.map(id=>{
     const isLiked=likedSet.has(id.number);
+    const likeCount=id.likes||0;
     return `<div class="mini-card" onclick="goToDetail('${id.number}')">
       <div class="mini-id">${id.number}</div>
-      <div class="mini-like-row">
-        <div class="mini-likes"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${id.likes||0}</div>
-        <button class="mini-like-btn${isLiked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation();doLikeMini('${id.number}',this)">
-          <svg viewBox="0 0 24 24" fill="${isLiked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </button>
-      </div>
+      <button class="mini-like-btn${isLiked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation();doLikeMini('${id.number}',this)">
+        <svg viewBox="0 0 24 24" fill="${isLiked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        ${likeCount===0?'Suka':likeCount}
+      </button>
     </div>`;
   }).join('');
 }
@@ -532,9 +528,7 @@ async function doLikeMini(number,btn){
     likedSet.add(number);localStorage.setItem('lapakid_liked',JSON.stringify([...likedSet]));
     const idx=allIds.findIndex(i=>i.number===number);if(idx!==-1)allIds[idx].likes=d.likes;
     btn.classList.add('liked');
-    const parent=btn.closest('.mini-card');
-    const likeSpan=parent.querySelector('.mini-likes');
-    if(likeSpan)likeSpan.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes}`;
+    btn.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes===0?'Suka':d.likes}`;
     btn.disabled=false;
     showToast('Berhasil menyukai!');
   }else{btn.disabled=false;showToast(d.message||'Gagal like','warn');}
