@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>Detail ID – LAPAK ID</title>
+  <link rel="icon" type="image/png" href="https://files.catbox.moe/em51di.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0e0e1a;
+      --card:      #181826;
+      --card2:     #1e1e30;
+      --border:    #232338;
+      --purple:    #7b2fff;
+      --purple2:   #5a1fd1;
+      --purple-light: #a06bff;
+      --text:      #e8e8f5;
+      --muted:     #6060a0;
+      --green:     #22bb72;
+      --red:       #ef4444;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    /* ── APP SHELL ── */
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP NAV ── */
+    #topnav {
+      flex-shrink: 0;
+      background: rgba(14,14,26,.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      z-index: 50;
+      position: sticky;
+      top: 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 12px rgba(123,47,255,.5);
+    }
+    .logo-mark svg { color: #fff; }
+    .logo b { color: var(--purple-light); }
+    .nav-r { display: flex; align-items: center; gap: 8px; }
+    .nav-icon {
+      position: relative;
+      background: rgba(123,47,255,.1);
+      border: 1px solid rgba(123,47,255,.2);
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .nav-icon:hover { background: rgba(123,47,255,.2); }
+    .nav-icon svg { color: var(--purple-light); width: 16px; height: 16px; }
+    .notif-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 15px;
+      height: 15px;
+      background: var(--red);
+      border-radius: 99px;
+      border: 2px solid var(--bg);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: .44rem;
+      font-weight: 800;
+      color: #fff;
+      padding: 0 2px;
+    }
+    .notif-badge.show { display: flex; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb .active { color: var(--purple-light); font-weight: 700; }
+    .breadcrumb .sep { font-size: 10px; opacity: .5; }
+
+    /* ── SCROLL AREA ── */
+    #scrollarea {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── WRAPPER ── */
+    .wrap {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* loading */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── MAIN CARD ── */
+    .main-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      animation: fadeUp .4s ease both;
+    }
+    .main-top {
+      display: flex;
+      gap: 0;
+    }
+    .main-left {
+      flex: 1.2;
+      padding: 16px;
+      border-right: 1px solid var(--border);
+    }
+    .badge-premium {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .badge-sold {
+      background: var(--red);
+    }
+    .account-id {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: .5px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-btn {
+      background: rgba(123,47,255,.15);
+      border: 1px solid rgba(123,47,255,.3);
+      border-radius: 6px;
+      color: var(--purple-light);
+      cursor: pointer;
+      padding: 3px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      transition: background .2s, transform .15s;
+    }
+    .copy-btn:hover { background: rgba(123,47,255,.3); transform: scale(1.05); }
+    .info-list { display: flex; flex-direction: column; gap: 10px; }
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .info-row .icon-wrap {
+      width: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--purple-light);
+    }
+    .info-row .label { color: var(--muted); font-size: 12px; flex: 1; }
+    .info-row .value { font-weight: 700; font-size: 13px; text-align: right; }
+    .rank-master { color: #f5c842; }
+    .rank-heroic { color: #ff6b6b; }
+
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .t-low { background: rgba(34,187,114,.12); color: var(--green); border: 1px solid rgba(34,187,114,.2); }
+    .t-medium { background: rgba(245,200,66,.1); color: #f5c842; border: 1px solid rgba(245,200,66,.2); }
+    .t-high { background: rgba(100,160,255,.1); color: #70aaff; border: 1px solid rgba(100,160,255,.2); }
+    .t-legend { background: rgba(160,107,255,.12); color: var(--purple-light); border: 1px solid rgba(160,107,255,.25); }
+
+    .main-right {
+      flex: 0.8;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .price-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .price-value {
+      font-size: 26px;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--purple-light);
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      width: 100%;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 18px rgba(123,47,255,.35);
+    }
+    .btn-primary:hover { background: var(--purple2); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      width: 100%;
+    }
+    .btn-secondary:hover { border-color: var(--purple-light); background: rgba(123,47,255,.08); }
+    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      animation: fadeUp .45s ease both;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+      margin-bottom: 14px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .stat-cell {
+      padding: 12px 8px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .stat-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--purple-light);
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .desc-text {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: rgba(232,232,240,.75);
+    }
+    .guarantee-list { display: flex; flex-direction: column; gap: 10px; }
+    .guarantee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+    .guarantee-item svg { color: var(--green); flex-shrink: 0; }
+    .note-card {
+      background: rgba(123,47,255,.07);
+      border: 1px solid rgba(123,47,255,.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      animation: fadeUp .55s ease both;
+    }
+    .note-card svg { color: var(--purple-light); flex-shrink: 0; margin-top: 2px; }
+    .note-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; color: var(--purple-light); }
+    .note-text { font-size: 12.5px; color: rgba(232,232,240,.7); line-height: 1.65; }
+
+    /* ── BOTTOM BAR ── */
+    .bottom-bar-outer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(14,14,26,.92);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+    }
+    .bottom-bar-inner {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      gap: 16px;
+    }
+    .bottom-price {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--purple-light);
+      white-space: nowrap;
+    }
+    .btn-cart-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-cart-bottom:hover { border-color: var(--purple-light); background: rgba(123,47,255,.1); }
+    .btn-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 22px;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Rajdhani', sans-serif;
+      cursor: pointer;
+      flex: 1;
+      transition: background .2s;
+      box-shadow: 0 4px 18px rgba(123,47,255,.4);
+    }
+    .btn-bottom:hover { background: var(--purple2); }
+    .btn-bottom:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── BOTTOM NAV ── */
+    #botnav {
+      flex-shrink: 0;
+      background: rgba(14,14,26,.97);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 7px 0 calc(7px + env(safe-area-inset-bottom));
+      z-index: 50;
+    }
+    .bni {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: .58rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 9px;
+      transition: .18s;
+      text-decoration: none;
+      font-family: 'Exo 2', sans-serif;
+    }
+    .bni:hover { color: var(--purple-light); background: rgba(123,47,255,.07); }
+    .bni.active { color: var(--purple-light); }
+    .bni.active svg { filter: drop-shadow(0 0 4px var(--purple)); }
+    .bni svg { width: 19px; height: 19px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 380px) {
+      .account-id { font-size: 18px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell:nth-child(3) { border-top: 1px solid var(--border); border-right: 1px solid var(--border); }
+      .main-top { flex-direction: column; }
+      .main-left { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(34,187,114,.15);
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 20px;
+      border-radius: 50px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .error-msg { color: var(--red); text-align: center; padding: 40px; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TOP NAV -->
+  <nav id="topnav">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span>LAPAK <b>ID</b></span>
+    </div>
+    <div class="nav-r">
+      <div class="nav-icon" id="notifBtn" title="Notifikasi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <div class="notif-badge" id="notifBadge"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="index.html">Beranda</a>
+    <span class="sep">›</span>
+    <a href="index.html">IDs Free Fire</a>
+    <span class="sep">›</span>
+    <span class="active" id="breadcrumbId">Detail ID</span>
+  </nav>
+
+  <!-- SCROLL AREA -->
+  <div id="scrollarea">
+    <div class="wrap" id="mainContent">
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <div>Memuat detail ID...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav id="botnav">
+    <a class="bni" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      IDS
+    </a>
+    <a class="bni" href="payment.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="1" y="4" width="22" height="16" rx="2"/>
+        <line x1="1" y1="10" x2="23" y2="10"/>
+      </svg>
+      Beli
+    </a>
+    <a class="bni" href="docs.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Docs
+    </a>
+    <a class="bni" href="dashboard.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.68 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      Admin
+    </a>
+  </nav>
+</div>
+
+<div class="bottom-bar-outer" id="bottomBar" style="display:none">
+  <div class="bottom-bar-inner">
+    <span class="bottom-price" id="bottomPrice">Rp 0</span>
+    <button class="btn-cart-bottom" onclick="tambahKeranjang()" aria-label="Tambah ke Keranjang">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        <line x1="12" y1="9" x2="12" y2="15"/>
+        <line x1="9" y1="12" x2="15" y2="12"/>
+      </svg>
+    </button>
+    <button class="btn-bottom" id="bottomBuyBtn" onclick="beliSekarang()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      Beli Sekarang
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api';
+let currentIdData = null;
+let settings = { prices: {} };
+let likedSet = new Set(JSON.parse(localStorage.getItem('lapakid_liked') || '[]'));
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isError ? 'rgba(239,68,68,.15)' : 'rgba(34,187,114,.15)';
+  t.style.borderColor = isError ? '#ef4444' : '#22bb72';
+  t.style.color = isError ? '#ef4444' : '#22bb72';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function formatRupiah(num) {
+  return 'Rp ' + Number(num).toLocaleString('id-ID');
+}
+
+function getTierClass(tier) {
+  const map = { low: 't-low', medium: 't-medium', high: 't-high', legend: 't-legend' };
+  return map[tier] || 't-medium';
+}
+
+function getTierName(tier) {
+  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
+  return map[tier] || tier;
+}
+
+function getPrice(id) {
+  if (id.price != null && id.price > 0) return id.price;
+  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
+  return 0;
+}
+
+function updateCartBadge() {
+  // Tidak perlu update badge di detail page karena tidak ada di topbar
+}
+
+function tambahKeranjang() {
+  if (!currentIdData) return;
+  if (currentIdData.sold) {
+    showToast('❌ ID ini sudah terjual!', true);
+    return;
+  }
+  let cart = JSON.parse(localStorage.getItem('lapakid_cart') || '[]');
+  if (cart.some(item => item.number === currentIdData.number)) {
+    showToast('⚠️ ID sudah ada di keranjang', true);
+    return;
+  }
+  cart.push({
+    number: currentIdData.number,
+    tier: currentIdData.tier,
+    price: getPrice(currentIdData),
+    name: currentIdData.name || currentIdData.number
+  });
+  localStorage.setItem('lapakid_cart', JSON.stringify(cart));
+  showToast('✓ Ditambahkan ke keranjang!');
+}
+
+function beliSekarang() {
+  if (!currentIdData) return;
+  if (currentIdData.sold) {
+    showToast('❌ ID ini sudah terjual!', true);
+    return;
+  }
+  window.location.href = `payment.html?id=${encodeURIComponent(currentIdData.number)}`;
+}
+
+function copyID() {
+  if (!currentIdData) return;
+  navigator.clipboard.writeText(currentIdData.number).then(() => {
+    showToast('✓ ID berhasil disalin!');
+  }).catch(() => {
+    showToast('ID: ' + currentIdData.number);
+  });
+}
+
+async function loadSettings() {
+  try {
+    const res = await fetch(`${API}/settings`);
+    if (res.ok) {
+      const data = await res.json();
+      settings = data.data || {};
+    }
+  } catch (e) { console.warn(e); }
+}
+
+async function loadIdDetail() {
+  const urlParams = new URLSearchParams(window.location.search);
+  let idNumber = urlParams.get('id');
+  
+  if (!idNumber) {
+    document.getElementById('mainContent').innerHTML = '<div class="error-msg">❌ Tidak ada ID yang dipilih</div>';
+    return;
+  }
+
+  document.getElementById('breadcrumbId').textContent = idNumber;
+
+  try {
+    const res = await fetch(`${API}/ids/${encodeURIComponent(idNumber)}`);
+    if (!res.ok) {
+      if (res.status === 404) throw new Error('ID tidak ditemukan');
+      throw new Error('Gagal memuat data');
+    }
+    const data = await res.json();
+    currentIdData = data.data;
+    renderDetail();
+  } catch (err) {
+    document.getElementById('mainContent').innerHTML = `<div class="error-msg">❌ ${err.message}</div>`;
+  }
+}
+
+function renderDetail() {
+  if (!currentIdData) return;
+
+  const id = currentIdData;
+  const price = getPrice(id);
+  const priceFormatted = formatRupiah(price);
+  const tierClass = getTierClass(id.tier);
+  const tierName = getTierName(id.tier);
+  const isSold = id.sold || false;
+  const createdAt = id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  
+  const stats = {
+    likes: id.likes || 0,
+    characters: id.characters || 24,
+    level: id.level || 68,
+    season: id.season || 32
+  };
+
+  const html = `
+    <div class="main-card">
+      <div class="main-top">
+        <div class="main-left">
+          <span class="badge-premium ${isSold ? 'badge-sold' : ''}">${isSold ? 'TERJUAL' : 'PREMIUM'}</span>
+          <div class="account-id">
+            ${id.number}
+            <button class="copy-btn" onclick="copyID()" title="Salin ID">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+            </button>
+          </div>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="label">Region</span>
+              <span class="value">Indonesia</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+              <span class="label">BR Rank</span>
+              <span class="value rank-master">${id.brRank || 'Master'}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg></span>
+              <span class="label">CS Rank</span>
+              <span class="value rank-heroic">${id.csRank || 'Heroic'}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <span class="label">Nickname</span>
+              <span class="value">${id.name || id.number.slice(-6)}</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+              <span class="label">Garansi</span>
+              <span class="value">Ganti atau Refund 7 Hari</span>
+            </div>
+            <div class="info-row">
+              <span class="icon-wrap"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+              <span class="label">Dibuat</span>
+              <span class="value">${createdAt}</span>
+            </div>
+          </div>
+        </div>
+        <div class="main-right">
+          <div>
+            <p class="price-label">Harga</p>
+            <p class="price-value">${priceFormatted}</p>
+          </div>
+          <div>
+            <button class="btn-primary" onclick="beliSekarang()" ${isSold ? 'disabled' : ''}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Beli Sekarang
+            </button>
+            <button class="btn-secondary" onclick="tambahKeranjang()" ${isSold ? 'disabled' : ''}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                <line x1="12" y1="9" x2="12" y2="15"/>
+                <line x1="9" y1="12" x2="15" y2="12"/>
+              </svg>
+              Tambah ke Keranjang
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Informasi Akun</p>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <p class="stat-label">Likes</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+            </svg>
+            ${stats.likes.toLocaleString()}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Karakter</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            ${stats.characters}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Level Akun</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            ${stats.level}
+          </div>
+        </div>
+        <div class="stat-cell">
+          <p class="stat-label">Season</p>
+          <div class="stat-value">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            ${stats.season}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Deskripsi</p>
+      <p class="desc-text">${id.description || 'ID premium dengan koleksi lengkap dan item langka. Akun dijamin aman, siap bind email &amp; all.'}</p>
+    </div>
+
+    <div class="section-card">
+      <p class="section-title">Garansi</p>
+      <div class="guarantee-list">
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Garansi ganti akun jika bermasalah
+        </div>
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Akun tidak bermasalah saat pembelian
+        </div>
+        <div class="guarantee-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Bantuan CS 24/7
+        </div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div>
+        <p class="note-title">Catatan</p>
+        <p class="note-text">Setelah pembayaran berhasil, ID akan dikirim otomatis.<br>Jika tidak masuk, cek menu Pesanan saya.</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('mainContent').innerHTML = html;
+  document.getElementById('bottomPrice').textContent = priceFormatted;
+  document.getElementById('bottomBar').style.display = 'block';
+  
+  // Update notifikasi badge
+  loadNotifications();
+}
+
+// ── NOTIFIKASI ──
+let notifOpen = false;
+
+document.getElementById('notifBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  // Notifikasi panel sederhana
+  showToast('🔔 Notifikasi: Belum ada aktivitas baru');
+});
+
+async function loadNotifications() {
+  try {
+    const r = await fetch(`${API}/notifications?limit=1`);
+    if (!r.ok) return;
+    const d = await r.json();
+    const badge = document.getElementById('notifBadge');
+    if (d.unread > 0) {
+      badge.textContent = d.unread > 99 ? '99+' : String(d.unread);
+      badge.classList.add('show');
+    } else {
+      badge.classList.remove('show');
+    }
+  } catch (e) {}
+}
+
+// ── INIT ──
+async function init() {
+  await loadSettings();
+  await loadIdDetail();
+  setInterval(loadNotifications, 30000);
+}
+
+init();
+</script>
+</body>
+</html>
