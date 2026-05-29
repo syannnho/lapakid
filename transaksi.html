@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
+<title>Transaksi Saya – LAPAK ID</title>
+<link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif}
+#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
+
+/* TOP NAV */
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50;position:sticky;top:0}
+.logo{display:flex;align-items:center;gap:0}
+.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
+.logo-mark img{width:100%;height:100%;object-fit:cover}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer}
+.nav-icon svg{color:#a06bff;width:16px;height:16px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:flex;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
+
+.breadcrumb{padding:12px 16px 4px;font-size:12px;color:#6060a0}
+.breadcrumb a{color:#6060a0;text-decoration:none}
+.breadcrumb a:hover{color:#e8e8f5}
+.breadcrumb .active{color:#a06bff;font-weight:700}
+.breadcrumb .sep{font-size:10px;opacity:.5;margin:0 4px}
+
+#scrollarea{flex:1;overflow-y:auto;padding:12px 16px}
+
+/* Status Card */
+.status-card{background:#181826;border:1px solid #232338;border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
+.status-icon{width:60px;height:60px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.status-icon.pending{background:rgba(245,200,66,.15);color:#f5c842}
+.status-icon.confirmed{background:rgba(34,187,114,.15);color:#22bb72}
+.status-icon.none{background:rgba(96,96,160,.15);color:#6060a0}
+.status-icon svg{width:28px;height:28px}
+.status-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.status-desc{font-size:.75rem;color:#6060a0}
+
+/* Transaction Card */
+.trans-card{background:#181826;border:1px solid #232338;border-radius:14px;padding:14px;margin-bottom:12px}
+.trans-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1a1a2e}
+.trans-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:#a06bff}
+.trans-badge{padding:3px 8px;border-radius:20px;font-size:.6rem;font-weight:700}
+.trans-badge.pending{background:rgba(245,200,66,.15);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
+.trans-badge.confirmed{background:rgba(34,187,114,.15);color:#22bb72;border:1px solid rgba(34,187,114,.2)}
+.trans-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.7rem}
+.trans-label{color:#6060a0}
+.trans-value{font-weight:600;color:#e8e8f5}
+.trans-price{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff}
+.warning-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:12px;margin-top:16px;text-align:center}
+.warning-box svg{width:18px;height:18px;color:#ef4444;margin-right:6px;vertical-align:middle}
+.warning-text{font-size:.7rem;color:#ef4444}
+.btn-back{background:#7b2fff;color:#fff;border:none;border-radius:12px;padding:12px;width:100%;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px;transition:.2s}
+.btn-back:hover{background:#5a1fd1}
+.empty-state{text-align:center;padding:40px 20px;color:#6060a0}
+.empty-state svg{width:48px;height:48px;margin-bottom:12px;opacity:.5}
+
+/* BOTTOM NAV */
+#botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
+.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;text-decoration:none;position:relative}
+.bni:hover{color:#a06bff;background:rgba(123,47,255,.07)}
+.bni.active{color:#a06bff}
+.bni svg{width:19px;height:19px}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
+</style>
+</head>
+<body>
+<div id="app">
+
+<nav id="topnav">
+  <div class="logo">
+    <div class="logo-mark"><img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID"></div>
+  </div>
+  <div class="nav-r">
+    <div class="nav-icon" id="notifBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="notif-badge" id="notifBadge" style="display:none">0</div>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Beranda</a>
+  <span class="sep">›</span>
+  <span class="active">Transaksi Saya</span>
+</div>
+
+<div id="scrollarea">
+  <div id="transactionContent">
+    <div style="text-align:center;padding:60px 20px;color:#6060a0">
+      <div style="width:40px;height:40px;border:3px solid #232338;border-top-color:#7b2fff;border-radius:50%;margin:0 auto 12px;animation:spin 1s linear infinite"></div>
+      Memuat transaksi...
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+<nav id="botnav">
+  <a class="bni" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    Beranda
+  </a>
+  <a class="bni active" href="transaksi.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    Transaksi
+  </a>
+</nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api';
+let hasPendingTransaction = false;
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + (isError ? 'warn show' : 'show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function loadTransactions() {
+  const container = document.getElementById('transactionContent');
+  
+  try {
+    const res = await fetch(`${API}/transactions/my`);
+    if (!res.ok) throw new Error('Gagal memuat transaksi');
+    
+    const data = await res.json();
+    const transactions = data.data || [];
+    hasPendingTransaction = transactions.some(t => t.status === 'pending');
+    
+    if (transactions.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <line x1="8" y1="10" x2="16" y2="10"/>
+            <line x1="8" y1="14" x2="12" y2="14"/>
+          </svg>
+          <div>Belum ada transaksi</div>
+          <div style="font-size:.6rem;margin-top:8px">Yuk beli ID premium sekarang!</div>
+          <button class="btn-back" onclick="window.location.href='index.html'">Lihat Koleksi ID</button>
+        </div>
+      `;
+      return;
+    }
+    
+    // Status Card
+    let html = '';
+    if (hasPendingTransaction) {
+      html += `
+        <div class="status-card">
+          <div class="status-icon pending">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="status-title">Menunggu Konfirmasi</div>
+          <div class="status-desc">Ada transaksi yang belum dikonfirmasi. Silakan tunggu admin memverifikasi pembayaran Anda.</div>
+        </div>
+      `;
+    } else {
+      const lastConfirmed = transactions.filter(t => t.status === 'confirmed').length;
+      html += `
+        <div class="status-card">
+          <div class="status-icon confirmed">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <div class="status-title">Transaksi Selesai</div>
+          <div class="status-desc">${lastConfirmed} transaksi telah berhasil. Terima kasih telah berbelanja!</div>
+        </div>
+      `;
+    }
+    
+    // Daftar Transaksi
+    html += `<div style="margin-top:8px"><div style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:10px">📋 Riwayat Transaksi</div></div>`;
+    
+    transactions.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(t => {
+      const statusClass = t.status === 'confirmed' ? 'confirmed' : 'pending';
+      const statusText = t.status === 'confirmed' ? '✓ Berhasil' : '⏳ Menunggu Konfirmasi';
+      const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+      
+      html += `
+        <div class="trans-card">
+          <div class="trans-header">
+            <span class="trans-id">ID: ${t.idNumber || '—'}</span>
+            <span class="trans-badge ${statusClass}">${statusText}</span>
+          </div>
+          <div class="trans-row">
+            <span class="trans-label">Harga</span>
+            <span class="trans-price">Rp ${(t.finalPrice || t.price || 0).toLocaleString('id-ID')}</span>
+          </div>
+          <div class="trans-row">
+            <span class="trans-label">Metode</span>
+            <span class="trans-value">${t.method === 'qris' ? 'QRIS' : t.method === 'google' ? 'Google Play' : t.method || '—'}</span>
+          </div>
+          <div class="trans-row">
+            <span class="trans-label">Pembeli</span>
+            <span class="trans-value">${t.buyer || '—'}</span>
+          </div>
+          <div class="trans-row">
+            <span class="trans-label">Tanggal</span>
+            <span class="trans-value">${date}</span>
+          </div>
+        </div>
+      `;
+    });
+    
+    if (hasPendingTransaction) {
+      html += `
+        <div class="warning-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="warning-text">Anda hanya bisa melakukan 1 transaksi aktif. Selesaikan pembayaran yang tertunda untuk membeli ID lain.</span>
+        </div>
+      `;
+    }
+    
+    container.innerHTML = html;
+    
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <div>Gagal memuat transaksi</div>
+        <div style="font-size:.6rem;margin-top:8px">Coba lagi nanti</div>
+        <button class="btn-back" onclick="location.reload()">Coba Lagi</button>
+      </div>
+    `;
+  }
+}
+
+async function loadNotifications() {
+  try {
+    const res = await fetch(`${API}/notifications?limit=1`);
+    if (!res.ok) return;
+    const d = await res.json();
+    const badge = document.getElementById('notifBadge');
+    if (d.unread > 0) {
+      badge.textContent = d.unread > 99 ? '99+' : String(d.unread);
+      badge.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch (e) {}
+}
+
+document.getElementById('notifBtn').addEventListener('click', () => {
+  showToast('🔔 Tidak ada notifikasi baru');
+});
+
+loadTransactions();
+loadNotifications();
+setInterval(loadNotifications, 30000);
+setInterval(loadTransactions, 10000);
+</script>
+</body>
+</html>
