@@ -27,7 +27,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
 
-/* BREADCRUMB */
+/* BREADCRUMB - HANYA 2 LEVEL */
 .breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
 .breadcrumb a{color:#6060a0;text-decoration:none}
 .breadcrumb a:hover{color:#e8e8f5}
@@ -75,8 +75,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .info-row .label{color:#6060a0;font-size:12px;flex:1}
 .info-row .value{font-weight:700;font-size:13px;text-align:right}
 .rank-icon{width:20px;height:20px;object-fit:contain}
-.rank-master{color:#f5c842}
-.rank-heroic{color:#ff6b6b}
 
 /* SISI KANAN - TOMBOL BAGIKAN */
 .main-right{flex:0.5;padding:16px;display:flex;flex-direction:column;justify-content:center;align-items:center}
@@ -101,11 +99,11 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .note-title{font-size:13px;font-weight:800;margin-bottom:6px;color:#a06bff}
 .note-text{font-size:12px;color:rgba(232,232,240,.7);line-height:1.6}
 
-/* BOTTOM BAR - TANPA ICON CART DI SEBELAH KIRI BELI SEKARANG */
+/* BOTTOM BAR */
 .bottom-bar-outer{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(14,14,26,.92);backdrop-filter:blur(14px);border-top:1px solid #232338}
 .bottom-bar-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:16px}
 .bottom-price{font-size:22px;font-weight:900;font-family:'Rajdhani',sans-serif;color:#a06bff;white-space:nowrap}
-.btn-bottom{display:flex;align-items:center;justify-content:center;gap:8px;background:#7b2fff;color:#fff;border:none;border-radius:14px;padding:13px 22px;font-size:14px;font-weight:800;font-family:'Rajdhani',sans-serif;cursor:pointer;flex:1;transition:background .2s;box-shadow:0 4px 18px rgba(123,47,255,.4)}
+.btn-bottom{display:flex;align-items:center;justify-content:center;background:#7b2fff;color:#fff;border:none;border-radius:14px;padding:13px 22px;font-size:14px;font-weight:800;font-family:'Rajdhani',sans-serif;cursor:pointer;flex:1;transition:background .2s;box-shadow:0 4px 18px rgba(123,47,255,.4)}
 .btn-bottom:hover{background:#5a1fd1}
 .btn-bottom:disabled{opacity:0.5;cursor:not-allowed}
 
@@ -148,11 +146,9 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   </div>
 </nav>
 
-<!-- BREADCRUMB -->
+<!-- BREADCRUMB - HANYA 2 LEVEL: Beranda > ID -->
 <nav class="breadcrumb">
   <a href="index.html">Beranda</a>
-  <span class="sep">›</span>
-  <a href="index.html">IDs Free Fire</a>
   <span class="sep">›</span>
   <span class="active" id="breadcrumbId">Loading...</span>
 </nav>
@@ -167,13 +163,11 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   </div>
 </div>
 
-<!-- BOTTOM BAR - TANPA ICON CART -->
+<!-- BOTTOM BAR -->
 <div class="bottom-bar-outer" id="bottomBar" style="display:none">
   <div class="bottom-bar-inner">
     <span class="bottom-price" id="bottomPrice">Rp 0</span>
-    <button class="btn-bottom" id="buyBtn" onclick="beliSekarang()">
-      Beli Sekarang
-    </button>
+    <button class="btn-bottom" id="buyBtn" onclick="beliSekarang()">Beli Sekarang</button>
   </div>
 </div>
 
@@ -248,6 +242,7 @@ async function loadIdDetail() {
     return;
   }
 
+  // Set breadcrumb dengan ID number
   document.getElementById('breadcrumbId').textContent = idNumber;
 
   try {
@@ -306,7 +301,6 @@ function renderDetail() {
   const tierClass = getTierClass(id.tier);
   const tierName = getTierName(id.tier);
   const isSold = id.sold || false;
-  const createdAt = id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
   const description = id.description || 'ID premium dengan id cantik dan rapih. Akun dijamin aman, siap bind email &amp; lainnya.';
   const nickname = id.name || 'N4TAZAXXX';
   const isLiked = likedSet.has(id.number);
