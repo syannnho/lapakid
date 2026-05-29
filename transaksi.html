@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
 <title>Transaksi Saya – LAPAK ID</title>
 <link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
+<meta property="og:title" content="Transaksi Saya – LAPAK ID"/>
+<meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -13,7 +15,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(123,47,255,.18),transparent 35%),#0b0b16}
 
-/* TOP NAV - SAMA DENGAN INDEX */
+/* TOP NAV */
 #topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
 .logo{display:flex;align-items:center;gap:0}
 .logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
@@ -24,30 +26,6 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .nav-icon svg{color:#a06bff;width:16px;height:16px}
 .notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0b0b16;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
-
-/* NOTIF PANEL */
-.notif-panel{position:absolute;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
-.notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
-.notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e}
-.notif-head-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700}
-.notif-mark{font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none}
-.notif-list{overflow-y:auto;max-height:260px}
-.notif-item{padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer}
-.notif-item:hover{background:#1e1e30}
-.notif-item.unread{background:rgba(123,47,255,.05)}
-.notif-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981}
-.notif-ico svg{width:12px;height:12px}
-.notif-msg{font-size:.62rem;color:#e8e8f5;line-height:1.4}
-.notif-time{font-size:.54rem;color:#6060a0;margin-top:2px}
-.notif-empty{text-align:center;padding:20px;color:#6060a0;font-size:.7rem}
-
-/* NOTIF DETAIL */
-.nd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
-.nd-overlay.open{opacity:1;pointer-events:all}
-.nd-box{background:#181826;border:1px solid #232338;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s}
-.nd-overlay.open .nd-box{transform:scale(1)}
-.modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
-.modal-close svg{width:12px;height:12px}
 
 /* BREADCRUMB */
 .breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
@@ -67,24 +45,30 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .status-icon{width:60px;height:60px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .status-icon.pending{background:rgba(245,200,66,.15)}
 .status-icon.confirmed{background:rgba(34,187,114,.1)}
+.status-icon.cancelled{background:rgba(239,68,68,.1)}
 .status-icon svg{width:28px;height:28px}
 .status-icon.pending svg{color:#f5c842}
 .status-icon.confirmed svg{color:#22bb72}
+.status-icon.cancelled svg{color:#ef4444}
 .status-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:6px}
 .status-desc{font-size:.75rem;color:#6060a0}
 
 /* Transaction Card */
-.trans-card{background:#181826;border:1px solid #232338;border-radius:14px;padding:14px;margin-bottom:12px}
+.trans-card{background:#181826;border:1px solid #232338;border-radius:14px;padding:14px;margin-bottom:12px;position:relative}
 .trans-card:last-child{margin-bottom:0}
-.trans-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1a1a2e}
+.trans-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1a1a2e;flex-wrap:wrap;gap:8px}
 .trans-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:#a06bff}
 .trans-badge{padding:3px 8px;border-radius:20px;font-size:.6rem;font-weight:700}
 .trans-badge.pending{background:rgba(245,200,66,.15);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
 .trans-badge.confirmed{background:rgba(34,187,114,.15);color:#22bb72;border:1px solid rgba(34,187,114,.2)}
-.trans-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.7rem}
+.trans-badge.cancelled{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.trans-row{display:flex;justify-content:space-between;padding:6px 0;font-size:.7rem;flex-wrap:wrap}
 .trans-label{color:#6060a0}
 .trans-value{font-weight:600;color:#e8e8f5}
 .trans-price{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff}
+.trans-actions{display:flex;gap:8px;margin-top:10px;padding-top:8px;border-top:1px solid #1a1a2e}
+.btn-cancel{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:6px 12px;border-radius:10px;font-size:.65rem;font-weight:600;cursor:pointer;transition:.2s;flex:1}
+.btn-cancel:hover{background:rgba(239,68,68,.3)}
 .warning-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:12px;margin-top:16px;text-align:center}
 .warning-box svg{width:16px;height:16px;color:#ef4444;margin-right:6px;vertical-align:middle}
 .warning-text{font-size:.7rem;color:#ef4444}
@@ -105,6 +89,22 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
+
+/* CONFIRM CANCEL OVERLAY */
+.cancel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
+.cancel-overlay.open{opacity:1;pointer-events:all}
+.cancel-box{background:#181826;border:1px solid #232338;border-radius:20px;max-width:320px;width:90%;padding:24px;text-align:center;transform:scale(.94);transition:.22s}
+.cancel-overlay.open .cancel-box{transform:scale(1)}
+.cancel-icon{width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.cancel-icon svg{width:26px;height:26px;color:#ef4444}
+.cancel-box h3{font-size:1rem;font-weight:800;margin-bottom:8px}
+.cancel-box p{font-size:.7rem;color:#6060a0;margin-bottom:20px}
+.cancel-actions{display:flex;gap:12px}
+.cancel-actions button{flex:1;padding:12px;border-radius:12px;font-size:.75rem;font-weight:700;cursor:pointer;transition:.2s}
+.btn-confirm-cancel{background:#ef4444;color:#fff;border:none}
+.btn-confirm-cancel:hover{background:#dc2626}
+.btn-keep-order{background:#0e0e1a;border:1px solid #232338;color:#e8e8f5}
+.btn-keep-order:hover{border-color:#7b2fff;color:#a06bff}
 </style>
 </head>
 <body>
@@ -122,26 +122,6 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
     </div>
   </div>
 </nav>
-
-<!-- NOTIF PANEL -->
-<div class="notif-panel" id="notifPanel">
-  <div class="notif-head">
-    <div class="notif-head-title">Aktivitas</div>
-    <button class="notif-mark" onclick="markAllRead()">Tandai dibaca</button>
-  </div>
-  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
-</div>
-
-<!-- NOTIF DETAIL -->
-<div class="nd-overlay" id="ndOverlay">
-  <div class="nd-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
-      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    </div>
-    <div id="ndContent"></div>
-  </div>
-</div>
 
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
@@ -176,12 +156,25 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 </nav>
 </div>
 
+<!-- CANCEL CONFIRM OVERLAY -->
+<div class="cancel-overlay" id="cancelOverlay">
+  <div class="cancel-box">
+    <div class="cancel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div>
+    <h3>Batalkan Pesanan?</h3>
+    <p>Yakin ingin membatalkan pesanan ini? Pesanan yang dibatalkan tidak dapat dikembalikan.</p>
+    <div class="cancel-actions">
+      <button class="btn-keep-order" onclick="closeCancelOverlay()">Kembali</button>
+      <button class="btn-confirm-cancel" id="confirmCancelBtn">Ya, Batalkan</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const API = '/api';
-let hasPendingTransaction = false;
-let notifOpen = false;
+let currentTransactions = [];
+let cancelCallback = null;
 
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
@@ -190,7 +183,7 @@ function showToast(msg, isError = false) {
   t.style.borderColor = isError ? '#ef4444' : '#22bb72';
   t.style.color = isError ? '#ef4444' : '#22bb72';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 function formatRupiah(num) {
@@ -198,6 +191,8 @@ function formatRupiah(num) {
 }
 
 // ========== NOTIFIKASI ==========
+let notifOpen = false;
+
 document.getElementById('notifBtn').addEventListener('click', (e) => {
   e.stopPropagation();
   notifOpen = !notifOpen;
@@ -212,6 +207,31 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// NOTIF PANEL HTML
+const notifPanelHTML = `
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div class="notif-head-title">Aktivitas</div>
+    <button class="notif-mark" onclick="markAllRead()">Tandai dibaca</button>
+  </div>
+  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
+</div>
+`;
+document.body.insertAdjacentHTML('beforeend', notifPanelHTML);
+
+const notifDetailHTML = `
+<div class="nd-overlay" id="ndOverlay">
+  <div class="nd-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
+      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    </div>
+    <div id="ndContent"></div>
+  </div>
+</div>
+`;
+document.body.insertAdjacentHTML('beforeend', notifDetailHTML);
+
 async function loadNotifications() {
   try {
     const r = await fetch(`${API}/notifications?limit=20`);
@@ -223,7 +243,6 @@ async function loadNotifications() {
       badge.classList.add('show');
     } else {
       badge.classList.remove('show');
-      badge.textContent = '';
     }
     
     const list = document.getElementById('notifList');
@@ -268,12 +287,53 @@ async function markAllRead() {
   await fetch(`${API}/notifications/read`, { method: 'PUT' }).catch(() => {});
   const badge = document.getElementById('notifBadge');
   badge.classList.remove('show');
-  badge.textContent = '';
   document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
   loadNotifications();
 }
 
-// ========== TRANSAKSI ==========
+// ========== CANCEL ORDER ==========
+function openCancelOverlay(transactionId, paymentId) {
+  cancelCallback = () => cancelOrder(transactionId, paymentId);
+  document.getElementById('cancelOverlay').classList.add('open');
+}
+
+function closeCancelOverlay() {
+  document.getElementById('cancelOverlay').classList.remove('open');
+  cancelCallback = null;
+}
+
+document.getElementById('confirmCancelBtn').onclick = () => {
+  if (cancelCallback) {
+    cancelCallback();
+    closeCancelOverlay();
+  }
+};
+
+async function cancelOrder(transactionId, paymentId) {
+  try {
+    const res = await fetch(`${API}/payments/${paymentId}/cancel`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' }
+    }).catch(() => null);
+    
+    if (!res) {
+      showToast('Gagal terhubung ke server', true);
+      return;
+    }
+    
+    const data = await res.json();
+    if (data.success) {
+      showToast('Pesanan berhasil dibatalkan', false);
+      loadTransactions(); // Refresh daftar transaksi
+    } else {
+      showToast(data.message || 'Gagal membatalkan pesanan', true);
+    }
+  } catch (err) {
+    showToast('Terjadi kesalahan', true);
+  }
+}
+
+// ========== LOAD TRANSACTIONS ==========
 async function loadTransactions() {
   const container = document.getElementById('transactionContent');
   
@@ -283,7 +343,9 @@ async function loadTransactions() {
     
     const data = await res.json();
     const transactions = data.data || [];
-    hasPendingTransaction = transactions.some(t => t.status === 'pending');
+    currentTransactions = transactions;
+    const hasPendingTransaction = transactions.some(t => t.status === 'pending');
+    const hasCancelled = transactions.some(t => t.status === 'cancelled');
     
     if (transactions.length === 0) {
       container.innerHTML = `
@@ -317,6 +379,19 @@ async function loadTransactions() {
           <div class="status-desc">Ada transaksi yang belum dikonfirmasi. Silakan tunggu admin memverifikasi pembayaran Anda.</div>
         </div>
       `;
+    } else if (hasCancelled) {
+      html += `
+        <div class="status-card">
+          <div class="status-icon cancelled">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="18" y1="6" x2="6" y2="18"/>
+            </svg>
+          </div>
+          <div class="status-title">Transaksi Dibatalkan</div>
+          <div class="status-desc">Beberapa transaksi Anda telah dibatalkan.</div>
+        </div>
+      `;
     } else {
       const lastConfirmed = transactions.filter(t => t.status === 'confirmed').length;
       html += `
@@ -339,8 +414,8 @@ async function loadTransactions() {
     </div></div>`;
     
     transactions.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).forEach(t => {
-      const statusClass = t.status === 'confirmed' ? 'confirmed' : 'pending';
-      const statusText = t.status === 'confirmed' ? 'Berhasil' : 'Menunggu Konfirmasi';
+      const statusClass = t.status === 'confirmed' ? 'confirmed' : (t.status === 'cancelled' ? 'cancelled' : 'pending');
+      const statusText = t.status === 'confirmed' ? 'Berhasil' : (t.status === 'cancelled' ? 'Dibatalkan' : 'Menunggu Konfirmasi');
       const date = t.createdAt ? new Date(t.createdAt).toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
       
       html += `
@@ -365,6 +440,11 @@ async function loadTransactions() {
             <span class="trans-label">Tanggal</span>
             <span class="trans-value">${date}</span>
           </div>
+          ${t.status === 'pending' ? `
+            <div class="trans-actions">
+              <button class="btn-cancel" onclick="openCancelOverlay('${t._id}','${t._id}')">Batalkan Pesanan</button>
+            </div>
+          ` : ''}
         </div>
       `;
     });
@@ -377,7 +457,7 @@ async function loadTransactions() {
             <line x1="12" y1="8" x2="12" y2="12"/>
             <line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          <span class="warning-text">Anda hanya bisa melakukan 1 transaksi aktif. Selesaikan pembayaran yang tertunda untuk membeli ID lain.</span>
+          <span class="warning-text">Anda hanya bisa melakukan 1 transaksi aktif. Selesaikan atau batalkan pembayaran untuk membeli ID lain.</span>
         </div>
       `;
     }
