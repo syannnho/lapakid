@@ -33,10 +33,9 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 /* TOP NAV */
 #topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
-.logo{display:flex;align-items:center;gap:8px;font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700}
-.logo-mark{width:30px;height:30px;border-radius:8px;overflow:hidden;display:grid;place-items:center}
+.logo{display:flex;align-items:center;gap:0}
+.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden;display:grid;place-items:center}
 .logo-mark img{width:100%;height:100%;object-fit:cover}
-.logo b{color:var(--purple-light)}
 .nav-r{display:flex;align-items:center;gap:8px}
 .nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.2s}
 .nav-icon:hover{background:rgba(123,47,255,.2)}
@@ -92,7 +91,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .pop-scroll{display:flex;gap:8px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none}
 .pop-scroll::-webkit-scrollbar{display:none}
 
-/* MINI CARD (popular) - Tanpa harga dan tier */
+/* MINI CARD (popular) */
 .mini-card{background:#181826;border:1px solid #252540;border-radius:12px;padding:10px;min-width:120px;cursor:pointer;transition:.2s;flex-shrink:0;position:relative}
 .mini-card:hover{border-color:rgba(123,47,255,.4);transform:translateY(-2px)}
 .mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:5px;color:#e8e8f5;word-break:break-all}
@@ -137,8 +136,8 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .btn-beli{background:#7b2fff;border:none;border-radius:7px;padding:5px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;box-shadow:0 0 8px rgba(123,47,255,.35);transition:.18s;flex-shrink:0}
 .btn-beli:hover{filter:brightness(1.15)}
 
-/* HANYA 1 LIKE BUTTON per card - yang di kanan bawah */
-.like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.62rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:3px 5px;border-radius:6px}
+/* HANYA 1 LIKE BUTTON - di kanan bawah */
+.like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.62rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:3px 5px;border-radius:6px;margin-top:4px;width:fit-content}
 .like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
 .like-btn.liked{color:#7b2fff}
 .like-btn svg{width:11px;height:11px}
@@ -274,7 +273,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
     <div class="logo-mark">
       <img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID Logo">
     </div>
-    <span>LAPAK <b>ID</b></span>
   </div>
   <div class="nav-r">
     <div class="nav-icon" id="notifBtn" title="Notifikasi">
@@ -317,7 +315,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
     <div class="banner-dots" id="bannerDots"></div>
   </div>
 
-  <!-- POPULAR - Tanpa harga dan tier -->
+  <!-- POPULAR -->
   <div class="sec-head">
     <div class="sec-title"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Banyak Disukai</div>
     <span class="sec-link" onclick="scrollToAll()">Lihat semua ›</span>
@@ -505,7 +503,7 @@ function initPopup(s){
 }
 function copyPromo(){const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));}
 
-// ── POPULAR (tanpa harga dan tier) ──────────────────
+// ── POPULAR ────────────────────────────────────────
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const el=document.getElementById('popScroll');
@@ -679,7 +677,7 @@ async function loadNotifications(){
     list.innerHTML=d.data.map(n=>{
       const t=new Date(n.createdAt);const diff=Date.now()-t.getTime();
       const ts=diff<60000?'Baru saja':diff<3600000?Math.floor(diff/60000)+' mnt lalu':diff<86400000?Math.floor(diff/3600000)+' jam lalu':t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
-      return `<div class="notif-item${n.read?'':' unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
+      return `<div class="notif-item${n.read?'':' unread"}' onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
         <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div style="flex:1;min-width:0"><div class="notif-msg">${n.message}</div><div class="notif-time">${ts}</div></div>
       </div>`;
