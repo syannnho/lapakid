@@ -4,35 +4,49 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
 <title>lapakID v2.2.3 — Koleksi ID Premium</title>
-<link rel="icon" type="image/png" href="https://files.catbox.moe/em51di.png"/>
+<link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
 <meta property="og:title" content="lapakID — Koleksi ID Premium"/>
-<meta property="og:image" content="https://files.catbox.moe/em51di.png"/>
+<meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif;overflow:hidden}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e1a}::-webkit-scrollbar-thumb{background:#7b2fff;border-radius:2px}
 
-/* ── APP SHELL ── */
+/* Tier Colors */
+:root {
+  --tier-silver: #c0c0c0;
+  --tier-blue:   #3b82f6;
+  --tier-red:    #ef4444;
+  --tier-gold:   #fbbf24;
+  --bg: #0e0e1a;
+  --card: #181826;
+  --border: #232338;
+  --purple: #7b2fff;
+  --purple-light: #a06bff;
+  --text: #e8e8f5;
+  --muted: #6060a0;
+  --green: #22bb72;
+}
+
 #app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
 
-/* ── TOP NAV ── */
-#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #1e1e30;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
+/* TOP NAV */
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
 .logo{display:flex;align-items:center;gap:8px;font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700}
-.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7b2fff,#a06bff);display:grid;place-items:center;box-shadow:0 0 12px rgba(123,47,255,.5)}
-.logo-mark svg{color:#fff}
-.logo b{color:#a06bff}
+.logo-mark{width:30px;height:30px;border-radius:8px;overflow:hidden;display:grid;place-items:center}
+.logo-mark img{width:100%;height:100%;object-fit:cover}
+.logo b{color:var(--purple-light)}
 .nav-r{display:flex;align-items:center;gap:8px}
 .nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.2s}
 .nav-icon:hover{background:rgba(123,47,255,.2)}
-.nav-icon svg{color:#a06bff;width:16px;height:16px}
-.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px;font-family:'Exo 2',sans-serif}
+.nav-icon svg{color:var(--purple-light);width:16px;height:16px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
 
-/* ── SCROLL AREA ── */
 #scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 
-/* ── BANNER ── */
+/* BANNER */
 #bannerSec{width:100%;line-height:0;position:relative}
 .banner-wrap{position:relative;overflow:hidden}
 .banner-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1)}
@@ -45,7 +59,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .banner-dot{width:5px;height:5px;border-radius:99px;background:#2a2a45;border:none;cursor:pointer;transition:.3s}
 .banner-dot.active{background:#7b2fff;width:16px}
 
-/* ── SEARCH ── */
+/* SEARCH */
 #searchbar{padding:8px 12px 0}
 .search-row{display:flex;gap:7px}
 .search-wrap{flex:1;display:flex;align-items:center;gap:7px;background:#181826;border:1px solid #252540;border-radius:11px;padding:9px 12px;transition:border-color .2s}
@@ -56,13 +70,13 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .btn-search{background:#7b2fff;color:#fff;border:none;border-radius:9px;padding:9px 16px;font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 0 10px rgba(123,47,255,.4);transition:.2s}
 .btn-search:hover{filter:brightness(1.15)}
 
-/* ── FILTER BAR ── */
+/* FILTER BAR */
 #filterBar{display:flex;gap:6px;padding:8px 12px 4px;overflow-x:auto;scrollbar-width:none}
 #filterBar::-webkit-scrollbar{display:none}
 .fp{background:#181826;border:1px solid #252540;color:#6060a0;border-radius:8px;padding:5px 12px;font-family:'Exo 2',sans-serif;font-size:.7rem;font-weight:600;white-space:nowrap;cursor:pointer;transition:.2s}
 .fp.act{background:rgba(123,47,255,.15);border-color:rgba(123,47,255,.4);color:#a06bff}
 
-/* ── SORT ROW ── */
+/* SORT ROW */
 #sortrow{padding:5px 12px 4px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem}
 .tot-lbl{color:#4040a0}.tot-lbl b{color:#9090cc}
 .sort-sel{background:#181826;border:1px solid #252540;color:#e8e8f5;border-radius:7px;padding:5px 20px 5px 8px;font-family:'Exo 2',sans-serif;font-size:.68rem;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235050a0' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center}
@@ -70,7 +84,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 .hdiv{height:1px;background:#1a1a2e;margin:4px 12px}
 
-/* ── POPULAR SECTION ── */
+/* POPULAR SECTION */
 .sec-head{display:flex;align-items:center;justify-content:space-between;padding:6px 12px 4px}
 .sec-title{display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#e8e8f5}
 .sec-title svg{width:14px;height:14px;color:#f5c842}
@@ -78,22 +92,26 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .pop-scroll{display:flex;gap:8px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none}
 .pop-scroll::-webkit-scrollbar{display:none}
 
-/* ── MINI CARD (popular) ── */
-.mini-card{background:#181826;border:1px solid #252540;border-radius:12px;padding:10px;min-width:130px;cursor:pointer;transition:.2s;flex-shrink:0;position:relative}
+/* MINI CARD (popular) - Tanpa harga dan tier */
+.mini-card{background:#181826;border:1px solid #252540;border-radius:12px;padding:10px;min-width:120px;cursor:pointer;transition:.2s;flex-shrink:0;position:relative}
 .mini-card:hover{border-color:rgba(123,47,255,.4);transform:translateY(-2px)}
 .mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:5px;color:#e8e8f5;word-break:break-all}
-.mini-price{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff}
-.mini-likes{font-size:.6rem;color:#5050a0;margin-top:3px;display:flex;align-items:center;gap:3px}
-.mini-likes svg{width:10px;height:10px;color:#7b2fff}
+.mini-like-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.mini-likes{font-size:.6rem;color:#5050a0;display:flex;align-items:center;gap:3px}
+.mini-likes svg{width:10px;height:10px;color:#7b2fff;fill:#7b2fff}
+.mini-like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.6rem;padding:2px 5px;border-radius:4px;transition:.15s}
+.mini-like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
+.mini-like-btn.liked{color:#7b2fff}
+.mini-like-btn svg{width:10px;height:10px}
 
-/* ── TIER BADGE ── */
+/* TIER BADGE */
 .tier-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:5px;font-size:.6rem;font-weight:700;letter-spacing:.3px}
-.t-low{background:rgba(100,180,100,.12);color:#6eca6e;border:1px solid rgba(100,180,100,.2)}
-.t-medium{background:rgba(245,200,66,.1);color:#f5c842;border:1px solid rgba(245,200,66,.2)}
-.t-high{background:rgba(100,160,255,.1);color:#70aaff;border:1px solid rgba(100,160,255,.2)}
-.t-legend{background:rgba(160,107,255,.12);color:#c090ff;border:1px solid rgba(160,107,255,.25)}
+.tier-low{background:rgba(192,192,192,.12);color:var(--tier-silver);border:1px solid rgba(192,192,192,.2)}
+.tier-medium{background:rgba(59,130,246,.1);color:var(--tier-blue);border:1px solid rgba(59,130,246,.2)}
+.tier-high{background:rgba(239,68,68,.1);color:var(--tier-red);border:1px solid rgba(239,68,68,.2)}
+.tier-legend{background:rgba(251,191,36,.12);color:var(--tier-gold);border:1px solid rgba(251,191,36,.25)}
 
-/* ── MAIN CARD ── */
+/* MAIN CARD */
 #cardlist{padding:0 10px;display:flex;flex-direction:column;gap:7px;padding-bottom:8px}
 .acard{background:#181826;border:1px solid #232338;border-radius:13px;overflow:hidden;display:flex;position:relative;transition:.22s cubic-bezier(.4,0,.2,1);animation:fadeUp .3s ease both;cursor:pointer}
 .acard:hover{border-color:rgba(123,47,255,.45);transform:translateY(-2px);box-shadow:0 6px 22px rgba(123,47,255,.1)}
@@ -104,28 +122,28 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* card left */
-.cleft{width:110px;flex-shrink:0;padding:11px 8px 11px 11px;border-right:1px solid #1e1e30;display:flex;flex-direction:column;gap:7px;justify-content:center;background:linear-gradient(135deg,rgba(123,47,255,.05),transparent)}
-.acc-id{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:#e8e8f5;word-break:break-all;line-height:1.2}
+.cleft{width:100px;flex-shrink:0;padding:11px 8px 11px 11px;border-right:1px solid #1e1e30;display:flex;flex-direction:column;gap:7px;justify-content:center}
+.acc-id{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#e8e8f5;word-break:break-all;line-height:1.2}
 /* card right */
 .cright{flex:1;min-width:0;padding:9px 8px 9px 10px;display:flex;flex-direction:column;gap:5px}
 .info-row{display:flex;gap:10px}
 .inf{display:flex;flex-direction:column;gap:1px;min-width:0}
 .inf-lbl{font-size:.56rem;color:#4040a0;text-transform:uppercase;letter-spacing:.3px}
-.inf-val{font-size:.78rem;font-weight:600;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inf-val{font-size:.75rem;font-weight:600;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cbot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:4px}
 .card-likes{display:flex;align-items:center;gap:4px;font-size:.68rem;color:#5050a0}
-.card-likes svg{width:11px;height:11px;color:#7b2fff}
-.card-price{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#a06bff}
-.btn-beli{background:#7b2fff;border:none;border-radius:7px;padding:5px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 0 8px rgba(123,47,255,.35);transition:.18s;flex-shrink:0}
+.card-likes svg{width:11px;height:11px;color:#7b2fff;fill:#7b2fff}
+.card-price{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:#a06bff}
+.btn-beli{background:#7b2fff;border:none;border-radius:7px;padding:5px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;box-shadow:0 0 8px rgba(123,47,255,.35);transition:.18s;flex-shrink:0}
 .btn-beli:hover{filter:brightness(1.15)}
 
-/* like btn */
+/* HANYA 1 LIKE BUTTON per card - yang di kanan bawah */
 .like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:3px;font-size:.62rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:3px 5px;border-radius:6px}
 .like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
 .like-btn.liked{color:#7b2fff}
 .like-btn svg{width:11px;height:11px}
 
-/* ── PAGINATION ── */
+/* PAGINATION */
 #pagination{padding:8px 10px 6px;display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
 .pgbtn{min-width:34px;height:34px;border-radius:8px;border:1px solid #232338;background:#181826;color:#e8e8f5;font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;display:grid;place-items:center;transition:.18s}
 .pgbtn:hover{border-color:#7b2fff;color:#a06bff}
@@ -133,145 +151,117 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .pgbtn svg{width:12px;height:12px}
 .pg-sep{color:#4040a0;font-size:.75rem}
 
-/* ── NOTIF PANEL ── */
+/* NOTIF PANEL */
 .notif-panel{position:absolute;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #252540;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
 .notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
 .notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1e1e30}
 .notif-head-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700}
-.notif-mark{font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none;font-family:'Exo 2',sans-serif}
-.notif-list{overflow-y:auto;max-height:260px;scrollbar-width:thin}
-.notif-item{padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer;transition:.15s}
+.notif-mark{font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none}
+.notif-list{overflow-y:auto;max-height:260px}
+.notif-item{padding:9px 12px;border-bottom:1px solid #1a1a2e;display:flex;gap:8px;cursor:pointer}
 .notif-item:hover{background:#1e1e30}
 .notif-item.unread{background:rgba(123,47,255,.05)}
 .notif-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981}
 .notif-ico svg{width:12px;height:12px}
 .notif-msg{font-size:.62rem;color:#e8e8f5;line-height:1.4}
-.notif-time{font-size:.54rem;color:#5050a0;margin-top:2px;font-family:'Rajdhani',sans-serif}
+.notif-time{font-size:.54rem;color:#5050a0;margin-top:2px}
 .notif-empty{text-align:center;padding:20px;color:#4040a0;font-size:.7rem}
 
-/* ── NOTIF DETAIL ── */
+/* NOTIF DETAIL */
 .nd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
 .nd-overlay.open{opacity:1;pointer-events:all}
 .nd-box{background:#181826;border:1px solid #252540;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s}
 .nd-overlay.open .nd-box{transform:scale(1)}
-
-/* ── ID MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:#181826;border:1px solid #252540;border-radius:16px;max-width:360px;width:92%;padding:20px;transform:scale(.94) translateY(8px);transition:.22s cubic-bezier(.4,0,.2,1)}
-.modal-overlay.open .modal{transform:scale(1) translateY(0)}
-.modal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.modal-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700}
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
-.modal-id{font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;padding:10px 14px;background:#0e0e1a;border-radius:9px;border:1px solid #252540;margin-bottom:12px;letter-spacing:.5px}
-.modal-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a1a2e;font-size:.7rem}
-.modal-row:last-child{border:none}
-.modal-lbl{color:#5050a0;display:flex;align-items:center;gap:5px}
-.modal-lbl svg{width:11px;height:11px}
-.modal-val{font-weight:700;font-family:'Rajdhani',sans-serif}
-.modal-acts{display:flex;gap:7px;margin-top:14px}
-.btn-buy{flex:1;background:#7b2fff;color:#fff;border:none;padding:10px;border-radius:9px;font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 0 12px rgba(123,47,255,.4);transition:.2s}
-.btn-buy:hover{filter:brightness(1.12)}
-.btn-buy svg{width:13px;height:13px}
-.btn-like-modal{background:#181826;border:1px solid #252540;padding:10px 14px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:.68rem;font-weight:600;color:#e8e8f5;font-family:'Exo 2',sans-serif;transition:.15s}
-.btn-like-modal svg{width:12px;height:12px}
-.btn-like-modal.liked{color:#7b2fff;border-color:rgba(123,47,255,.3)}
-.btn-like-modal.liked svg{color:#7b2fff;fill:#7b2fff}
 
-/* ── MUSIC BAR ── */
+/* MUSIC BAR */
 .music-bar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%) translateY(0);z-index:400;max-width:460px;width:calc(100% - 24px);background:rgba(14,14,26,.92);backdrop-filter:blur(20px);border:1px solid rgba(123,47,255,.25);border-radius:99px;padding:7px 14px 7px 9px;display:flex;align-items:center;gap:9px;box-shadow:0 4px 24px rgba(0,0,0,.4);transition:transform .42s cubic-bezier(.34,1.56,.64,1),opacity .35s}
 .music-bar.hidden{transform:translateX(-50%) translateY(80px);opacity:0;pointer-events:none}
 .music-alb{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7b2fff,#a06bff);display:grid;place-items:center;flex-shrink:0}
 .music-alb svg{width:15px;height:15px;color:#fff}
 .music-alb.spin{animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.music-info{flex:1;min-width:0;overflow:hidden}
+.music-info{flex:1;min-width:0}
 .music-title{font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;color:#e8e8f5;white-space:nowrap;overflow:hidden}
 .music-title.marquee{animation:marquee 7s linear infinite}
 @keyframes marquee{0%{transform:translateX(0)}45%{transform:translateX(calc(-100% + 100px))}55%{transform:translateX(calc(-100% + 100px))}100%{transform:translateX(0)}}
-.music-sub{font-size:.54rem;color:#5050a0;font-family:'Rajdhani',sans-serif}
+.music-sub{font-size:.54rem;color:#5050a0}
 .music-ctrls{display:flex;align-items:center;gap:3px}
 .mc{background:none;border:none;cursor:pointer;color:#6060a0;display:grid;place-items:center;border-radius:50%;width:26px;height:26px;transition:.15s}
 .mc:hover{color:#e8e8f5;background:rgba(255,255,255,.07)}
 .mc svg{width:13px;height:13px}
 .mc-play{background:rgba(123,47,255,.8)!important;color:#fff!important;width:29px;height:29px}
-.mc-play:hover{background:#7b2fff!important}
-.music-fab{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:399;background:rgba(14,14,26,.88);border:1px solid rgba(123,47,255,.2);border-radius:99px;padding:6px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;color:#a06bff;font-size:.62rem;font-family:'Rajdhani',sans-serif;font-weight:600;opacity:0;pointer-events:none;transition:.3s}
+.music-fab{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);z-index:399;background:rgba(14,14,26,.88);border:1px solid rgba(123,47,255,.2);border-radius:99px;padding:6px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;color:#a06bff;font-size:.62rem;font-weight:600;opacity:0;pointer-events:none;transition:.3s}
 .music-fab.show{opacity:1;pointer-events:all}
-.music-fab svg{width:13px;height:13px}
 
-/* ── CHAT FAB ── */
-.chat-fab{position:fixed;bottom:68px;right:16px;z-index:9999;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7b2fff,#a06bff);border:none;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 18px rgba(123,47,255,.45);transition:.25s cubic-bezier(.34,1.56,.64,1)}
+/* CHAT */
+.chat-fab{position:fixed;bottom:68px;right:16px;z-index:9999;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7b2fff,#a06bff);border:none;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 18px rgba(123,47,255,.45);transition:.25s}
 .chat-fab:hover{transform:scale(1.08)}
 .chat-fab svg{width:19px;height:19px;color:#fff}
-.chat-window{position:fixed;bottom:120px;right:12px;z-index:9998;width:290px;background:#181826;border:1px solid #252540;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.4);overflow:hidden;opacity:0;pointer-events:none;transform:translateY(10px) scale(.96);transition:.25s cubic-bezier(.4,0,.2,1)}
+.chat-window{position:fixed;bottom:120px;right:12px;z-index:9998;width:290px;background:#181826;border:1px solid #252540;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.4);overflow:hidden;opacity:0;pointer-events:none;transform:translateY(10px) scale(.96);transition:.25s}
 .chat-window.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
 .chat-head{background:linear-gradient(135deg,#7b2fff,#5a1fd1);padding:11px 12px;display:flex;align-items:center;gap:8px}
-.chat-ava{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;flex-shrink:0}
+.chat-ava{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center}
 .chat-ava svg{width:14px;height:14px;color:#fff}
 .chat-info{flex:1}
 .chat-name{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:#fff}
 .chat-status{font-size:.56rem;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:4px}
 .status-dot{width:6px;height:6px;background:#22bb72;border-radius:50%;animation:sPulse 2s infinite}
 @keyframes sPulse{0%,100%{opacity:1}50%{opacity:.4}}
-.chat-close-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6);display:grid;place-items:center}
+.chat-close-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6)}
 .chat-close-btn svg{width:15px;height:15px}
-.chat-msgs{height:200px;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
-.bubble{max-width:82%;padding:7px 10px;border-radius:11px;font-size:.64rem;line-height:1.5;font-family:'Exo 2',sans-serif}
+.chat-msgs{height:200px;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:6px}
+.bubble{max-width:82%;padding:7px 10px;border-radius:11px;font-size:.64rem;line-height:1.5}
 .bubble.bot{background:#0e0e1a;border:1px solid #1e1e30;align-self:flex-start;border-bottom-left-radius:3px}
 .bubble.user{background:#7b2fff;color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
-.bubble.reply{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#6eca6e;align-self:flex-start;border-bottom-left-radius:3px}
+.bubble.reply{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#6eca6e;align-self:flex-start}
 .btime{font-size:.48rem;opacity:.5;margin-top:2px;text-align:right}
 .typing{display:flex;align-items:center;gap:3px;padding:7px 10px;background:#0e0e1a;border:1px solid #1e1e30;border-radius:11px;border-bottom-left-radius:3px;align-self:flex-start}
 .typing-dot{width:5px;height:5px;background:#5050a0;border-radius:50%;animation:tDot 1.2s ease-in-out infinite}
 .typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes tDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 .chat-inp-row{display:flex;gap:5px;padding:7px 9px;border-top:1px solid #1a1a2e}
-.chat-inp{flex:1;background:#0e0e1a;border:1px solid #1e1e30;border-radius:9px;padding:7px 10px;font-family:'Exo 2',sans-serif;font-size:.66rem;color:#e8e8f5;outline:none;transition:.15s}
+.chat-inp{flex:1;background:#0e0e1a;border:1px solid #1e1e30;border-radius:9px;padding:7px 10px;font-size:.66rem;color:#e8e8f5;outline:none}
 .chat-inp:focus{border-color:#7b2fff}
-.chat-inp::placeholder{color:#4040a0}
-.chat-send{background:#7b2fff;border:none;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer;flex-shrink:0}
+.chat-send{background:#7b2fff;border:none;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;cursor:pointer}
 .chat-send svg{width:12px;height:12px;color:#fff}
 .chat-name-step{padding:12px}
-.cns-lbl{font-size:.64rem;color:#6060a0;margin-bottom:8px;line-height:1.5}
-.cns-inp{width:100%;background:#0e0e1a;border:1px solid #1e1e30;border-radius:8px;padding:7px 10px;font-size:.7rem;color:#e8e8f5;outline:none;margin-bottom:7px;font-family:'Exo 2',sans-serif}
+.cns-lbl{font-size:.64rem;color:#6060a0;margin-bottom:8px}
+.cns-inp{width:100%;background:#0e0e1a;border:1px solid #1e1e30;border-radius:8px;padding:7px 10px;font-size:.7rem;color:#e8e8f5;outline:none;margin-bottom:7px}
 .cns-inp:focus{border-color:#7b2fff}
 .cns-btn{width:100%;background:#7b2fff;color:#fff;border:none;padding:8px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer}
 
-/* ── POPUP ── */
+/* POPUP */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
 .popup-overlay.open{opacity:1;pointer-events:all}
-.popup-box{background:#181826;border:1px solid #252540;border-radius:18px;max-width:320px;width:90%;overflow:hidden;transform:scale(.9) translateY(14px);transition:.3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.popup-box{background:#181826;border:1px solid #252540;border-radius:18px;max-width:320px;width:90%;overflow:hidden;transform:scale(.9) translateY(14px);transition:.3s}
 .popup-overlay.open .popup-box{transform:scale(1) translateY(0)}
 .popup-img{width:100%;display:block;max-height:160px;object-fit:cover}
 .popup-body{padding:16px}
 .popup-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:5px}
 .popup-desc{font-size:.66rem;color:#6060a0;line-height:1.6;margin-bottom:12px}
 .popup-code-wrap{display:flex;align-items:center;justify-content:space-between;background:#0e0e1a;border:1px dashed rgba(123,47,255,.4);border-radius:9px;padding:7px 12px;margin-bottom:12px}
-.popup-code{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff;letter-spacing:1px}
-.popup-copy{background:#7b2fff;color:#fff;border:none;border-radius:5px;padding:3px 9px;font-size:.6rem;font-weight:700;cursor:pointer;font-family:'Exo 2',sans-serif}
+.popup-code{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#a06bff}
+.popup-copy{background:#7b2fff;color:#fff;border:none;border-radius:5px;padding:3px 9px;font-size:.6rem;font-weight:700;cursor:pointer}
 .popup-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .popup-check{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:.62rem;color:#5050a0}
-.popup-check input{accent-color:#7b2fff;cursor:pointer}
+.popup-check input{accent-color:#7b2fff}
 .popup-ok{background:#7b2fff;color:#fff;border:none;border-radius:99px;padding:7px 18px;font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer}
 .popup-close-btn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.4);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;display:grid;place-items:center;z-index:1}
 .popup-close-btn svg{width:11px;height:11px}
 
-/* ── BOTTOM NAV ── */
+/* BOTTOM NAV */
 #botnav{flex-shrink:0;background:rgba(14,14,26,.97);backdrop-filter:blur(16px);border-top:1px solid #1a1a2e;display:flex;justify-content:space-around;padding:7px 0 calc(7px + env(safe-area-inset-bottom));z-index:50}
-.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none;font-family:'Exo 2',sans-serif}
+.bni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#4040a0;cursor:pointer;padding:4px 8px;border-radius:9px;transition:.18s;text-decoration:none}
 .bni:hover{color:#a06bff;background:rgba(123,47,255,.07)}
 .bni.active{color:#a06bff}
-.bni.active svg{filter:drop-shadow(0 0 4px #7b2fff)}
 .bni svg{width:19px;height:19px}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(6px);background:#22bb72;color:#fff;padding:7px 16px;border-radius:10px;font-size:.78rem;font-weight:600;font-family:'Exo 2',sans-serif;z-index:99999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none}
+/* TOAST */
+.toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(6px);background:#22bb72;color:#fff;padding:7px 16px;border-radius:10px;font-size:.78rem;font-weight:600;z-index:99999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none}
 .toast.warn{background:#f5c842;color:#111}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ── EMPTY ── */
 .empty{text-align:center;padding:2rem 1rem;color:#4040a0;font-size:.82rem}
 </style>
 </head>
@@ -281,12 +271,14 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 <!-- TOP NAV -->
 <nav id="topnav">
   <div class="logo">
-    <div class="logo-mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <div class="logo-mark">
+      <img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID Logo">
+    </div>
     <span>LAPAK <b>ID</b></span>
   </div>
   <div class="nav-r">
     <div class="nav-icon" id="notifBtn" title="Notifikasi">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       <div class="notif-badge" id="notifBadge"></div>
     </div>
   </div>
@@ -306,7 +298,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   <div class="nd-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
-      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
     <div id="ndContent"></div>
   </div>
@@ -319,13 +311,13 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   <div id="bannerSec">
     <div class="banner-wrap" id="bannerWrap">
       <div class="banner-track" id="bannerTrack"></div>
-      <button class="banner-nav bnp" id="bannerPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <button class="banner-nav bnn" id="bannerNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button class="banner-nav bnp" id="bannerPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="banner-nav bnn" id="bannerNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
     <div class="banner-dots" id="bannerDots"></div>
   </div>
 
-  <!-- POPULAR -->
+  <!-- POPULAR - Tanpa harga dan tier -->
   <div class="sec-head">
     <div class="sec-title"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Banyak Disukai</div>
     <span class="sec-link" onclick="scrollToAll()">Lihat semua ›</span>
@@ -336,7 +328,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   <div id="searchbar" style="padding:4px 12px 0">
     <div class="search-row">
       <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="searchInput" type="text" placeholder="Cari nomor ID..." onkeydown="if(event.key==='Enter'){tierPages={low:1,medium:1,high:1,legend:1};searchQ=this.value.trim();render()}"/>
       </div>
       <button class="btn-search" onclick="tierPages={low:1,medium:1,high:1,legend:1};searchQ=document.getElementById('searchInput').value.trim();render()">Cari</button>
@@ -373,18 +365,41 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 </div><!-- /scrollarea -->
 
-<!-- ID MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-top">
-      <div class="modal-title">Detail ID</div>
-      <div class="modal-close" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    </div>
-    <div class="modal-id" id="modalIdNum"></div>
-    <div id="modalRows"></div>
-    <div class="modal-acts">
-      <button class="btn-buy" id="modalBuyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Beli ID Ini</button>
-      <button class="btn-like-modal" id="modalLikeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="modalLikeCnt">0</span></button>
+<!-- MUSIC -->
+<audio id="musicAudio" preload="none"></audio>
+<div class="music-bar" id="musicBar">
+  <div class="music-alb" id="musicAlb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+  <div class="music-info"><div class="music-title" id="musicTitle">Memuat...</div><div class="music-sub" id="musicSub">—</div></div>
+  <div class="music-ctrls">
+    <button class="mc" id="mcPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
+    <button class="mc mc-play" id="mcPlay"><svg id="mcPlayIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg></button>
+    <button class="mc" id="mcNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
+  </div>
+</div>
+<div class="music-fab" id="musicFab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Musik</div>
+
+<!-- CHAT FAB -->
+<button class="chat-fab" id="chatFab" title="Hubungi Admin">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-head">
+    <div class="chat-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+    <div class="chat-info"><div class="chat-name">Admin lapakID</div><div class="chat-status"><div class="status-dot"></div>Online</div></div>
+    <button class="chat-close-btn" id="chatClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div id="chatNameStep" class="chat-name-step">
+    <div class="cns-lbl">Hai! 👋 Perkenalkan diri dulu sebelum chat.</div>
+    <input class="cns-inp" id="chatNameInp" type="text" placeholder="Nama kamu..." onkeydown="if(event.key==='Enter')startChat()"/>
+    <button class="cns-btn" onclick="startChat()">Mulai Chat →</button>
+  </div>
+  <div id="chatMain" style="display:none">
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-inp-row">
+      <input class="chat-inp" id="chatInp" placeholder="Ketik pesan..." onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     </div>
   </div>
 </div>
@@ -392,7 +407,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 <!-- POPUP PROMO -->
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box" style="position:relative">
-    <button class="popup-close-btn" id="popupClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <button class="popup-close-btn" id="popupClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <img id="popupImg" src="" alt="Promo" class="popup-img" style="display:none"/>
     <div class="popup-body">
       <div class="popup-title" id="popupTitle">🎉 Promo Spesial!</div>
@@ -406,61 +421,22 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
   </div>
 </div>
 
-<!-- MUSIC -->
-<audio id="musicAudio" preload="none"></audio>
-<div class="music-bar" id="musicBar">
-  <div class="music-alb" id="musicAlb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-  <div class="music-info"><div class="music-title" id="musicTitle">Memuat...</div><div class="music-sub" id="musicSub">—</div></div>
-  <div class="music-ctrls">
-    <button class="mc" id="mcPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></button>
-    <button class="mc mc-play" id="mcPlay"><svg id="mcPlayIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg></button>
-    <button class="mc" id="mcNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></button>
-  </div>
-</div>
-<div class="music-fab" id="musicFab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Musik</div>
-
-<!-- CHAT FAB -->
-<button class="chat-fab" id="chatFab" title="Hubungi Admin">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-</button>
-
-<!-- CHAT WINDOW -->
-<div class="chat-window" id="chatWindow">
-  <div class="chat-head">
-    <div class="chat-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
-    <div class="chat-info"><div class="chat-name">Admin lapakID</div><div class="chat-status"><div class="status-dot"></div>Online</div></div>
-    <button class="chat-close-btn" id="chatClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  </div>
-  <div id="chatNameStep" class="chat-name-step">
-    <div class="cns-lbl">Hai! 👋 Perkenalkan diri dulu sebelum chat.</div>
-    <input class="cns-inp" id="chatNameInp" type="text" placeholder="Nama kamu..." onkeydown="if(event.key==='Enter')startChat()"/>
-    <button class="cns-btn" onclick="startChat()">Mulai Chat →</button>
-  </div>
-  <div id="chatMain" style="display:none">
-    <div class="chat-msgs" id="chatMsgs"></div>
-    <div class="chat-inp-row">
-      <input class="chat-inp" id="chatInp" placeholder="Ketik pesan..." onkeydown="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-    </div>
-  </div>
-</div>
-
 <!-- BOTTOM NAV -->
 <nav id="botnav">
   <a class="bni active" href="index.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
     IDS
   </a>
   <a class="bni" href="payment.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
     Beli
   </a>
   <a class="bni" href="docs.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
     Docs
   </a>
   <a class="bni" href="dashboard.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.68 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.68 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     Admin
   </a>
 </nav>
@@ -483,9 +459,9 @@ const clk=document.getElementById('clickSfx');
 
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
-const TCLS={low:'t-low',medium:'t-medium',high:'t-high',legend:'t-legend'};
+const TCLS={low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
 
-// ── BANNER ────────────────────────────────────────────────────────────────────
+// ── BANNER ──────────────────────────────────────────
 let bannerCur=0,bannerTotal=0,bannerTimer=null;
 async function loadBanners(){
   try{
@@ -513,7 +489,7 @@ let bTx=0;
 bw.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bw.addEventListener('touchend',e=>{const d=bTx-e.changedTouches[0].clientX;if(Math.abs(d)>40)d>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerAuto();},{passive:true});
 
-// ── POPUP ─────────────────────────────────────────────────────────────────────
+// ── POPUP ──────────────────────────────────────────
 function initPopup(s){
   const KEY='lapakid_popup_hide';if(localStorage.getItem(KEY)==='1')return;
   const p=s.popup||{};if(!p.active)return;
@@ -529,7 +505,7 @@ function initPopup(s){
 }
 function copyPromo(){const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));}
 
-// ── POPULAR ───────────────────────────────────────────────────────────────────
+// ── POPULAR (tanpa harga dan tier) ──────────────────
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const el=document.getElementById('popScroll');
@@ -537,29 +513,47 @@ async function loadPopular(){
   const{data}=await r.json();
   if(!data.length){el.innerHTML='<div class="empty" style="padding:.5rem">Belum ada</div>';return;}
   el.innerHTML=data.map(id=>{
-    const price=settings.prices?fmt(settings.prices[id.tier]||0):'—';
+    const isLiked=likedSet.has(id.number);
     return `<div class="mini-card" onclick="goToDetail('${id.number}')">
       <div class="mini-id">${id.number}</div>
-      <span class="tier-badge ${TCLS[id.tier]}">${TNAME[id.tier]}</span>
-      <div class="mini-price">${price}</div>
-      <div class="mini-likes"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${id.likes||0}</div>
+      <div class="mini-like-row">
+        <div class="mini-likes"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${id.likes||0}</div>
+        <button class="mini-like-btn${isLiked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation();doLikeMini('${id.number}',this)">
+          <svg viewBox="0 0 24 24" fill="${isLiked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
     </div>`;
   }).join('');
 }
 
-// ── NAVIGASI KE DETAIL ────────────────────────────────────────────────────────
-function goToDetail(idNumber) {
-  window.location.href = `detail.html?id=${encodeURIComponent(idNumber)}`;
+async function doLikeMini(number,btn){
+  if(likedSet.has(number)){showToast('Sudah menyukai ID ini','warn');return;}
+  btn.disabled=true;
+  const r=await fetch(`${API}/like/${number}`,{method:'POST'}).catch(()=>null);
+  if(!r){btn.disabled=false;showToast('Gagal, coba lagi','warn');return;}
+  const d=await r.json();
+  if(d.success){
+    likedSet.add(number);localStorage.setItem('lapakid_liked',JSON.stringify([...likedSet]));
+    const idx=allIds.findIndex(i=>i.number===number);if(idx!==-1)allIds[idx].likes=d.likes;
+    btn.classList.add('liked');
+    const parent=btn.closest('.mini-card');
+    const likeSpan=parent.querySelector('.mini-likes');
+    if(likeSpan)likeSpan.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes}`;
+    btn.disabled=false;
+    showToast('Berhasil menyukai!');
+  }else{btn.disabled=false;showToast(d.message||'Gagal like','warn');}
 }
 
-// ── LOAD IDS ─────────────────────────────────────────────────────────────────
+function goToDetail(idNumber){window.location.href=`detail.html?id=${encodeURIComponent(idNumber)}`;}
+
+// ── LOAD IDS ───────────────────────────────────────
 async function loadIds(){
   const r=await fetch(`${API}/ids`).catch(()=>null);
   if(!r||!r.ok){document.getElementById('cardlist').innerHTML='<div class="empty">Gagal memuat ID</div>';return;}
   const{data}=await r.json();allIds=data||[];render();
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── RENDER ─────────────────────────────────────────
 function render(){
   const filtered=filterIds();let total=0;Object.values(filtered).forEach(v=>total+=v.length);
   document.getElementById('totCount').textContent=total.toLocaleString('id-ID');
@@ -587,7 +581,6 @@ function render(){
       const num = card.dataset.num;
       if(num) goToDetail(num);
     });
-    card.style.animationDelay=`${Math.min(parseInt(card.dataset.ani||0)*0.035,.5)}s`;
   });
   container.querySelectorAll('.like-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();doLike(btn.dataset.num,btn);});});
   container.querySelectorAll('.btn-beli').forEach(btn=>{
@@ -596,9 +589,6 @@ function render(){
       const num = btn.dataset.num;
       if(num) window.location.href = `payment.html?id=${encodeURIComponent(num)}`;
     });
-  });
-  container.querySelectorAll('.pg-btn[data-tier]').forEach(btn=>{
-    btn.addEventListener('click',()=>{tierPages[btn.dataset.tier]=parseInt(btn.dataset.page);render();setTimeout(()=>{const el=document.querySelector(`.tier-section[data-tier="${btn.dataset.tier}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},50);});
   });
 }
 
@@ -615,16 +605,16 @@ function buildCard(id,ani=0){
     </div>
     <div class="cright">
       <div class="info-row">
-        <div class="inf"><span class="inf-lbl">Tier</span><span class="inf-val">${TNAME[id.tier]}</span></div>
-        <div class="inf"><span class="inf-lbl">Status</span><span class="inf-val" style="color:${id.sold?'#ef4444':'#22bb72'}">${id.sold?'Terjual':'Tersedia'}</span></div>
+        <div class="inf"><span class="inf-lbl">TIER</span><span class="inf-val">${TNAME[id.tier]}</span></div>
+        <div class="inf"><span class="inf-lbl">STATUS</span><span class="inf-val" style="color:${id.sold?'#ef4444':'#22bb72'}">${id.sold?'Terjual':'Tersedia'}</span></div>
       </div>
       <div class="cbot">
         <div class="card-likes"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${lc}</div>
         <span class="card-price">${price}</span>
         <button class="btn-beli" data-num="${id.number}" ${id.sold?'disabled':''}>Beli</button>
       </div>
-      <button class="like-btn${liked?' liked':''}" data-num="${id.number}" onclick="event.stopPropagation()">
-        <svg viewBox="0 0 24 24" fill="${liked?'#7b2fff':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <button class="like-btn${liked?' liked':''}" data-num="${id.number}">
+        <svg viewBox="0 0 24 24" fill="${liked?'#7b2fff':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         ${lc===0?'Suka':lc+' suka'}
       </button>
     </div>
@@ -633,12 +623,12 @@ function buildCard(id,ani=0){
 
 function buildPagination(tier,cur,total){
   let h=`<div style="display:flex;align-items:center;justify-content:center;gap:5px;padding:6px 0;flex-wrap:wrap">`;
-  h+=`<button class="pgbtn" data-tier="${tier}" data-page="${cur-1}" ${cur===1?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+  h+=`<button class="pgbtn" data-tier="${tier}" data-page="${cur-1}" ${cur===1?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="15 18 9 12 15 6"/></svg></button>`;
   for(let i=1;i<=total;i++){
     if(total>6&&i>2&&i<total-1&&Math.abs(i-cur)>1){if(i===3||i===total-2)h+=`<span class="pg-sep">···</span>`;continue;}
     h+=`<button class="pgbtn${i===cur?' active':''}" data-tier="${tier}" data-page="${i}">${i}</button>`;
   }
-  h+=`<button class="pgbtn" data-tier="${tier}" data-page="${cur+1}" ${cur===total?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>`;
+  h+=`<button class="pgbtn" data-tier="${tier}" data-page="${cur+1}" ${cur===total?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="9 18 15 12 9 6"/></svg></button>`;
   return h+'</div>';
 }
 
@@ -660,7 +650,7 @@ function isNew(id){if(id.sold||!id.addedAt)return false;const a=new Date(id.adde
 function setFilter(el,f){activeFilter=f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));el.classList.add('act');render();}
 function scrollToAll(){document.getElementById('semua').scrollIntoView({behavior:'smooth'});}
 
-// ── LIKE ─────────────────────────────────────────────────────────────────────
+// ── LIKE ───────────────────────────────────────────
 async function doLike(number,btn){
   if(likedSet.has(number)){showToast('Sudah menyukai ID ini','warn');return;}
   btn.disabled=true;
@@ -670,13 +660,12 @@ async function doLike(number,btn){
   if(d.success){
     likedSet.add(number);localStorage.setItem('lapakid_liked',JSON.stringify([...likedSet]));
     const idx=allIds.findIndex(i=>i.number===number);if(idx!==-1)allIds[idx].likes=d.likes;
-    document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.textContent='';b.innerHTML=`<svg viewBox="0 0 24 24" fill="#7b2fff" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes} suka`;b.disabled=false;});
-    if(currentModal?.number===number){document.getElementById('modalLikeCnt').textContent=d.likes;document.getElementById('modalLikeBtn').classList.add('liked');}
+    document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.innerHTML=`<svg viewBox="0 0 24 24" fill="#7b2fff" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes} suka`;b.disabled=false;});
     showToast('Berhasil menyukai!');
   }else{btn.disabled=false;showToast(d.message||'Gagal like','warn');}
 }
 
-// ── NOTIF ─────────────────────────────────────────────────────────────────────
+// ── NOTIF ──────────────────────────────────────────
 document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();notifOpen=!notifOpen;document.getElementById('notifPanel').classList.toggle('open',notifOpen);if(notifOpen)loadNotifications();});
 document.addEventListener('click',e=>{if(notifOpen&&!document.getElementById('notifPanel').contains(e.target)&&e.target!==document.getElementById('notifBtn')){notifOpen=false;document.getElementById('notifPanel').classList.remove('open');}});
 async function loadNotifications(){
@@ -688,53 +677,33 @@ async function loadNotifications(){
     const list=document.getElementById('notifList');
     if(!d.data||!d.data.length){list.innerHTML='<div class="notif-empty">Belum ada aktivitas</div>';return;}
     list.innerHTML=d.data.map(n=>{
-      const t=new Date(n.createdAt);const now=Date.now();const diff=now-t.getTime();
+      const t=new Date(n.createdAt);const diff=Date.now()-t.getTime();
       const ts=diff<60000?'Baru saja':diff<3600000?Math.floor(diff/60000)+' mnt lalu':diff<86400000?Math.floor(diff/3600000)+' jam lalu':t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
-      const isInfo=n.type==='info';
       return `<div class="notif-item${n.read?'':' unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
-        <div class="notif-ico" style="${isInfo?'background:rgba(123,47,255,.12);color:#a06bff':''}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">${isInfo?'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>':'<polyline points="20 6 9 17 4 12"/>'}</svg>
-        </div>
-        <div style="flex:1;min-width:0">
-          <div class="notif-msg">${n.message}</div>
-          <div class="notif-time">${ts}</div>
-        </div>
+        <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;min-width:0"><div class="notif-msg">${n.message}</div><div class="notif-time">${ts}</div></div>
       </div>`;
     }).join('');
   }catch(e){}
 }
-function openNotifDetail(jsonStr){
-  const n=JSON.parse(jsonStr);const tc={low:'#6eca6e',medium:'#f5c842',high:'#70aaff',legend:'#c090ff'}[n.tier]||'#a06bff';
-  document.getElementById('ndContent').innerHTML=`
-    <div style="text-align:center;margin-bottom:12px">
-      <div style="width:42px;height:42px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px">${n.title||'Aktivitas'}</div>
-      <div style="font-size:.68rem;color:#6060a0;line-height:1.6">${n.message}</div>
-    </div>
-    ${n.idNumber?`<div style="background:#0e0e1a;border-radius:9px;padding:10px 12px;font-size:.66rem">
-      <div style="display:flex;justify-content:space-between;padding:3px 0"><span style="color:#5050a0">ID</span><span style="font-family:'Rajdhani',sans-serif;font-weight:700">${n.idNumber}</span></div>
-      ${n.tier?`<div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px solid #1a1a2e"><span style="color:#5050a0">Tier</span><span style="color:${tc};font-weight:700">${n.tier.toUpperCase()}</span></div>`:''}
-      ${n.finalPrice?`<div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px solid #1a1a2e"><span style="color:#5050a0">Harga</span><span style="font-family:'Rajdhani',sans-serif;font-weight:800;color:#a06bff">${fmt(n.finalPrice)}</span></div>`:''}
-      ${n.buyer?`<div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px solid #1a1a2e"><span style="color:#5050a0">Pembeli</span><span style="font-weight:600">${n.buyer}</span></div>`:''}
-    </div>`:''}
-    <div style="font-size:.56rem;color:#4040a0;text-align:center;margin-top:9px;font-family:'Rajdhani',sans-serif">${new Date(n.createdAt).toLocaleString('id-ID')}</div>`;
+function openNotifDetail(jsonStr){const n=JSON.parse(jsonStr);
+  document.getElementById('ndContent').innerHTML=`<div style="text-align:center;margin-bottom:12px"><div style="width:42px;height:42px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div><div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px">${n.title||'Aktivitas'}</div><div style="font-size:.68rem;color:#6060a0;line-height:1.6">${n.message}</div></div><div style="font-size:.56rem;color:#4040a0;text-align:center;margin-top:9px">${new Date(n.createdAt).toLocaleString('id-ID')}</div>`;
   document.getElementById('ndOverlay').classList.add('open');
 }
 async function markAllRead(){await fetch(`${API}/notifications/read`,{method:'PUT'}).catch(()=>{});const b=document.getElementById('notifBadge');b.classList.remove('show');b.textContent='';document.querySelectorAll('.notif-item.unread').forEach(el=>el.classList.remove('unread'));}
 setInterval(loadNotifications,30000);
 
-// ── MUSIC ─────────────────────────────────────────────────────────────────────
+// ── MUSIC ──────────────────────────────────────────
 const audio=document.getElementById('musicAudio');
 function applyMusic(s){const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];songs=list;if(songs.length)loadSong(0);else{document.getElementById('musicTitle').textContent='Belum ada musik';document.getElementById('musicSub').textContent='—';}}
 function loadSong(idx){
   currentSong=idx;audio.src=songs[idx].src;
-  const title=songs[idx].title;document.getElementById('musicTitle').textContent=title;document.getElementById('musicSub').textContent=`Track ${idx+1} / ${songs.length}`;
-  const ti=document.getElementById('musicTitle');const w=ti.parentElement;ti.classList.remove('marquee');setTimeout(()=>{if(ti.scrollWidth>w.clientWidth)ti.classList.add('marquee');},200);
+  document.getElementById('musicTitle').textContent=songs[idx].title;
+  document.getElementById('musicSub').textContent=`Track ${idx+1} / ${songs.length}`;
+  const ti=document.getElementById('musicTitle');ti.classList.remove('marquee');setTimeout(()=>{if(ti.scrollWidth>ti.parentElement.clientWidth)ti.classList.add('marquee');},200);
 }
 function togglePlay(){if(audio.paused){audio.play();document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);}else{audio.pause();document.getElementById('musicAlb').classList.remove('spin');setPlayIcon(false);}resetMusicHide();}
-function setPlayIcon(p){document.getElementById('mcPlayIcon').innerHTML=p?'<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>':`<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>`;}
+function setPlayIcon(p){document.getElementById('mcPlayIcon').innerHTML=p?'<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>':'<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';}
 function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);resetMusicHide();}
 function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play();document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);resetMusicHide();}
 audio.addEventListener('ended',nextSong);
@@ -746,28 +715,25 @@ document.getElementById('musicFab').addEventListener('click',()=>{document.getEl
 function resetMusicHide(){clearTimeout(musicHideTimer);musicHideTimer=setTimeout(()=>{document.getElementById('musicBar').classList.add('hidden');setTimeout(()=>document.getElementById('musicFab').classList.add('show'),400);setTimeout(()=>{document.getElementById('musicBar').classList.remove('hidden');document.getElementById('musicFab').classList.remove('show');},20000);},20000);}
 const mb=document.getElementById('musicBar');
 mb.addEventListener('mouseenter',()=>clearTimeout(musicHideTimer));mb.addEventListener('mouseleave',resetMusicHide);
-mb.addEventListener('touchstart',()=>{clearTimeout(musicHideTimer);setTimeout(resetMusicHide,4000);},{passive:true});
 
-// ── CHAT ──────────────────────────────────────────────────────────────────────
+// ── CHAT ───────────────────────────────────────────
 function openChat(){chatOpen=true;document.getElementById('chatWindow').classList.add('open');if(chatName){showChatMain();}else{document.getElementById('chatNameStep').style.display='block';document.getElementById('chatMain').style.display='none';}}
 function closeChat(){chatOpen=false;document.getElementById('chatWindow').classList.remove('open');if(chatPolling){clearInterval(chatPolling);chatPolling=null;}}
 document.getElementById('chatFab').addEventListener('click',()=>chatOpen?closeChat():openChat());
 document.getElementById('chatClose').addEventListener('click',closeChat);
 function startChat(){const name=document.getElementById('chatNameInp').value.trim();if(!name)return;chatName=name;localStorage.setItem('lapakid_chat_name',name);showChatMain();}
-function showChatMain(){document.getElementById('chatNameStep').style.display='none';document.getElementById('chatMain').style.display='block';const msgs=document.getElementById('chatMsgs');if(!msgs.children.length)addBotMsg('Halo '+chatName+'! 👋 Ada yang bisa kami bantu?');pollReply();}
+function showChatMain(){document.getElementById('chatNameStep').style.display='none';document.getElementById('chatMain').style.display='block';const msgs=document.getElementById('chatMsgs');if(!msgs.children.length)addBotMsg('Halo '+chatName+'! 👋 Ada yang bisa kami bantuan?');pollReply();}
 function addBotMsg(t){const msgs=document.getElementById('chatMsgs');const ts=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});const el=document.createElement('div');el.className='bubble bot';el.innerHTML=t+'<div class="btime">'+ts+'</div>';msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;}
 function addUserMsg(t){const msgs=document.getElementById('chatMsgs');const ts=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});const el=document.createElement('div');el.className='bubble user';el.innerHTML=t+'<div class="btime">'+ts+'</div>';msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;}
 function addReplyMsg(t){const msgs=document.getElementById('chatMsgs');const ts=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});const el=document.createElement('div');el.className='bubble reply';el.innerHTML='<b>Admin:</b> '+t+'<div class="btime">'+ts+'</div>';msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;}
 function showTyping(){const msgs=document.getElementById('chatMsgs');const el=document.createElement('div');el.className='typing';el.id='typingEl';el.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;}
 function hideTyping(){const el=document.getElementById('typingEl');if(el)el.remove();}
 async function sendChat(){const inp=document.getElementById('chatInp');const msg=inp.value.trim();if(!msg||!chatName)return;inp.value='';addUserMsg(msg);showTyping();try{const r=await fetch(`${API}/reports`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:chatName,message:msg})});const d=await r.json();setTimeout(()=>{hideTyping();if(d.success)addBotMsg('Pesan diterima! Admin akan membalas segera. 😊');else addBotMsg(d.message||'Gagal mengirim. Coba lagi ya.');},1200);}catch(e){setTimeout(()=>{hideTyping();addBotMsg('Gagal mengirim. Cek koneksi kamu.');},1000);}}
-async function pollReply(){if(chatPolling)clearInterval(chatPolling);chatPolling=setInterval(async()=>{if(!chatName||!chatOpen)return;try{const r=await fetch(`${API}/reports/reply-check?name=${encodeURIComponent(chatName)}`);if(!r.ok)return;const d=await r.json();if(d.reply&&d.reply!==lastReplyId){lastReplyId=d.reply;addReplyMsg(d.replyText);}}catch(e){};},8000);}
+async function pollReply(){if(chatPolling)clearInterval(chatPolling);chatPolling=setInterval(async()=>{if(!chatName||!chatOpen)return;try{const r=await fetch(`${API}/reports/reply-check?name=${encodeURIComponent(chatName)}`);if(!r.ok)return;const d=await r.json();if(d.reply&&d.reply!==lastReplyId){lastReplyId=d.reply;addReplyMsg(d.replyText);}}catch(e){}},8000);}
 
-// ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type==='warn'?'warn':'')+' show';clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.className='toast '+(type==='warn'?'warn':'');},2500);}
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
 async function init(){
   loadNotifications();
   await loadBanners();
