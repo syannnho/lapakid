@@ -455,8 +455,11 @@ function updateVisualizer() {
   const isKicauMania = currentSongObj.title === 'Kicau Mania' || 
                         (currentSongObj.title && currentSongObj.title.toLowerCase().includes('kicau'));
   
+  console.log('updateVisualizer - currentSong:', currentSongObj.title, 'isPlaying:', isPlaying, 'isKicauMania:', isKicauMania);
+  
   if (isKicauMania && isPlaying) {
     visualizer.classList.add('show');
+    console.log('GIF muncul!');
   } else {
     visualizer.classList.remove('show');
   }
@@ -805,6 +808,10 @@ audio.addEventListener('pause', () => {
 audio.addEventListener('play', () => {
   musicAlb.classList.add('spin');
   setPlayIcon(true);
+  updateVisualizer();
+});
+audio.addEventListener('timeupdate', () => {
+  // Update visualizer setiap kali waktu berubah (untuk memastikan)
   updateVisualizer();
 });
 
