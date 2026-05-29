@@ -8,6 +8,7 @@
 <meta property="og:title" content="Detail ID – LAPAK ID"/>
 <meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 2',sans-serif;overflow:hidden}
@@ -50,6 +51,119 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .nd-overlay.open .nd-box{transform:scale(1)}
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
+
+/* ALERT NOTIFICATION - STYLE BARU */
+.alert-notification {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 1000;
+  width: calc(100% - 32px);
+  max-width: 440px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.alert-notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+}
+.alert-simple {
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 0;
+  box-shadow: 0 8px 28px rgba(0,0,0,.3);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.alert-simple .start-icon {
+  font-size: 20px;
+  margin-right: 0;
+  min-width: 24px;
+  text-align: center;
+}
+.alert-simple .alert-content {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.alert-simple .alert-content strong {
+  font-weight: 700;
+  display: inline-block;
+  margin-right: 4px;
+}
+.alert-simple .close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: inherit;
+  opacity: 0.7;
+  transition: 0.2s;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alert-simple .close-btn:hover {
+  opacity: 1;
+}
+.alert-simple.alert-warning {
+  border: 1px solid rgba(241, 142, 6, 0.81);
+  background-color: rgba(220, 128, 1, 0.16);
+  box-shadow: 0px 0px 2px #ffb103;
+  color: #ffb103;
+  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
+}
+.alert-simple.alert-danger {
+  border: 1px solid rgba(241, 6, 6, 0.81);
+  background-color: rgba(220, 17, 1, 0.16);
+  box-shadow: 0px 0px 2px #ff0303;
+  color: #ff0303;
+  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
+}
+.alert-simple.alert-success {
+  border: 1px solid rgba(36, 241, 6, 0.46);
+  background-color: rgba(7, 149, 66, 0.12);
+  box-shadow: 0px 0px 2px #259c08;
+  color: #0ad406;
+  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
+}
+.alert-simple.alert-info {
+  border: 1px solid rgba(6, 44, 241, 0.46);
+  background-color: rgba(7, 73, 149, 0.12);
+  box-shadow: 0px 0px 2px #0396ff;
+  color: #0396ff;
+  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
+}
+.alert-simple.alert-primary {
+  border: 1px solid rgba(123,47,255,0.6);
+  background-color: rgba(123,47,255,0.12);
+  box-shadow: 0px 0px 2px #7b2fff;
+  color: #a06bff;
+  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
+}
+.fa-times, .fa-check-circle, .fa-exclamation-triangle, .fa-info-circle {
+  -webkit-animation: blink-1 2s infinite both;
+  animation: blink-1 2s infinite both;
+}
+@-webkit-keyframes blink-1 {
+  0%,50%,100% { opacity: 1; }
+  25%,75% { opacity: 0.5; }
+}
+@keyframes blink-1 {
+  0%,50%,100% { opacity: 1; }
+  25%,75% { opacity: 0.5; }
+}
 
 /* BREADCRUMB */
 .breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
@@ -138,10 +252,6 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .bni.active{color:#a06bff}
 .bni svg{width:19px;height:19px}
 
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
-
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media (max-width:380px){
   .account-id{font-size:18px}
@@ -190,6 +300,9 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
   </div>
 </div>
 
+<!-- ALERT NOTIFICATION -->
+<div id="alertNotification" class="alert-notification"></div>
+
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
   <a href="index.html">Beranda</a>
@@ -228,43 +341,69 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 </nav>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
 const API = '/api';
 let currentIdData = null;
 let settings = { prices: {} };
 let likedSet = new Set(JSON.parse(localStorage.getItem('lapakid_liked') || '[]'));
 let notifOpen = false;
+let alertTimeout = null;
 
-function showToast(msg, isError = false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = isError ? 'rgba(239,68,68,.15)' : 'rgba(34,187,114,.15)';
-  t.style.borderColor = isError ? '#ef4444' : '#22bb72';
-  t.style.color = isError ? '#ef4444' : '#22bb72';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function formatRupiah(num) {
-  return 'Rp ' + Number(num).toLocaleString('id-ID');
-}
-
-function getTierClass(tier) {
-  const map = { low: 'tier-low', medium: 'tier-medium', high: 'tier-high', legend: 'tier-legend' };
-  return map[tier] || 'tier-low';
-}
-
-function getTierName(tier) {
-  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
-  return map[tier] || 'Low';
-}
-
-function getPrice(id) {
-  if (id.price != null && id.price > 0) return id.price;
-  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
-  return 0;
+// ========== ALERT NOTIFICATION ==========
+function showAlert(message, type = 'warning', title = '') {
+  const container = document.getElementById('alertNotification');
+  
+  let icon = '';
+  let alertClass = '';
+  let defaultTitle = '';
+  
+  switch(type) {
+    case 'success':
+      icon = '<i class="fas fa-check-circle start-icon"></i>';
+      alertClass = 'alert-success';
+      defaultTitle = 'Berhasil!';
+      break;
+    case 'danger':
+      icon = '<i class="fas fa-times-circle start-icon"></i>';
+      alertClass = 'alert-danger';
+      defaultTitle = 'Gagal!';
+      break;
+    case 'info':
+      icon = '<i class="fas fa-info-circle start-icon"></i>';
+      alertClass = 'alert-info';
+      defaultTitle = 'Informasi';
+      break;
+    case 'primary':
+      icon = '<i class="fas fa-star start-icon"></i>';
+      alertClass = 'alert-primary';
+      defaultTitle = 'Penting';
+      break;
+    default:
+      icon = '<i class="fas fa-exclamation-triangle start-icon"></i>';
+      alertClass = 'alert-warning';
+      defaultTitle = 'Peringatan';
+  }
+  
+  const finalTitle = title || defaultTitle;
+  
+  container.innerHTML = `
+    <div class="alert-simple ${alertClass}" onclick="this.parentElement.classList.remove('show')">
+      ${icon}
+      <div class="alert-content">
+        <strong>${finalTitle}</strong> ${message}
+      </div>
+      <button class="close-btn" onclick="this.closest('.alert-notification').classList.remove('show')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  `;
+  
+  container.classList.add('show');
+  
+  if (alertTimeout) clearTimeout(alertTimeout);
+  alertTimeout = setTimeout(() => {
+    container.classList.remove('show');
+  }, 4000);
 }
 
 // ========== CEK TRANSAKSI PENDING ==========
@@ -359,23 +498,22 @@ async function markAllRead() {
 async function beliSekarang() {
   if (!currentIdData) return;
   if (currentIdData.sold) {
-    showToast('❌ ID ini sudah terjual!', true);
+    showAlert('ID ini sudah terjual! Silakan pilih ID lain.', 'danger', 'Mohon maaf');
     return;
   }
   
   // CEK APAKAH ADA TRANSAKSI PENDING
   const hasPending = await checkPendingTransaction();
   if (hasPending) {
-    showToast('⚠️ Anda memiliki transaksi yang belum dikonfirmasi! Selesaikan pembayaran terlebih dahulu di halaman Transaksi.', true);
-    // Tidak redirect, hanya notifikasi popup
+    showAlert('Anda memiliki transaksi yang belum dikonfirmasi! Selesaikan pembayaran terlebih dahulu di halaman Transaksi.', 'warning', 'Transaksi Pending');
     return;
   }
   
   // Jika tidak ada pending, lanjut ke payment
-  showToast('🛒 Mengarahkan ke halaman pembayaran...');
+  showAlert('Mengarahkan ke halaman pembayaran...', 'info', 'Memproses');
   setTimeout(() => {
     window.location.href = `payment.html?id=${encodeURIComponent(currentIdData.number)}`;
-  }, 500);
+  }, 1000);
 }
 
 // ========== LOAD SETTINGS & ID ==========
@@ -419,7 +557,7 @@ async function loadIdDetail() {
 async function doLike() {
   if (!currentIdData) return;
   if (likedSet.has(currentIdData.number)) {
-    showToast('Sudah menyukai ID ini', true);
+    showAlert('Anda sudah menyukai ID ini sebelumnya', 'info', 'Info');
     return;
   }
   
@@ -437,23 +575,23 @@ async function doLike() {
         btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${data.likes} Suka`;
         btn.disabled = false;
       }
-      showToast('Berhasil menyukai!');
+      showAlert('Berhasil menyukai ID ini!', 'success', 'Like Berhasil');
     } else {
       if (btn) btn.disabled = false;
-      showToast(data.message || 'Gagal like', true);
+      showAlert(data.message || 'Gagal menyukai', 'danger', 'Gagal');
     }
   } catch (err) {
     if (btn) btn.disabled = false;
-    showToast('Gagal, coba lagi', true);
+    showAlert('Gagal, coba lagi nanti', 'danger', 'Error');
   }
 }
 
 function copyID() {
   if (!currentIdData) return;
   navigator.clipboard.writeText(currentIdData.number).then(() => {
-    showToast('✓ ID berhasil disalin!');
+    showAlert('ID berhasil disalin ke clipboard!', 'success', 'Berhasil');
   }).catch(() => {
-    showToast('ID: ' + currentIdData.number);
+    showAlert('ID: ' + currentIdData.number, 'info', 'Salin Manual');
   });
 }
 
@@ -468,20 +606,40 @@ function bagikanID() {
 
   if (navigator.share) {
     navigator.share(shareData)
-      .then(() => showToast('✓ Berhasil membagikan ID'))
+      .then(() => showAlert('Berhasil membagikan ID!', 'success', 'Share Berhasil'))
       .catch((err) => {
         if (err.name !== 'AbortError') {
-          showToast('Gagal membagikan', true);
+          showAlert('Gagal membagikan ID', 'danger', 'Gagal');
         }
       });
   } else {
     const shareText = `${shareData.text}\n\nLihat detail: ${shareData.url}`;
     navigator.clipboard.writeText(shareText).then(() => {
-      showToast('✓ Link dan info ID disalin! Silakan bagikan manual.');
+      showAlert('Link dan info ID disalin! Silakan bagikan manual.', 'info', 'Link Tersalin');
     }).catch(() => {
-      showToast('ID: ' + currentIdData.number, true);
+      showAlert('ID: ' + currentIdData.number, 'info', 'Salin Manual');
     });
   }
+}
+
+function formatRupiah(num) {
+  return 'Rp ' + Number(num).toLocaleString('id-ID');
+}
+
+function getTierClass(tier) {
+  const map = { low: 'tier-low', medium: 'tier-medium', high: 'tier-high', legend: 'tier-legend' };
+  return map[tier] || 'tier-low';
+}
+
+function getTierName(tier) {
+  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
+  return map[tier] || 'Low';
+}
+
+function getPrice(id) {
+  if (id.price != null && id.price > 0) return id.price;
+  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
+  return 0;
 }
 
 function renderDetail() {
@@ -576,34 +734,10 @@ function renderDetail() {
     <div class="section-card">
       <p class="section-title">Informasi Akun</p>
       <div class="stats-grid">
-        <div class="stat-cell">
-          <p class="stat-label">Likes</p>
-          <div class="stat-value">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-            ${stats.likes}
-          </div>
-        </div>
-        <div class="stat-cell">
-          <p class="stat-label">Karakter</p>
-          <div class="stat-value">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            ${stats.characters}
-          </div>
-        </div>
-        <div class="stat-cell">
-          <p class="stat-label">Level Akun</p>
-          <div class="stat-value">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            ${stats.level}
-          </div>
-        </div>
-        <div class="stat-cell">
-          <p class="stat-label">Season</p>
-          <div class="stat-value">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            ${stats.season}
-          </div>
-        </div>
+        <div class="stat-cell"><p class="stat-label">Likes</p><div class="stat-value"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>${stats.likes}</div></div>
+        <div class="stat-cell"><p class="stat-label">Karakter</p><div class="stat-value"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${stats.characters}</div></div>
+        <div class="stat-cell"><p class="stat-label">Level Akun</p><div class="stat-value"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${stats.level}</div></div>
+        <div class="stat-cell"><p class="stat-label">Season</p><div class="stat-value"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${stats.season}</div></div>
       </div>
     </div>
 
@@ -615,27 +749,14 @@ function renderDetail() {
     <div class="section-card">
       <p class="section-title">Garansi</p>
       <div class="guarantee-list">
-        <div class="guarantee-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Garansi ganti akun / ID jika ID berbeda
-        </div>
-        <div class="guarantee-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Garansi ganti akun / ID jika region yang dibeli berbeda
-        </div>
-        <div class="guarantee-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Garansi uang kembali jika ID tidak dapat diproses
-        </div>
+        <div class="guarantee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Garansi ganti akun / ID jika ID berbeda</div>
+        <div class="guarantee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Garansi ganti akun / ID jika region yang dibeli berbeda</div>
+        <div class="guarantee-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Garansi uang kembali jika ID tidak dapat diproses</div>
       </div>
     </div>
 
     <div class="note-card">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <div>
         <p class="note-title">Catatan Penting</p>
         <p class="note-text">Setelah melakukan pembayaran, Admin akan mengirimkan data ID ke nomor yang akan Anda input di payment. Usahakan nomor aktif dan bisa dihubungi.</p>
