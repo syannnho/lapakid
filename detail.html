@@ -21,6 +21,11 @@
       --muted:     #6060a0;
       --green:     #22bb72;
       --red:       #ef4444;
+      /* Tier colors */
+      --tier-silver: #c0c0c0;
+      --tier-blue:   #3b82f6;
+      --tier-red:    #ef4444;
+      --tier-gold:   #fbbf24;
     }
 
     html, body {
@@ -172,10 +177,10 @@
       padding: 16px;
       border-right: 1px solid var(--border);
     }
-    .badge-premium {
+    
+    /* TIER BADGE */
+    .tier-badge {
       display: inline-block;
-      background: var(--purple);
-      color: #fff;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
@@ -184,13 +189,23 @@
       margin-bottom: 10px;
       text-transform: uppercase;
     }
-    .badge-sold { background: var(--red); }
+    .tier-low { background: rgba(192,192,192,.15); color: var(--tier-silver); border: 1px solid rgba(192,192,192,.3); }
+    .tier-medium { background: rgba(59,130,246,.15); color: var(--tier-blue); border: 1px solid rgba(59,130,246,.3); }
+    .tier-high { background: rgba(239,68,68,.15); color: var(--tier-red); border: 1px solid rgba(239,68,68,.3); }
+    .tier-legend { background: rgba(251,191,36,.15); color: var(--tier-gold); border: 1px solid rgba(251,191,36,.3); }
+    
+    /* ID ROW dengan LIKE */
+    .id-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
     .account-id {
       font-size: 22px;
       font-weight: 900;
       font-family: 'Rajdhani', sans-serif;
       letter-spacing: .5px;
-      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -207,6 +222,39 @@
       transition: background .2s, transform .15s;
     }
     .copy-btn:hover { background: rgba(123,47,255,.3); transform: scale(1.05); }
+    
+    /* LIKE BUTTON */
+    .like-btn-detail {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(123,47,255,.1);
+      border: 1px solid rgba(123,47,255,.2);
+      border-radius: 30px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .like-btn-detail:hover {
+      background: rgba(123,47,255,.2);
+      transform: scale(1.02);
+    }
+    .like-btn-detail.liked {
+      color: var(--purple-light);
+      border-color: var(--purple-light);
+    }
+    .like-btn-detail.liked svg {
+      fill: var(--purple-light);
+      stroke: var(--purple-light);
+    }
+    .like-btn-detail svg {
+      width: 16px;
+      height: 16px;
+    }
+
     .info-list { display: flex; flex-direction: column; gap: 10px; }
     .info-row {
       display: flex;
@@ -278,20 +326,7 @@
     .btn-share:active { transform: translateY(1px); }
     .btn-share svg { width: 18px; height: 18px; }
 
-    .tier-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-    .t-low { background: rgba(34,187,114,.12); color: var(--green); border: 1px solid rgba(34,187,114,.2); }
-    .t-medium { background: rgba(245,200,66,.1); color: #f5c842; border: 1px solid rgba(245,200,66,.2); }
-    .t-high { background: rgba(100,160,255,.1); color: #70aaff; border: 1px solid rgba(100,160,255,.2); }
-    .t-legend { background: rgba(160,107,255,.12); color: var(--purple-light); border: 1px solid rgba(160,107,255,.25); }
-
+    /* SECTION CARD */
     .section-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -463,6 +498,7 @@
       .stat-cell:nth-child(3) { border-top: 1px solid var(--border); border-right: 1px solid var(--border); }
       .main-top { flex-direction: column; }
       .main-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .id-row { flex-wrap: wrap; gap: 10px; }
     }
 
     .toast {
@@ -589,6 +625,7 @@ const API = '/api';
 let currentId = null;
 let currentIdData = null;
 let settings = { prices: {} };
+let likedSet = new Set(JSON.parse(localStorage.getItem('lapakid_liked') || '[]'));
 
 function showToast(msg, isError = false) {
   const t = document.getElementById('toast');
@@ -605,13 +642,13 @@ function formatRupiah(num) {
 }
 
 function getTierClass(tier) {
-  const map = { low: 't-low', medium: 't-medium', high: 't-high', legend: 't-legend' };
-  return map[tier] || 't-medium';
+  const map = { low: 'tier-low', medium: 'tier-medium', high: 'tier-high', legend: 'tier-legend' };
+  return map[tier] || 'tier-low';
 }
 
 function getTierName(tier) {
   const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
-  return map[tier] || tier;
+  return map[tier] || 'Low';
 }
 
 function getPrice(id) {
@@ -658,6 +695,38 @@ async function loadIdDetail() {
   }
 }
 
+async function doLike() {
+  if (!currentIdData) return;
+  if (likedSet.has(currentIdData.number)) {
+    showToast('Sudah menyukai ID ini', true);
+    return;
+  }
+  
+  const btn = document.getElementById('likeButtonDetail');
+  if (btn) btn.disabled = true;
+  
+  try {
+    const res = await fetch(`${API}/like/${currentIdData.number}`, { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+      likedSet.add(currentIdData.number);
+      localStorage.setItem('lapakid_liked', JSON.stringify([...likedSet]));
+      if (btn) {
+        btn.classList.add('liked');
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${data.likes} Suka`;
+        btn.disabled = false;
+      }
+      showToast('Berhasil menyukai!');
+    } else {
+      if (btn) btn.disabled = false;
+      showToast(data.message || 'Gagal like', true);
+    }
+  } catch (err) {
+    if (btn) btn.disabled = false;
+    showToast('Gagal, coba lagi', true);
+  }
+}
+
 function renderDetail() {
   if (!currentIdData) return;
 
@@ -668,26 +737,36 @@ function renderDetail() {
   const tierName = getTierName(id.tier);
   const isSold = id.sold || false;
   const createdAt = id.addedAt ? new Date(id.addedAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  const isLiked = likedSet.has(id.number);
+  const likeCount = id.likes || 0;
   
   const stats = {
-    likes: id.likes || 0,
-    characters: id.characters || 0,
-    level: id.level || 0,
-    season: id.season || 0
+    likes: 0,
+    characters: 0,
+    level: 0,
+    season: 0
   };
 
   const html = `
     <div class="main-card">
       <div class="main-top">
         <div class="main-left">
-          <span class="badge-premium ${isSold ? 'badge-sold' : ''}">${isSold ? 'TERJUAL' : 'PREMIUM'}</span>
-          <div class="account-id">
-            ${id.number}
-            <button class="copy-btn" onclick="copyID()" title="Salin ID">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          <span class="tier-badge ${tierClass}">${tierName}</span>
+          <div class="id-row">
+            <div class="account-id">
+              ${id.number}
+              <button class="copy-btn" onclick="copyID()" title="Salin ID">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+            </div>
+            <button class="like-btn-detail ${isLiked ? 'liked' : ''}" id="likeButtonDetail" onclick="doLike()">
+              <svg viewBox="0 0 24 24" fill="${isLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
+              ${likeCount === 0 ? 'Suka' : likeCount + ' Suka'}
             </button>
           </div>
           <div class="info-list">
@@ -757,7 +836,7 @@ function renderDetail() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
             </svg>
-            ${stats.likes.toLocaleString()}
+            ${stats.likes}
           </div>
         </div>
         <div class="stat-cell">
@@ -859,7 +938,7 @@ function bagikanID() {
   if (!currentIdData) return;
   const shareData = {
     title: 'LAPAK ID - ID Premium Free Fire',
-    text: `ID Free Fire Premium: ${currentIdData.number} | Nickname: ${currentIdData.name || currentIdData.number.slice(-6)} | Harga: ${formatRupiah(getPrice(currentIdData))}`,
+    text: `ID Free Fire: ${currentIdData.number} | Nickname: ${currentIdData.name || currentIdData.number.slice(-6)} | Harga: ${formatRupiah(getPrice(currentIdData))}`,
     url: window.location.href
   };
 
