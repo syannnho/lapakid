@@ -488,14 +488,14 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 </div><!-- /scrollarea -->
 
-<!-- MUSIC VISUALIZER 3 GIF (Transparan) -->
+<!-- MUSIC VISUALIZER 3 GIF -->
 <div class="music-visualizer" id="musicVisualizer">
   <img src="https://files.catbox.moe/a59a9g.gif" alt="gif kiri" class="gif-left">
   <img src="https://files.catbox.moe/a59a9g.gif" alt="gif tengah" class="gif-center">
   <img src="https://files.catbox.moe/a59a9g.gif" alt="gif kanan" class="gif-right">
 </div>
 
-<!-- MUSIC BAR KICAU MANIA (WARNA SAMA DENGAN MUSIK BAWAAN) -->
+<!-- MUSIC BAR KICAU MANIA -->
 <div class="music-bar-kicau" id="musicBarKicau" style="display:flex">
   <div class="music-icon" id="musicIconKicau">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -660,7 +660,6 @@ setTimeout(() => {
   }
 }, 1000);
 
-// Marquee effect for title
 const kicauTitle = document.getElementById('kicauTitle');
 if (kicauTitle) {
   kicauTitle.classList.remove('marquee');
@@ -687,7 +686,7 @@ async function loadBanners(){
     bannerAuto();
     applyMusic(settings);
     initPopup(settings);
-  }catch(e){}
+  }catch(e){ console.error('loadBanners error:', e); }
 }
 function bannerGo(idx){bannerCur=(idx+bannerTotal)%bannerTotal;document.getElementById('bannerTrack').style.transform=`translateX(-${bannerCur*100}%)`;document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===bannerCur));}
 function bannerAuto(){clearInterval(bannerTimer);bannerTimer=setInterval(()=>bannerGo(bannerCur+1),4200);}
