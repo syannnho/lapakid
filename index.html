@@ -375,7 +375,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 </div><!-- /scrollarea -->
 
-<!-- MUSIC VISUALIZER 3 GIF (Hanya untuk Kicau Mania) -->
+<!-- MUSIC VISUALIZER 3 GIF -->
 <div class="music-visualizer" id="musicVisualizer">
   <img src="https://files.catbox.moe/a59a9g.gif" alt="gif kiri" class="gif-left">
   <img src="https://files.catbox.moe/a59a9g.gif" alt="gif tengah" class="gif-center">
@@ -423,36 +423,40 @@ let likedSet=new Set(JSON.parse(localStorage.getItem('lapakid_liked')||'[]'));
 let tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0;
 let notifOpen=false;
+let isMusicPlaying = false;
+
+// DOM Elements
+const audio = document.getElementById('musicAudio');
+const musicBar = document.getElementById('musicBar');
+const musicFab = document.getElementById('musicFab');
+const musicAlb = document.getElementById('musicAlb');
+const musicTitle = document.getElementById('musicTitle');
+const musicSub = document.getElementById('musicSub');
+const visualizer = document.getElementById('musicVisualizer');
+let autoHideTimer = null;
 
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
 const TCLS={low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
 
-// ── MUSIC VISUALIZER UNTUK KICAU MANIA ──────────────────────────
-const visualizer = document.getElementById('musicVisualizer');
-let isKicauManiaPlaying = false;
-
-function checkAndUpdateVisualizer() {
-  if (!songs.length || !songs[currentSong]) return;
-  const currentSongTitle = songs[currentSong].title || '';
-  const isKicauMania = currentSongTitle.toLowerCase().includes('kicau mania');
+// ========== MUSIC VISUALIZER ==========
+function updateVisualizer() {
+  if (!songs.length || !songs[currentSong]) {
+    visualizer.classList.remove('show');
+    return;
+  }
+  const currentTitle = (songs[currentSong].title || '').toLowerCase();
+  const isKicauMania = currentTitle.includes('kicau mania') || currentTitle.includes('kicaumania');
+  const isPlaying = !audio.paused && audio.currentTime > 0;
   
-  if (isKicauMania && !audio.paused) {
-    // Sedang memutar Kicau Mania dan tidak pause
-    if (!isKicauManiaPlaying) {
-      isKicauManiaPlaying = true;
-      visualizer.classList.add('show');
-    }
+  if (isKicauMania && isPlaying) {
+    visualizer.classList.add('show');
   } else {
-    // Bukan Kicau Mania atau sedang pause
-    if (isKicauManiaPlaying) {
-      isKicauManiaPlaying = false;
-      visualizer.classList.remove('show');
-    }
+    visualizer.classList.remove('show');
   }
 }
 
-// ── BANNER ──────────────────────────────────────────
+// ========== BANNER ==========
 let bannerCur=0,bannerTotal=0,bannerTimer=null;
 async function loadBanners(){
   try{
@@ -468,7 +472,7 @@ async function loadBanners(){
     bannerAuto();
     applyMusic(settings);
     initPopup(settings);
-  }catch(e){}
+  }catch(e){console.error('loadBanners error:',e);}
 }
 function bannerGo(idx){bannerCur=(idx+bannerTotal)%bannerTotal;document.getElementById('bannerTrack').style.transform=`translateX(-${bannerCur*100}%)`;document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===bannerCur));}
 function bannerAuto(){clearInterval(bannerTimer);bannerTimer=setInterval(()=>bannerGo(bannerCur+1),4200);}
@@ -480,7 +484,7 @@ let bTx=0;
 bw.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bw.addEventListener('touchend',e=>{const d=bTx-e.changedTouches[0].clientX;if(Math.abs(d)>40)d>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerAuto();},{passive:true});
 
-// ── POPUP ──────────────────────────────────────────
+// ========== POPUP ==========
 function initPopup(s){
   const KEY='lapakid_popup_hide';if(localStorage.getItem(KEY)==='1')return;
   const p=s.popup||{};if(!p.active)return;
@@ -496,7 +500,7 @@ function initPopup(s){
 }
 function copyPromo(){const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));}
 
-// ── POPULAR ────────────────────────────────────────
+// ========== POPULAR ==========
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const el=document.getElementById('popScroll');
@@ -534,14 +538,14 @@ async function doLikeMini(number,btn){
 
 function goToDetail(idNumber){window.location.href=`detail.html?id=${encodeURIComponent(idNumber)}`;}
 
-// ── LOAD IDS ───────────────────────────────────────
+// ========== LOAD IDS ==========
 async function loadIds(){
   const r=await fetch(`${API}/ids`).catch(()=>null);
   if(!r||!r.ok){document.getElementById('cardlist').innerHTML='<div class="empty">Gagal memuat ID</div>';return;}
   const{data}=await r.json();allIds=data||[];render();
 }
 
-// ── RENDER ─────────────────────────────────────────
+// ========== RENDER ==========
 function render(){
   const filtered=filterIds();let total=0;Object.values(filtered).forEach(v=>total+=v.length);
   document.getElementById('totCount').textContent=total.toLocaleString('id-ID');
@@ -637,7 +641,7 @@ function isNew(id){if(id.sold||!id.addedAt)return false;const a=new Date(id.adde
 function setFilter(el,f){activeFilter=f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));el.classList.add('act');render();}
 function scrollToAll(){document.getElementById('semua').scrollIntoView({behavior:'smooth'});}
 
-// ── LIKE ───────────────────────────────────────────
+// ========== LIKE ==========
 async function doLike(number,btn){
   if(likedSet.has(number)){showToast('Sudah menyukai ID ini','warn');return;}
   btn.disabled=true;
@@ -652,7 +656,7 @@ async function doLike(number,btn){
   }else{btn.disabled=false;showToast(d.message||'Gagal like','warn');}
 }
 
-// ── CEK TRANSAKSI PENDING UNTUK BADGE ──────────────────
+// ========== CEK TRANSAKSI PENDING ==========
 async function checkPendingTransaction() {
   try {
     const res = await fetch(`${API}/transactions/check`);
@@ -660,16 +664,12 @@ async function checkPendingTransaction() {
     const data = await res.json();
     const badge = document.getElementById('pendingBadge');
     if (badge) {
-      if (data.hasPending) {
-        badge.style.display = 'block';
-      } else {
-        badge.style.display = 'none';
-      }
+      badge.style.display = data.hasPending ? 'block' : 'none';
     }
   } catch (e) {}
 }
 
-// ── NOTIF ──────────────────────────────────────────
+// ========== NOTIF ==========
 document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();notifOpen=!notifOpen;document.getElementById('notifPanel').classList.toggle('open',notifOpen);if(notifOpen)loadNotifications();});
 document.addEventListener('click',e=>{if(notifOpen&&!document.getElementById('notifPanel').contains(e.target)&&e.target!==document.getElementById('notifBtn')){notifOpen=false;document.getElementById('notifPanel').classList.remove('open');}});
 async function loadNotifications(){
@@ -698,102 +698,107 @@ async function markAllRead(){await fetch(`${API}/notifications/read`,{method:'PU
 setInterval(loadNotifications,30000);
 setInterval(checkPendingTransaction,5000);
 
-// ── MUSIC ──────────────────────────────────────────
-const audio=document.getElementById('musicAudio');
-let autoHideTimer=null;
-
+// ========== MUSIC ==========
 function applyMusic(s){
   const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
   songs=list;
   if(songs.length){
     loadSong(0);
-    document.getElementById('musicBar').style.display='flex';
-    document.getElementById('musicBar').classList.add('hidden');
-    document.getElementById('musicFab').classList.add('show');
+    musicBar.style.display='flex';
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
   }else{
-    document.getElementById('musicTitle').textContent='Belum ada musik';
-    document.getElementById('musicSub').textContent='—';
+    musicTitle.textContent='Belum ada musik';
+    musicSub.textContent='—';
   }
 }
 
 function showMusicBar(){
   if(!songs.length) return;
-  const bar=document.getElementById('musicBar');
-  bar.classList.remove('hidden');
-  document.getElementById('musicFab').classList.remove('show');
+  musicBar.classList.remove('hidden');
+  musicFab.classList.remove('show');
   if(autoHideTimer) clearTimeout(autoHideTimer);
   autoHideTimer=setTimeout(()=>{
-    bar.classList.add('hidden');
-    document.getElementById('musicFab').classList.add('show');
+    musicBar.classList.add('hidden');
+    musicFab.classList.add('show');
   },5000);
 }
 
 function loadSong(idx){
   currentSong=idx;
   audio.src=songs[idx].src;
-  document.getElementById('musicTitle').textContent=songs[idx].title;
-  document.getElementById('musicSub').textContent=`Track ${idx+1} / ${songs.length}`;
-  const ti=document.getElementById('musicTitle');
+  musicTitle.textContent=songs[idx].title;
+  musicSub.textContent=`Track ${idx+1} / ${songs.length}`;
+  const ti=musicTitle;
   ti.classList.remove('marquee');
   setTimeout(()=>{
     if(ti.scrollWidth>ti.parentElement.clientWidth) ti.classList.add('marquee');
   },200);
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 }
 
 function togglePlay(){
   if(audio.paused){
-    audio.play();
-    document.getElementById('musicAlb').classList.add('spin');
+    audio.play().catch(e=>console.log('Play error:', e));
+    musicAlb.classList.add('spin');
     setPlayIcon(true);
   }else{
     audio.pause();
-    document.getElementById('musicAlb').classList.remove('spin');
+    musicAlb.classList.remove('spin');
     setPlayIcon(false);
   }
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 }
 
 function setPlayIcon(p){
-  document.getElementById('mcPlayIcon').innerHTML=p?'<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>':'<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
+  const playIcon = document.getElementById('mcPlayIcon');
+  if(p){
+    playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>';
+  }else{
+    playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
+  }
 }
 
 function nextSong(){
   currentSong=(currentSong+1)%songs.length;
   loadSong(currentSong);
-  audio.play();
-  document.getElementById('musicAlb').classList.add('spin');
+  audio.play().catch(e=>console.log('Play error:', e));
+  musicAlb.classList.add('spin');
   setPlayIcon(true);
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 }
 
 function prevSong(){
   currentSong=(currentSong-1+songs.length)%songs.length;
   loadSong(currentSong);
-  audio.play();
-  document.getElementById('musicAlb').classList.add('spin');
+  audio.play().catch(e=>console.log('Play error:', e));
+  musicAlb.classList.add('spin');
   setPlayIcon(true);
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 }
 
-audio.addEventListener('ended',()=>{
+// Audio event listeners
+audio.addEventListener('ended', () => {
   nextSong();
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 });
-audio.addEventListener('pause',()=>{
-  document.getElementById('musicAlb').classList.remove('spin');
+audio.addEventListener('pause', () => {
+  musicAlb.classList.remove('spin');
   setPlayIcon(false);
-  checkAndUpdateVisualizer();
+  updateVisualizer();
 });
-audio.addEventListener('play',()=>{
-  checkAndUpdateVisualizer();
+audio.addEventListener('play', () => {
+  musicAlb.classList.add('spin');
+  setPlayIcon(true);
+  updateVisualizer();
 });
 
-document.getElementById('mcPlay').addEventListener('click',togglePlay);
-document.getElementById('mcPrev').addEventListener('click',prevSong);
-document.getElementById('mcNext').addEventListener('click',nextSong);
+// Button event listeners
+document.getElementById('mcPlay').addEventListener('click', togglePlay);
+document.getElementById('mcPrev').addEventListener('click', prevSong);
+document.getElementById('mcNext').addEventListener('click', nextSong);
 
-// ── TOAST ──────────────────────────────────────────
+// ========== TOAST ==========
 let toastTimer;
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
@@ -803,7 +808,7 @@ function showToast(msg,type='success'){
   toastTimer=setTimeout(()=>{t.className='toast '+(type==='warn'?'warn':'');},2500);
 }
 
-// ── POPUP ELEMENTS ─────────────────────────────────
+// ========== POPUP ELEMENTS ==========
 const popupHTML=`
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box" style="position:relative">
@@ -822,7 +827,7 @@ const popupHTML=`
 </div>`;
 document.body.insertAdjacentHTML('beforeend',popupHTML);
 
-// ── INIT ───────────────────────────────────────────
+// ========== INIT ==========
 async function init(){
   loadNotifications();
   await loadBanners();
