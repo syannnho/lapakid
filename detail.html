@@ -8,7 +8,6 @@
 <meta property="og:title" content="Detail ID – LAPAK ID"/>
 <meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 2',sans-serif;overflow:hidden}
@@ -29,7 +28,7 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .notif-badge.show{display:flex}
 
 /* NOTIF PANEL */
-.notif-panel{position:absolute;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
+.notif-panel{position:fixed;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
 .notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
 .notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e}
 .notif-head-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700}
@@ -51,119 +50,6 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .nd-overlay.open .nd-box{transform:scale(1)}
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
-
-/* ALERT NOTIFICATION - STYLE BARU */
-.alert-notification {
-  position: fixed;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-20px);
-  z-index: 1000;
-  width: calc(100% - 32px);
-  max-width: 440px;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-.alert-notification.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: all;
-}
-.alert-simple {
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 0;
-  box-shadow: 0 8px 28px rgba(0,0,0,.3);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.alert-simple .start-icon {
-  font-size: 20px;
-  margin-right: 0;
-  min-width: 24px;
-  text-align: center;
-}
-.alert-simple .alert-content {
-  flex: 1;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.4;
-}
-.alert-simple .alert-content strong {
-  font-weight: 700;
-  display: inline-block;
-  margin-right: 4px;
-}
-.alert-simple .close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  color: inherit;
-  opacity: 0.7;
-  transition: 0.2s;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.alert-simple .close-btn:hover {
-  opacity: 1;
-}
-.alert-simple.alert-warning {
-  border: 1px solid rgba(241, 142, 6, 0.81);
-  background-color: rgba(220, 128, 1, 0.16);
-  box-shadow: 0px 0px 2px #ffb103;
-  color: #ffb103;
-  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
-}
-.alert-simple.alert-danger {
-  border: 1px solid rgba(241, 6, 6, 0.81);
-  background-color: rgba(220, 17, 1, 0.16);
-  box-shadow: 0px 0px 2px #ff0303;
-  color: #ff0303;
-  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
-}
-.alert-simple.alert-success {
-  border: 1px solid rgba(36, 241, 6, 0.46);
-  background-color: rgba(7, 149, 66, 0.12);
-  box-shadow: 0px 0px 2px #259c08;
-  color: #0ad406;
-  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
-}
-.alert-simple.alert-info {
-  border: 1px solid rgba(6, 44, 241, 0.46);
-  background-color: rgba(7, 73, 149, 0.12);
-  box-shadow: 0px 0px 2px #0396ff;
-  color: #0396ff;
-  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
-}
-.alert-simple.alert-primary {
-  border: 1px solid rgba(123,47,255,0.6);
-  background-color: rgba(123,47,255,0.12);
-  box-shadow: 0px 0px 2px #7b2fff;
-  color: #a06bff;
-  text-shadow: 1px 1px 0px rgba(0,0,0,.3);
-}
-.fa-times, .fa-check-circle, .fa-exclamation-triangle, .fa-info-circle {
-  -webkit-animation: blink-1 2s infinite both;
-  animation: blink-1 2s infinite both;
-}
-@-webkit-keyframes blink-1 {
-  0%,50%,100% { opacity: 1; }
-  25%,75% { opacity: 0.5; }
-}
-@keyframes blink-1 {
-  0%,50%,100% { opacity: 1; }
-  25%,75% { opacity: 0.5; }
-}
 
 /* BREADCRUMB */
 .breadcrumb{display:flex;align-items:center;gap:6px;padding:12px 16px 4px;font-size:12px;color:#6060a0;flex-shrink:0}
@@ -252,6 +138,10 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 .bni.active{color:#a06bff}
 .bni svg{width:19px;height:19px}
 
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @media (max-width:380px){
   .account-id{font-size:18px}
@@ -300,9 +190,6 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
   </div>
 </div>
 
-<!-- ALERT NOTIFICATION -->
-<div id="alertNotification" class="alert-notification"></div>
-
 <!-- BREADCRUMB -->
 <nav class="breadcrumb">
   <a href="index.html">Beranda</a>
@@ -341,81 +228,43 @@ html,body{width:100%;height:100%;background:#0b0b16;color:#fff;font-family:'Exo 
 </nav>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 const API = '/api';
 let currentIdData = null;
 let settings = { prices: {} };
 let likedSet = new Set(JSON.parse(localStorage.getItem('lapakid_liked') || '[]'));
 let notifOpen = false;
-let alertTimeout = null;
 
-// ========== ALERT NOTIFICATION ==========
-function showAlert(message, type = 'warning', title = '') {
-  const container = document.getElementById('alertNotification');
-  
-  let icon = '';
-  let alertClass = '';
-  let defaultTitle = '';
-  
-  switch(type) {
-    case 'success':
-      icon = '<i class="fas fa-check-circle start-icon"></i>';
-      alertClass = 'alert-success';
-      defaultTitle = 'Berhasil!';
-      break;
-    case 'danger':
-      icon = '<i class="fas fa-times-circle start-icon"></i>';
-      alertClass = 'alert-danger';
-      defaultTitle = 'Gagal!';
-      break;
-    case 'info':
-      icon = '<i class="fas fa-info-circle start-icon"></i>';
-      alertClass = 'alert-info';
-      defaultTitle = 'Informasi';
-      break;
-    case 'primary':
-      icon = '<i class="fas fa-star start-icon"></i>';
-      alertClass = 'alert-primary';
-      defaultTitle = 'Penting';
-      break;
-    default:
-      icon = '<i class="fas fa-exclamation-triangle start-icon"></i>';
-      alertClass = 'alert-warning';
-      defaultTitle = 'Peringatan';
-  }
-  
-  const finalTitle = title || defaultTitle;
-  
-  container.innerHTML = `
-    <div class="alert-simple ${alertClass}" onclick="this.parentElement.classList.remove('show')">
-      ${icon}
-      <div class="alert-content">
-        <strong>${finalTitle}</strong> ${message}
-      </div>
-      <button class="close-btn" onclick="this.closest('.alert-notification').classList.remove('show')">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  `;
-  
-  container.classList.add('show');
-  
-  if (alertTimeout) clearTimeout(alertTimeout);
-  alertTimeout = setTimeout(() => {
-    container.classList.remove('show');
-  }, 4000);
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isError ? 'rgba(239,68,68,.15)' : 'rgba(34,187,114,.15)';
+  t.style.borderColor = isError ? '#ef4444' : '#22bb72';
+  t.style.color = isError ? '#ef4444' : '#22bb72';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ========== CEK TRANSAKSI PENDING ==========
-async function checkPendingTransaction() {
-  try {
-    const res = await fetch(`${API}/transactions/check`);
-    if (!res.ok) return false;
-    const data = await res.json();
-    return data.hasPending || false;
-  } catch (e) {
-    return false;
-  }
+function formatRupiah(num) {
+  return 'Rp ' + Number(num).toLocaleString('id-ID');
+}
+
+function getTierClass(tier) {
+  const map = { low: 'tier-low', medium: 'tier-medium', high: 'tier-high', legend: 'tier-legend' };
+  return map[tier] || 'tier-low';
+}
+
+function getTierName(tier) {
+  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
+  return map[tier] || 'Low';
+}
+
+function getPrice(id) {
+  if (id.price != null && id.price > 0) return id.price;
+  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
+  return 0;
 }
 
 // ========== NOTIFIKASI ==========
@@ -494,26 +343,38 @@ async function markAllRead() {
   loadNotifications();
 }
 
+// ========== CEK TRANSAKSI PENDING ==========
+async function checkPendingTransaction() {
+  try {
+    const res = await fetch(`${API}/transactions/check`);
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.hasPending || false;
+  } catch (e) {
+    return false;
+  }
+}
+
 // ========== BELI SEKARANG (DENGAN CEK PENDING) ==========
 async function beliSekarang() {
   if (!currentIdData) return;
   if (currentIdData.sold) {
-    showAlert('ID ini sudah terjual! Silakan pilih ID lain.', 'danger', 'Mohon maaf');
+    showToast('ID ini sudah terjual! Silakan pilih ID lain.', true);
     return;
   }
   
   // CEK APAKAH ADA TRANSAKSI PENDING
   const hasPending = await checkPendingTransaction();
   if (hasPending) {
-    showAlert('Anda memiliki transaksi yang belum dikonfirmasi! Selesaikan pembayaran terlebih dahulu di halaman Transaksi.', 'warning', 'Transaksi Pending');
+    showToast('Anda memiliki transaksi yang belum dikonfirmasi! Selesaikan pembayaran terlebih dahulu di halaman Transaksi.', true);
     return;
   }
   
   // Jika tidak ada pending, lanjut ke payment
-  showAlert('Mengarahkan ke halaman pembayaran...', 'info', 'Memproses');
+  showToast('Mengarahkan ke halaman pembayaran...');
   setTimeout(() => {
     window.location.href = `payment.html?id=${encodeURIComponent(currentIdData.number)}`;
-  }, 1000);
+  }, 500);
 }
 
 // ========== LOAD SETTINGS & ID ==========
@@ -532,7 +393,7 @@ async function loadIdDetail() {
   const idNumber = urlParams.get('id');
   
   if (!idNumber) {
-    document.getElementById('mainContent').innerHTML = '<div class="error-msg">❌ Tidak ada ID yang dipilih</div>';
+    document.getElementById('mainContent').innerHTML = '<div class="error-msg">Tidak ada ID yang dipilih</div>';
     document.getElementById('bottomBar').style.display = 'none';
     return;
   }
@@ -549,7 +410,7 @@ async function loadIdDetail() {
     currentIdData = data.data;
     renderDetail();
   } catch (err) {
-    document.getElementById('mainContent').innerHTML = `<div class="error-msg">❌ ${err.message}</div>`;
+    document.getElementById('mainContent').innerHTML = `<div class="error-msg">${err.message}</div>`;
     document.getElementById('bottomBar').style.display = 'none';
   }
 }
@@ -557,7 +418,7 @@ async function loadIdDetail() {
 async function doLike() {
   if (!currentIdData) return;
   if (likedSet.has(currentIdData.number)) {
-    showAlert('Anda sudah menyukai ID ini sebelumnya', 'info', 'Info');
+    showToast('Sudah menyukai ID ini', true);
     return;
   }
   
@@ -575,23 +436,23 @@ async function doLike() {
         btn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> ${data.likes} Suka`;
         btn.disabled = false;
       }
-      showAlert('Berhasil menyukai ID ini!', 'success', 'Like Berhasil');
+      showToast('Berhasil menyukai!');
     } else {
       if (btn) btn.disabled = false;
-      showAlert(data.message || 'Gagal menyukai', 'danger', 'Gagal');
+      showToast(data.message || 'Gagal like', true);
     }
   } catch (err) {
     if (btn) btn.disabled = false;
-    showAlert('Gagal, coba lagi nanti', 'danger', 'Error');
+    showToast('Gagal, coba lagi', true);
   }
 }
 
 function copyID() {
   if (!currentIdData) return;
   navigator.clipboard.writeText(currentIdData.number).then(() => {
-    showAlert('ID berhasil disalin ke clipboard!', 'success', 'Berhasil');
+    showToast('ID berhasil disalin!');
   }).catch(() => {
-    showAlert('ID: ' + currentIdData.number, 'info', 'Salin Manual');
+    showToast('ID: ' + currentIdData.number);
   });
 }
 
@@ -606,40 +467,20 @@ function bagikanID() {
 
   if (navigator.share) {
     navigator.share(shareData)
-      .then(() => showAlert('Berhasil membagikan ID!', 'success', 'Share Berhasil'))
+      .then(() => showToast('Berhasil membagikan ID'))
       .catch((err) => {
         if (err.name !== 'AbortError') {
-          showAlert('Gagal membagikan ID', 'danger', 'Gagal');
+          showToast('Gagal membagikan', true);
         }
       });
   } else {
     const shareText = `${shareData.text}\n\nLihat detail: ${shareData.url}`;
     navigator.clipboard.writeText(shareText).then(() => {
-      showAlert('Link dan info ID disalin! Silakan bagikan manual.', 'info', 'Link Tersalin');
+      showToast('Link dan info ID disalin! Silakan bagikan manual.');
     }).catch(() => {
-      showAlert('ID: ' + currentIdData.number, 'info', 'Salin Manual');
+      showToast('ID: ' + currentIdData.number, true);
     });
   }
-}
-
-function formatRupiah(num) {
-  return 'Rp ' + Number(num).toLocaleString('id-ID');
-}
-
-function getTierClass(tier) {
-  const map = { low: 'tier-low', medium: 'tier-medium', high: 'tier-high', legend: 'tier-legend' };
-  return map[tier] || 'tier-low';
-}
-
-function getTierName(tier) {
-  const map = { low: 'Low', medium: 'Medium', high: 'High', legend: 'Legend' };
-  return map[tier] || 'Low';
-}
-
-function getPrice(id) {
-  if (id.price != null && id.price > 0) return id.price;
-  if (settings.prices && settings.prices[id.tier]) return settings.prices[id.tier];
-  return 0;
 }
 
 function renderDetail() {
