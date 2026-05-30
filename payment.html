@@ -139,11 +139,214 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .oi-lbl{color:#6060a0}
 .oi-val{font-weight:600;font-family:'Rajdhani',sans-serif}
 
-.btn-paid{width:100%;background:#22bb72;color:#fff;border:none;padding:14px;border-radius:14px;font-size:.8rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Rajdhani',sans-serif;transition:.2s;box-shadow:0 4px 18px rgba(34,187,114,.35)}
-.btn-paid:hover{background:#1a9e60}
-.btn-paid:disabled{opacity:.4;cursor:not-allowed}
-.btn-paid svg{width:15px;height:15px}
-.paid-note{font-size:.62rem;color:#6060a0;text-align:center;line-height:1.5}
+/* ── DISPATCH BUTTON (SHIP BUTTON) ── */
+.ship-btn {
+  appearance: none;
+  border: 0;
+  background: #1C212E;
+  position: relative;
+  height: 63px;
+  width: 100%;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  border-radius: 32px;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  transition: transform .3s ease;
+  margin-top: 10px;
+}
+.ship-btn:active { transform: scale(.98); }
+
+.ship-btn .lbl {
+  --o: 1;
+  position: absolute;
+  left: 0; right: 0;
+  text-align: center;
+  top: 19px;
+  line-height: 24px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Rajdhani', sans-serif;
+  opacity: var(--o);
+  transition: opacity .3s ease;
+}
+.ship-btn .lbl.idle { transition-delay: .3s; }
+.ship-btn .lbl.done { --o: 0; }
+.ship-btn .lbl.done svg {
+  width: 12px; height: 10px;
+  display: inline-block;
+  vertical-align: top;
+  fill: none;
+  margin: 7px 0 0 4px;
+  stroke: #16BF78;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: stroke-dashoffset .3s ease;
+}
+
+.ship-btn .rail {
+  opacity: 0;
+  position: absolute;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  width: 6px;
+  top: 30px;
+  left: 100%;
+  box-shadow: 15px 0 0 #fff, 30px 0 0 #fff, 45px 0 0 #fff, 60px 0 0 #fff,
+              75px 0 0 #fff, 90px 0 0 #fff, 105px 0 0 #fff, 120px 0 0 #fff,
+              135px 0 0 #fff, 150px 0 0 #fff, 165px 0 0 #fff, 180px 0 0 #fff,
+              195px 0 0 #fff, 210px 0 0 #fff, 225px 0 0 #fff, 240px 0 0 #fff,
+              255px 0 0 #fff, 270px 0 0 #fff, 285px 0 0 #fff, 300px 0 0 #fff,
+              315px 0 0 #fff, 330px 0 0 #fff;
+}
+
+.ship-btn .cargo {
+  background: linear-gradient(#DCB773, #EDD9A9);
+  width: 21px; height: 21px;
+  right: 100%; top: 21px;
+  border-radius: 2px;
+  position: absolute;
+}
+.ship-btn .cargo::before,
+.ship-btn .cargo::after {
+  content: ''; top: 10px;
+  position: absolute; left: 0; right: 0;
+}
+.ship-btn .cargo::before { height: 3px; margin-top: -1px; background: rgba(0,0,0,.1); }
+.ship-btn .cargo::after  { height: 1px; background: rgba(0,0,0,.15); }
+
+.ship-btn .vehicle {
+  width: 60px; height: 41px;
+  left: 100%; z-index: 1;
+  top: 11px; position: absolute;
+  transform: translateX(24px);
+}
+.ship-btn .vehicle::before,
+.ship-btn .vehicle::after {
+  --r: -90deg;
+  content: '';
+  height: 2px; width: 20px;
+  right: 58px; position: absolute;
+  display: block; background: #fff;
+  border-radius: 1px;
+  transform-origin: 100% 50%;
+  transform: rotate(var(--r));
+}
+.ship-btn .vehicle::before { top: 4px; }
+.ship-btn .vehicle::after  { --r: 90deg; bottom: 4px; }
+
+.ship-btn .cab-back {
+  background: linear-gradient(#fff, #CDD9ED);
+  left: 0; top: 0;
+  width: 60px; height: 41px;
+  z-index: 1; border-radius: 2px;
+  position: absolute;
+}
+.ship-btn .cab-front {
+  overflow: hidden; position: absolute;
+  border-radius: 2px 9px 9px 2px;
+  width: 26px; height: 41px; left: 60px;
+}
+.ship-btn .cab-front::before,
+.ship-btn .cab-front::after {
+  content: ''; position: absolute; display: block;
+}
+.ship-btn .cab-front::before {
+  height: 13px; width: 2px; left: 0; top: 14px;
+  background: linear-gradient(#6C7486, #3F4656);
+}
+.ship-btn .cab-front::after {
+  border-radius: 2px 9px 9px 2px;
+  background: #275EFE;
+  width: 24px; height: 41px; right: 0;
+}
+
+.ship-btn .windshield {
+  overflow: hidden;
+  border-radius: 2px 8px 8px 2px;
+  background: #7699FF;
+  transform: perspective(4px) rotateY(3deg);
+  width: 22px; height: 41px;
+  position: absolute; left: 2px; top: 0;
+  z-index: 1; transform-origin: 0 50%;
+}
+.ship-btn .windshield::before,
+.ship-btn .windshield::after {
+  content: ''; position: absolute; right: 0;
+}
+.ship-btn .windshield::before {
+  top: 0; bottom: 0; width: 14px;
+  background: #1C212E;
+}
+.ship-btn .windshield::after {
+  width: 14px; top: 7px; height: 4px;
+  background: rgba(255,255,255,.14);
+  transform: skewY(14deg);
+  box-shadow: 0 7px 0 rgba(255,255,255,.14);
+}
+
+.ship-btn .headlight {
+  width: 3px; height: 8px; left: 83px;
+  transform-origin: 100% 50%;
+  position: absolute; border-radius: 2px;
+  transform: scaleX(.8);
+  background: #f0dc5f;
+}
+.ship-btn .headlight::before {
+  content: '';
+  height: 4px; width: 7px; opacity: 0;
+  transform: perspective(2px) rotateY(-15deg) scaleX(.94);
+  position: absolute; transform-origin: 0 50%;
+  left: 3px; top: 50%; margin-top: -2px;
+  background: linear-gradient(90deg, #f0dc5f, rgba(240,220,95,.7), rgba(240,220,95,0));
+}
+.ship-btn .headlight.top    { top: 4px; }
+.ship-btn .headlight.bottom { bottom: 4px; }
+
+/* animated state */
+.ship-btn.go .lbl.idle          { --o: 0; transition-delay: 0s; }
+.ship-btn.go .lbl.done          { --o: 1; transition-delay: 7s; }
+.ship-btn.go .lbl.done svg      { stroke-dashoffset: 0; transition-delay: 7.3s; }
+.ship-btn.go .vehicle           { animation: veh    10s ease forwards; }
+.ship-btn.go .vehicle::before   { animation: hatch1  2.4s ease forwards .3s; }
+.ship-btn.go .vehicle::after    { animation: hatch2  2.4s ease forwards .6s; }
+.ship-btn.go .headlight::before { animation: glow   10s ease forwards; }
+.ship-btn.go .cargo             { animation: pkg    10s ease forwards; }
+.ship-btn.go .rail              { animation: rails  10s ease forwards; }
+
+@keyframes veh {
+  10%, 30% { transform: translateX(-164px); }
+  40%      { transform: translateX(-104px); }
+  60%      { transform: translateX(-224px); }
+  75%, 100%{ transform: translateX(24px);  }
+}
+@keyframes rails {
+  0%,  30% { opacity: 0; transform: scaleY(.7) translateX(0);    }
+  35%, 65% { opacity: 1;                                          }
+  70%      { opacity: 0;                                          }
+  100%     { transform: scaleY(.7) translateX(-400px);            }
+}
+@keyframes glow {
+  0%,  30% { opacity: 0; transform: perspective(2px) rotateY(-15deg) scaleX(.88); }
+  40%, 100%{ opacity: 1; transform: perspective(2px) rotateY(-15deg) scaleX(.94); }
+}
+@keyframes hatch1 { 30%, 50% { transform: rotate(32deg);  } }
+@keyframes hatch2 { 30%, 50% { transform: rotate(-32deg); } }
+@keyframes pkg {
+  8%,  10% { transform: translateX(40px);  opacity: 1; }
+  25%      { transform: translateX(112px); opacity: 1; }
+  26%      { transform: translateX(112px); opacity: 0; }
+  27%, 100%{ transform: translateX(0);     opacity: 0; }
+}
+
+.paid-note{font-size:.62rem;color:#6060a0;text-align:center;margin-top:12px;line-height:1.5}
 
 /* SUCCESS OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
@@ -197,7 +400,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
     <!-- STEP 1 -->
     <div id="step1" style="display:contents">
-      <!-- ID BANNER -->
       <div class="id-banner">
         <div class="id-banner-ico">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="14" y1="3" x2="12" y2="21"/></svg>
@@ -205,7 +407,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
         <div id="bannerContent"><span style="color:#6060a0;font-size:.72rem">Memuat data ID...</span></div>
       </div>
 
-      <!-- DATA PEMBELI -->
       <div class="form-card">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Data Pembeli</h3>
         <div class="field-2">
@@ -214,7 +415,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
         </div>
       </div>
 
-      <!-- PROMO -->
       <div class="form-card">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2H2v10l9.2 9.2a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8L12 2z"/><path d="M7 7h.01"/></svg>Kode Promo <span style="font-weight:400;color:#6060a0;font-size:.68rem">(opsional)</span></h3>
         <div class="promo-row">
@@ -224,7 +424,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
         <div class="promo-msg" id="promoMsg"></div>
       </div>
 
-      <!-- METODE -->
       <div class="form-card">
         <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Metode Pembayaran</h3>
         <label class="method-opt selected">
@@ -238,7 +437,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
         </label>
       </div>
 
-      <!-- SUMMARY -->
       <div class="summary">
         <div class="sum-row"><div class="sum-lbl">ID</div><div class="sum-val" id="sumId">—</div></div>
         <div class="sum-row"><div class="sum-lbl">Tier</div><div class="sum-val" id="sumTier">—</div></div>
@@ -265,16 +463,33 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
           <button class="btn-dl-qr" onclick="downloadQR()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download QR</button>
         </div>
         <div class="order-info">
-          <div class="oi-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Detail Pesanan</div>
+          <div class="oi-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Detail Pesanan</div>
           <div class="oi-row"><div class="oi-lbl">ID</div><div class="oi-val" id="oiId">—</div></div>
           <div class="oi-row"><div class="oi-lbl">Tier</div><div class="oi-val" id="oiTier">—</div></div>
           <div class="oi-row"><div class="oi-lbl">Harga dasar</div><div class="oi-val" id="oiBase">—</div></div>
           <div class="oi-row" id="oiDiscRow" style="display:none"><div class="oi-lbl">Diskon</div><div class="oi-val sum-green" id="oiDisc">—</div></div>
           <div class="oi-row"><div class="oi-lbl">Total</div><div class="oi-val" id="oiTotal">—</div></div>
         </div>
-        <button class="btn-paid" id="btnPaid" onclick="doSubmit()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar
+
+        <!-- DISPATCH BUTTON -->
+        <button class="ship-btn" id="shipBtn">
+          <span class="lbl idle">Saya Sudah Bayar</span>
+          <span class="lbl done">
+            Pesanan Diproses
+            <svg viewBox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"/></svg>
+          </span>
+          <div class="cargo"></div>
+          <div class="vehicle">
+            <div class="cab-back"></div>
+            <div class="cab-front">
+              <div class="windshield"></div>
+            </div>
+            <div class="headlight top"></div>
+            <div class="headlight bottom"></div>
+          </div>
+          <div class="rail"></div>
         </button>
+
         <div class="paid-note">Setelah klik di atas, admin akan memverifikasi dan menghubungi via WhatsApp.</div>
       </div>
     </div>
@@ -315,90 +530,10 @@ function showToast(msg,isError=false){
   t.style.borderColor=isError?'#ef4444':'#22bb72';
   t.style.color=isError?'#ef4444':'#22bb72';
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ========== NOTIFIKASI ==========
-const notifPanelHTML=`
-<div class="notif-panel" id="notifPanel">
-  <div class="notif-head">
-    <div class="notif-head-title">Aktivitas</div>
-    <button class="notif-mark" onclick="markAllRead()">Tandai dibaca</button>
-  </div>
-  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
-</div>`;
-document.body.insertAdjacentHTML('beforeend',notifPanelHTML);
-
-const notifDetailHTML=`
-<div class="nd-overlay" id="ndOverlay">
-  <div class="nd-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
-      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    </div>
-    <div id="ndContent"></div>
-  </div>
-</div>`;
-document.body.insertAdjacentHTML('beforeend',notifDetailHTML);
-
-document.getElementById('notifBtn').addEventListener('click',(e)=>{
-  e.stopPropagation();
-  notifOpen=!notifOpen;
-  document.getElementById('notifPanel').classList.toggle('open',notifOpen);
-  if(notifOpen)loadNotifications();
-});
-document.addEventListener('click',(e)=>{
-  if(notifOpen&&!document.getElementById('notifPanel').contains(e.target)&&e.target!==document.getElementById('notifBtn')){
-    notifOpen=false;
-    document.getElementById('notifPanel').classList.remove('open');
-  }
-});
-
-async function loadNotifications(){
-  try{
-    const r=await fetch(`${API}/notifications?limit=20`);
-    if(!r.ok)return;
-    const d=await r.json();
-    const badge=document.getElementById('notifBadge');
-    if(d.unread>0){badge.textContent=d.unread>99?'99+':String(d.unread);badge.classList.add('show');}
-    else badge.classList.remove('show');
-    const list=document.getElementById('notifList');
-    if(!d.data||!d.data.length){list.innerHTML='<div class="notif-empty">Belum ada aktivitas</div>';return;}
-    list.innerHTML=d.data.map(n=>{
-      const t=new Date(n.createdAt);const diff=Date.now()-t.getTime();
-      const ts=diff<60000?'Baru saja':diff<3600000?Math.floor(diff/60000)+' mnt lalu':diff<86400000?Math.floor(diff/3600000)+' jam lalu':t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
-      return `<div class="notif-item ${n.read?'':'unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
-        <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div style="flex:1;min-width:0"><div class="notif-msg">${n.message}</div><div class="notif-time">${ts}</div></div>
-      </div>`;
-    }).join('');
-  }catch(e){}
-}
-
-function openNotifDetail(jsonStr){
-  const n=JSON.parse(jsonStr);
-  document.getElementById('ndContent').innerHTML=`
-    <div style="text-align:center;margin-bottom:12px">
-      <div style="width:42px;height:42px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px">${n.title||'Aktivitas'}</div>
-      <div style="font-size:.68rem;color:#6060a0;line-height:1.6">${n.message}</div>
-    </div>
-    <div style="font-size:.56rem;color:#6060a0;text-align:center;margin-top:9px">${new Date(n.createdAt).toLocaleString('id-ID')}</div>
-  `;
-  document.getElementById('ndOverlay').classList.add('open');
-}
-
-async function markAllRead(){
-  await fetch(`${API}/notifications/read`,{method:'PUT'}).catch(()=>{});
-  const badge=document.getElementById('notifBadge');
-  badge.classList.remove('show');
-  document.querySelectorAll('.notif-item.unread').forEach(el=>el.classList.remove('unread'));
-  loadNotifications();
-}
-
-// ========== PAYMENT FUNCTIONS ==========
+// ========== QRIS FUNCTIONS ==========
 function crc16(str){
   let c=0xFFFF;
   for(let i=0;i<str.length;i++){
@@ -489,12 +624,6 @@ function showMsg(el,type,text){
   el.style.display='flex';
 }
 
-function calcTotal(){
-  if(!idDoc)return 0;
-  const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
-  return Math.round((p[idDoc.tier]||0)*(1-promoDisc/100));
-}
-
 function updateSummary(){
   if(!idDoc)return;
   const p=settings.prices||{low:125000,medium:450000,high:850000,legend:1350000};
@@ -547,29 +676,143 @@ async function goStep2(){
   document.getElementById('scrollarea').scrollTop=0;
 }
 
-async function doSubmit(){
-  const name=document.getElementById('buyerName').value.trim();
-  const phone=document.getElementById('buyerPhone').value.trim();
-  if(!name||!phone||!idDoc){showToast('Data tidak lengkap',true);return;}
-  const btn=document.getElementById('btnPaid');
-  btn.disabled=true;
-  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>Memproses...';
-  const r=await fetch(`${API}/payment`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idNumber:idDoc.number,method:'qris',buyer:name,phone,promoCode})}).catch(()=>null);
-  if(!r){
-    btn.disabled=false;
-    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';
-    showToast('Gagal terhubung ke server',true);return;
+// ========== SUBMIT WITH DISPATCH BUTTON ==========
+const shipBtn = document.getElementById('shipBtn');
+let isProcessing = false;
+
+async function doSubmit() {
+  if(isProcessing) return;
+  
+  const name = document.getElementById('buyerName').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+  if(!name||!phone||!idDoc){
+    showToast('Data tidak lengkap',true);
+    return;
   }
-  const d=await r.json();
-  if(d.success){
-    try{const sfx=document.getElementById('paidSfx');sfx.currentTime=0;sfx.play().catch(()=>{});}catch(e){}
-    document.getElementById('successMsg').textContent=`Pesanan ID ${idDoc.number} berhasil. Admin akan menghubungi kamu via WhatsApp di ${phone}.`;
-    document.getElementById('successOverlay').classList.add('open');
-  }else{
-    btn.disabled=false;
-    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Saya Sudah Bayar';
-    showToast(d.message||'Gagal memproses pembayaran',true);
+  
+  if(shipBtn.classList.contains('go')) return;
+  
+  isProcessing = true;
+  
+  // Start animation
+  shipBtn.classList.add('go');
+  
+  try{
+    const r=await fetch(`${API}/payment`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({idNumber:idDoc.number,method:'qris',buyer:name,phone,promoCode})
+    }).catch(()=>null);
+    
+    if(!r){
+      shipBtn.classList.remove('go');
+      isProcessing=false;
+      showToast('Gagal terhubung ke server',true);
+      return;
+    }
+    
+    const d=await r.json();
+    if(d.success){
+      try{const sfx=document.getElementById('paidSfx');sfx.currentTime=0;sfx.play().catch(()=>{});}catch(e){}
+      document.getElementById('successMsg').textContent=`Pesanan ID ${idDoc.number} berhasil. Admin akan menghubungi kamu via WhatsApp di ${phone}.`;
+      document.getElementById('successOverlay').classList.add('open');
+      // Reset button after animation completes
+      setTimeout(()=>{
+        shipBtn.classList.remove('go');
+        isProcessing=false;
+      }, 10000);
+    }else{
+      shipBtn.classList.remove('go');
+      isProcessing=false;
+      showToast(d.message||'Gagal memproses pembayaran',true);
+    }
+  }catch(err){
+    shipBtn.classList.remove('go');
+    isProcessing=false;
+    showToast('Terjadi kesalahan',true);
   }
+}
+
+shipBtn.addEventListener('click', doSubmit);
+
+// ========== NOTIFIKASI ==========
+const notifPanelHTML=`
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <div class="notif-head-title">Aktivitas</div>
+    <button class="notif-mark" onclick="markAllRead()">Tandai dibaca</button>
+  </div>
+  <div class="notif-list" id="notifList"><div class="notif-empty">Memuat...</div></div>
+</div>`;
+document.body.insertAdjacentHTML('beforeend',notifPanelHTML);
+
+const notifDetailHTML=`
+<div class="nd-overlay" id="ndOverlay">
+  <div class="nd-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700">Detail</div>
+      <div class="modal-close" onclick="document.getElementById('ndOverlay').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    </div>
+    <div id="ndContent"></div>
+  </div>
+</div>`;
+document.body.insertAdjacentHTML('beforeend',notifDetailHTML);
+
+document.getElementById('notifBtn').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  notifOpen=!notifOpen;
+  document.getElementById('notifPanel').classList.toggle('open',notifOpen);
+  if(notifOpen)loadNotifications();
+});
+document.addEventListener('click',(e)=>{
+  if(notifOpen&&!document.getElementById('notifPanel').contains(e.target)&&e.target!==document.getElementById('notifBtn')){
+    notifOpen=false;
+    document.getElementById('notifPanel').classList.remove('open');
+  }
+});
+
+async function loadNotifications(){
+  try{
+    const r=await fetch(`${API}/notifications?limit=20`);
+    if(!r.ok)return;
+    const d=await r.json();
+    const badge=document.getElementById('notifBadge');
+    if(d.unread>0){badge.textContent=d.unread>99?'99+':String(d.unread);badge.classList.add('show');}
+    else badge.classList.remove('show');
+    const list=document.getElementById('notifList');
+    if(!d.data||!d.data.length){list.innerHTML='<div class="notif-empty">Belum ada aktivitas</div>';return;}
+    list.innerHTML=d.data.map(n=>{
+      const t=new Date(n.createdAt);const diff=Date.now()-t.getTime();
+      const ts=diff<60000?'Baru saja':diff<3600000?Math.floor(diff/60000)+' mnt lalu':diff<86400000?Math.floor(diff/3600000)+' jam lalu':t.toLocaleDateString('id-ID',{day:'2-digit',month:'short'});
+      return `<div class="notif-item ${n.read?'':'unread'}" onclick='openNotifDetail(${JSON.stringify(JSON.stringify(n))})'>
+        <div class="notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;min-width:0"><div class="notif-msg">${n.message}</div><div class="notif-time">${ts}</div></div>
+      </div>`;
+    }).join('');
+  }catch(e){}
+}
+
+function openNotifDetail(jsonStr){
+  const n=JSON.parse(jsonStr);
+  document.getElementById('ndContent').innerHTML=`
+    <div style="text-align:center;margin-bottom:12px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px">${n.title||'Aktivitas'}</div>
+      <div style="font-size:.68rem;color:#6060a0;line-height:1.6">${n.message}</div>
+    </div>
+    <div style="font-size:.56rem;color:#6060a0;text-align:center;margin-top:9px">${new Date(n.createdAt).toLocaleString('id-ID')}</div>
+  `;
+  document.getElementById('ndOverlay').classList.add('open');
+}
+
+async function markAllRead(){
+  await fetch(`${API}/notifications/read`,{method:'PUT'}).catch(()=>{});
+  const badge=document.getElementById('notifBadge');
+  badge.classList.remove('show');
+  document.querySelectorAll('.notif-item.unread').forEach(el=>el.classList.remove('unread'));
+  loadNotifications();
 }
 
 async function init(){
