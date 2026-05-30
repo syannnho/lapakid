@@ -348,6 +348,102 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
 .empty{text-align:center;padding:2rem 1rem;color:#6060a0;font-size:.82rem}
+
+/* ── PROMO POPUP ── */
+.popup-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  z-index:700;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.popup-overlay.open{opacity:1;pointer-events:all}
+
+.popup-box{
+  background:linear-gradient(145deg,#1a1a2e,#141428);
+  border:1px solid rgba(123,47,255,.5);
+  border-radius:20px;
+  width:100%;max-width:320px;
+  overflow:hidden;
+  box-shadow:0 0 50px rgba(123,47,255,.3), 0 20px 60px rgba(0,0,0,.6);
+  transform:scale(.85) translateY(20px);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.popup-overlay.open .popup-box{transform:scale(1) translateY(0)}
+
+.popup-close-btn{
+  position:absolute;top:10px;right:10px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  width:28px;height:28px;border-radius:8px;
+  display:grid;place-items:center;cursor:pointer;color:#aaa;
+  transition:.18s;z-index:2;
+}
+.popup-close-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.popup-close-btn svg{width:13px;height:13px}
+
+.popup-img{width:100%;display:block;max-height:160px;object-fit:cover}
+
+.popup-body{padding:18px 18px 16px}
+
+.popup-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.15rem;font-weight:700;
+  color:#fff;margin-bottom:6px;
+  line-height:1.3;
+}
+.popup-desc{
+  font-size:.72rem;color:#9090cc;
+  line-height:1.5;margin-bottom:14px;
+}
+
+.popup-code-wrap{
+  display:flex;align-items:center;gap:8px;
+  background:#111120;
+  border:1px dashed rgba(123,47,255,.5);
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:14px;
+}
+.popup-code{
+  flex:1;
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.1rem;font-weight:700;
+  color:#a06bff;letter-spacing:2px;
+}
+.popup-copy{
+  background:#7b2fff;border:none;
+  border-radius:7px;padding:5px 12px;
+  color:#fff;font-family:'Rajdhani',sans-serif;
+  font-size:.75rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;
+  box-shadow:0 0 10px rgba(123,47,255,.4);
+  transition:.18s;flex-shrink:0;
+}
+.popup-copy:hover{filter:brightness(1.2)}
+
+.popup-foot{
+  display:flex;align-items:center;
+  justify-content:space-between;gap:10px;
+  flex-wrap:wrap;
+}
+.popup-check{
+  display:flex;align-items:center;gap:6px;
+  font-size:.65rem;color:#6060a0;cursor:pointer;
+}
+.popup-check input{accent-color:#7b2fff;cursor:pointer}
+.popup-ok{
+  background:linear-gradient(135deg,#7b2fff,#a06bff);
+  border:none;border-radius:9px;
+  padding:7px 18px;color:#fff;
+  font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 12px rgba(123,47,255,.4);
+  transition:.18s;white-space:nowrap;flex-shrink:0;
+}
+.popup-ok:hover{filter:brightness(1.15)}
 </style>
 </head>
 <body>
