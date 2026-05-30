@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover,user-scalable=no"/>
-<title>lapakID v2.3.0 — Koleksi ID Premium</title>
+<title>lapakID v2.4.0 — Koleksi ID Premium</title>
 <link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
 <meta property="og:title" content="lapakID — Koleksi ID Premium"/>
 <meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
@@ -22,7 +22,6 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
   flex-direction:column;
   background:radial-gradient(circle at top right,rgba(123,47,255,.18),transparent 35%),#0b0b16;
   overflow-x:hidden;
-  /* FIX: padding bottom agar tidak tertutup bottom nav */
   padding-bottom:calc(60px + env(safe-area-inset-bottom));
 }
 
@@ -82,9 +81,7 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
 /* ── MINI CARD ── */
 .mini-card{background:#181826;border:1px solid #252540;border-radius:12px;padding:10px;min-width:110px;cursor:pointer;transition:.2s;flex-shrink:0;position:relative}
 .mini-card:hover{border-color:rgba(123,47,255,.4);transform:translateY(-2px)}
-.mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:8px;color:#e8e8f5;
-  /* FIX: no wrap untuk mini card */
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+.mini-id{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:8px;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
 .mini-like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:4px;font-size:.62rem;padding:3px 6px;border-radius:15px;transition:.15s;width:fit-content}
 .mini-like-btn:hover{color:#a06bff;background:rgba(123,47,255,.08)}
 .mini-like-btn.liked{color:#7b2fff;background:rgba(123,47,255,.1)}
@@ -135,7 +132,6 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
   transition:.22s cubic-bezier(.4,0,.2,1);
   animation:fadeUp .3s ease both;
   cursor:pointer;
-  /* FIX: no wrap agar tidak ke bawah */
   flex-wrap:nowrap;
   min-width:0;
 }
@@ -146,30 +142,8 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
 @keyframes newPulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── CARD LEFT: ID tidak wrap ── */
-.cleft{
-  flex:0 0 auto;
-  width:105px;
-  min-width:0;
-  padding:11px 8px 11px 11px;
-  border-right:1px solid #1e1e30;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  justify-content:center;
-}
-.acc-id{
-  font-family:'Rajdhani',sans-serif;
-  font-size:.88rem;
-  font-weight:700;
-  color:#e8e8f5;
-  /* FIX: nomor ID tidak turun ke bawah */
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  line-height:1.2;
-  max-width:100%;
-}
+.cleft{flex:0 0 auto;width:105px;min-width:0;padding:11px 8px 11px 11px;border-right:1px solid #1e1e30;display:flex;flex-direction:column;gap:7px;justify-content:center}
+.acc-id{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;max-width:100%}
 
 .cright{flex:1;min-width:0;padding:9px 8px 9px 10px;display:flex;flex-direction:column;gap:5px}
 .info-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -187,7 +161,7 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
 .like-btn.liked{color:#7b2fff;background:rgba(123,47,255,.1)}
 .like-btn svg{width:11px;height:11px;flex-shrink:0}
 
-/* ── CARD POP-UP MODAL ANIMATION ── */
+/* ── CARD POP-UP MODAL ── */
 .card-modal-overlay{
   position:fixed;inset:0;
   background:rgba(0,0,0,.7);
@@ -253,10 +227,6 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
 .cmod-like-btn svg{width:13px;height:13px;flex-shrink:0}
 .cmod-detail-link{font-size:.65rem;color:#7b2fff;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .cmod-detail-link:hover{color:#a06bff}
-
-/* glow pulse on open */
-@keyframes modalGlow{0%{box-shadow:0 0 40px rgba(123,47,255,.25),0 20px 60px rgba(0,0,0,.5)}50%{box-shadow:0 0 60px rgba(123,47,255,.4),0 20px 60px rgba(0,0,0,.5)}100%{box-shadow:0 0 40px rgba(123,47,255,.25),0 20px 60px rgba(0,0,0,.5)}}
-.card-modal-overlay.open .card-modal{animation:modalGlow 2s ease-in-out infinite}
 
 /* ── PAGINATION ── */
 #pagination{padding:8px 10px 6px;display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
@@ -333,7 +303,6 @@ html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'
   z-index:50;
   max-width:480px;
   margin:0 auto;
-  /* FIX: agar bottom nav di bawah */
   left:50%;
   transform:translateX(-50%);
   width:100%;
@@ -604,6 +573,12 @@ let tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0;
 let notifOpen=false;
 
+// ── HARDCODED KICAU MANIA ──
+const KICAU_MANIA = {
+  title: 'Kicau Mania',
+  src: 'https://files.catbox.moe/wf7j5e.mp3'
+};
+
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
 const TCLS={low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
@@ -671,13 +646,11 @@ async function doLikeModal(number){
       btn.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes===0?'Suka':d.likes+' suka'}`;
       btn.disabled=false;
     }
-    // update list cards
     document.querySelectorAll(`.like-btn[data-num="${number}"]`).forEach(b=>{b.classList.add('liked');b.innerHTML=`<svg viewBox="0 0 24 24" fill="#7b2fff" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${d.likes} suka`;});
     showToast('Berhasil menyukai!');
   }else{if(btn)btn.disabled=false;showToast(d.message||'Gagal like','warn');}
 }
 
-// Close modal on ESC
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCardModalDirect();});
 
 // ── BANNER ──────────────────────────────────────────
@@ -791,7 +764,6 @@ function render(){
   }
   container.innerHTML=html;
 
-  // Card click → open modal
   container.querySelectorAll('.acard:not(.is-sold)').forEach(card=>{
     card.addEventListener('click',(e)=>{
       if(e.target.closest('.btn-beli')) return;
@@ -813,7 +785,6 @@ function render(){
     });
   });
 
-  // Pagination
   container.querySelectorAll('.pgbtn[data-tier]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const tier=btn.dataset.tier;
@@ -938,13 +909,26 @@ async function markAllRead(){await fetch(`${API}/notifications/read`,{method:'PU
 setInterval(loadNotifications,30000);
 setInterval(checkPendingTransaction,5000);
 
-// ── MUSIK ──────────────────────────────────────────
+// ── MUSIK DENGAN KICAU MANIA ────────────────────────
 const audio=document.getElementById('musicAudio');
 let autoHideTimer=null;
+let isKicauPlaying=false;
+const visualizer=document.getElementById('musicVisualizer');
+
+function updateVisualizer(){
+  if(!songs.length||!songs[currentSong]){visualizer.classList.remove('show');return;}
+  const currentTitle=songs[currentSong].title.toLowerCase();
+  const isKicau=currentTitle.includes('kicau mania')||currentTitle.includes('kicaumania');
+  const isPlaying=!audio.paused&&audio.currentTime>0;
+  if(isKicau&&isPlaying){visualizer.classList.add('show');}
+  else{visualizer.classList.remove('show');}
+}
 
 function applyMusic(s){
-  const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
-  songs=list;
+  let dbSongs=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
+  const hasKicau=dbSongs.some(song=>song.title===KICAU_MANIA.title||(song.title&&song.title.toLowerCase().includes('kicau')));
+  if(!hasKicau){dbSongs.unshift(KICAU_MANIA);}
+  songs=dbSongs;
   if(songs.length){
     loadSong(0);
     document.getElementById('musicBar').style.display='flex';
@@ -973,17 +957,30 @@ function loadSong(idx){
   const ti=document.getElementById('musicTitle');
   ti.classList.remove('marquee');
   setTimeout(()=>{if(ti.scrollWidth>ti.parentElement.clientWidth)ti.classList.add('marquee');},200);
+  updateVisualizer();
 }
 
 function togglePlay(){
-  if(audio.paused){audio.play().catch(e=>console.log('Play error:',e));document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);}
-  else{audio.pause();document.getElementById('musicAlb').classList.remove('spin');setPlayIcon(false);}
+  if(audio.paused){
+    audio.play().catch(e=>console.log('Play error:',e));
+    document.getElementById('musicAlb').classList.add('spin');
+    setPlayIcon(true);
+  }else{
+    audio.pause();
+    document.getElementById('musicAlb').classList.remove('spin');
+    setPlayIcon(false);
+  }
+  updateVisualizer();
 }
 function setPlayIcon(p){document.getElementById('mcPlayIcon').innerHTML=p?'<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>':'<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';}
-function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play().catch(e=>console.log('Play error:',e));document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);}
-function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play().catch(e=>console.log('Play error:',e));document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);}
-audio.addEventListener('ended',nextSong);
-audio.addEventListener('pause',()=>{document.getElementById('musicAlb').classList.remove('spin');setPlayIcon(false);});
+function nextSong(){currentSong=(currentSong+1)%songs.length;loadSong(currentSong);audio.play().catch(e=>console.log('Play error:',e));document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);updateVisualizer();}
+function prevSong(){currentSong=(currentSong-1+songs.length)%songs.length;loadSong(currentSong);audio.play().catch(e=>console.log('Play error:',e));document.getElementById('musicAlb').classList.add('spin');setPlayIcon(true);updateVisualizer();}
+
+audio.addEventListener('ended',()=>{nextSong();});
+audio.addEventListener('pause',()=>{document.getElementById('musicAlb').classList.remove('spin');setPlayIcon(false);updateVisualizer();});
+audio.addEventListener('play',()=>{updateVisualizer();});
+audio.addEventListener('timeupdate',()=>{updateVisualizer();});
+
 document.getElementById('mcPlay').addEventListener('click',togglePlay);
 document.getElementById('mcPrev').addEventListener('click',prevSong);
 document.getElementById('mcNext').addEventListener('click',nextSong);
