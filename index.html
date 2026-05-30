@@ -2,45 +2,29 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
-<title>lapakID v2.2.3 — Koleksi ID Premium</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover,user-scalable=no"/>
+<title>lapakID v2.3.0 — Koleksi ID Premium</title>
 <link rel="icon" type="image/png" href="https://files.catbox.moe/eeimlh.png"/>
 <meta property="og:title" content="lapakID — Koleksi ID Premium"/>
 <meta property="og:image" content="https://files.catbox.moe/eeimlh.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'Exo 2',sans-serif;overflow:hidden}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e1a}::-webkit-scrollbar-thumb{background:#7b2fff;border-radius:2px}
+html,body{width:100%;min-height:100%;background:#0b0b16;color:#fff;font-family:'Exo 2',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0b0b16}::-webkit-scrollbar-thumb{background:#7b2fff;border-radius:99px}
 
-/* Tier Colors */
-:root {
-  --tier-silver: #c0c0c0;
-  --tier-blue:   #3b82f6;
-  --tier-red:    #ef4444;
-  --tier-gold:   #fbbf24;
-  --bg: #0e0e1a;
-  --card: #181826;
-  --border: #232338;
-  --purple: #7b2fff;
-  --purple-light: #a06bff;
-  --text: #e8e8f5;
-  --muted: #6060a0;
-  --green: #22bb72;
-}
-
-#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
+#app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(123,47,255,.18),transparent 35%),#0b0b16;overflow-x:hidden}
 
 /* TOP NAV */
-#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
+#topnav{flex-shrink:0;background:rgba(14,14,26,.96);backdrop-filter:blur(16px);border-bottom:1px solid #232338;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
 .logo{display:flex;align-items:center;gap:0}
-.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden;display:grid;place-items:center}
+.logo-mark{width:40px;height:40px;border-radius:10px;overflow:hidden}
 .logo-mark img{width:100%;height:100%;object-fit:cover}
 .nav-r{display:flex;align-items:center;gap:8px}
 .nav-icon{position:relative;background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;cursor:pointer;transition:.2s}
 .nav-icon:hover{background:rgba(123,47,255,.2)}
-.nav-icon svg{color:var(--purple-light);width:16px;height:16px}
-.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0e0e1a;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
+.nav-icon svg{color:#a06bff;width:16px;height:16px}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:15px;height:15px;background:#ef4444;border-radius:99px;border:2px solid #0b0b16;display:none;align-items:center;justify-content:center;font-size:.44rem;font-weight:800;color:#fff;padding:0 2px}
 .notif-badge.show{display:flex}
 
 #scrollarea{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
@@ -122,48 +106,57 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 
 /* TIER BADGE */
 .tier-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:5px;font-size:.6rem;font-weight:700;letter-spacing:.3px}
-.tier-low{background:rgba(192,192,192,.12);color:var(--tier-silver);border:1px solid rgba(192,192,192,.2)}
-.tier-medium{background:rgba(59,130,246,.1);color:var(--tier-blue);border:1px solid rgba(59,130,246,.2)}
-.tier-high{background:rgba(239,68,68,.1);color:var(--tier-red);border:1px solid rgba(239,68,68,.2)}
-.tier-legend{background:rgba(251,191,36,.12);color:var(--tier-gold);border:1px solid rgba(251,191,36,.25)}
+.tier-low{background:rgba(192,192,192,.12);color:#c0c0c0;border:1px solid rgba(192,192,192,.2)}
+.tier-medium{background:rgba(59,130,246,.1);color:#3b82f6;border:1px solid rgba(59,130,246,.2)}
+.tier-high{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.tier-legend{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
 
 /* MAIN CARD */
 #cardlist{padding:0 10px;display:flex;flex-direction:column;gap:7px;padding-bottom:8px}
-.acard{background:#181826;border:1px solid #232338;border-radius:13px;overflow:hidden;display:flex;position:relative;transition:.22s cubic-bezier(.4,0,.2,1);animation:fadeUp .3s ease both;cursor:pointer}
+.acard{background:#181826;border:1px solid #232338;border-radius:13px;overflow:hidden;display:flex;flex-wrap:wrap;position:relative;transition:.22s cubic-bezier(.4,0,.2,1);animation:fadeUp .3s ease both;cursor:pointer}
 .acard:hover{border-color:rgba(123,47,255,.45);transform:translateY(-2px);box-shadow:0 6px 22px rgba(123,47,255,.1)}
-.acard.is-sold{opacity:.5;pointer-events:none}
+.acard.is-sold{opacity:.6;pointer-events:none}
 .acard.is-new::before{content:'NEW';position:absolute;top:7px;right:7px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:.44rem;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.5px;animation:newPulse 2s ease-in-out infinite;z-index:2}
 .acard.is-sold::after{content:'SOLD';position:absolute;top:7px;right:7px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:.44rem;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.5px;z-index:2}
 @keyframes newPulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* card left */
-.cleft{width:120px;flex-shrink:0;padding:11px 8px 11px 11px;border-right:1px solid #1e1e30;display:flex;flex-direction:column;gap:7px;justify-content:center}
-.acc-id{
-  font-family:'Rajdhani',sans-serif;
-  font-size:.78rem;
-  font-weight:700;
-  color:#e8e8f5;
-  word-break:keep-all;
-  white-space:nowrap;
-  line-height:1.2
-}
-/* card right */
+.cleft{flex:0 0 100px;padding:11px 8px 11px 11px;border-right:1px solid #1e1e30;display:flex;flex-direction:column;gap:7px;justify-content:center}
+.acc-id{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:#e8e8f5;word-break:break-all;line-height:1.2}
 .cright{flex:1;min-width:0;padding:9px 8px 9px 10px;display:flex;flex-direction:column;gap:5px}
-.info-row{display:flex;gap:10px}
+.info-row{display:flex;gap:10px;flex-wrap:wrap}
 .inf{display:flex;flex-direction:column;gap:1px;min-width:0}
 .inf-lbl{font-size:.56rem;color:#4040a0;text-transform:uppercase;letter-spacing:.3px}
 .inf-val{font-size:.75rem;font-weight:600;color:#e8e8f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cbot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:4px}
-.card-price{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:#a06bff}
+.cbot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:4px;flex-wrap:wrap}
+.card-price{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:#a06bff;white-space:nowrap}
 .btn-beli{background:#7b2fff;border:none;border-radius:7px;padding:5px 12px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;box-shadow:0 0 8px rgba(123,47,255,.35);transition:.18s;flex-shrink:0}
 .btn-beli:hover{filter:brightness(1.15)}
+.btn-beli:disabled{opacity:0.5;cursor:not-allowed}
 
-/* LIKE BUTTON */
 .like-btn{background:none;border:none;cursor:pointer;color:#5050a0;display:flex;align-items:center;gap:4px;font-size:.65rem;font-family:'Exo 2',sans-serif;transition:.15s;padding:4px 8px;border-radius:20px;margin-top:4px;width:fit-content}
 .like-btn:hover{color:#a06bff;background:rgba(123,47,255,.1)}
 .like-btn.liked{color:#7b2fff;background:rgba(123,47,255,.1)}
 .like-btn svg{width:12px;height:12px}
+
+@media (max-width: 420px){
+  .cleft{flex:0 0 85px;padding:10px 6px 10px 10px}
+  .acc-id{font-size:.8rem}
+  .cright{padding:8px 6px 8px 8px}
+  .inf-val{font-size:.7rem}
+  .card-price{font-size:.85rem}
+  .btn-beli{padding:4px 10px;font-size:.7rem}
+  .like-btn{font-size:.6rem;padding:3px 6px}
+}
+
+@media (max-width: 380px){
+  .cleft{flex:0 0 80px}
+  .acc-id{font-size:.75rem}
+  .info-row{gap:6px}
+  .inf-lbl{font-size:.5rem}
+  .inf-val{font-size:.65rem}
+  .card-price{font-size:.8rem}
+}
 
 /* PAGINATION */
 #pagination{padding:8px 10px 6px;display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
@@ -174,9 +167,9 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .pg-sep{color:#4040a0;font-size:.75rem}
 
 /* NOTIF PANEL */
-.notif-panel{position:absolute;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #252540;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
+.notif-panel{position:fixed;top:54px;right:12px;width:280px;max-height:320px;background:#181826;border:1px solid #232338;border-radius:13px;box-shadow:0 8px 28px rgba(0,0,0,.4);z-index:200;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(-6px) scale(.97);transition:.2s}
 .notif-panel.open{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
-.notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1e1e30}
+.notif-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #1a1a2e}
 .notif-head-title{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700}
 .notif-mark{font-size:.6rem;color:#7b2fff;cursor:pointer;background:none;border:none}
 .notif-list{overflow-y:auto;max-height:260px}
@@ -186,65 +179,27 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .notif-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(16,185,129,.12);color:#10b981}
 .notif-ico svg{width:12px;height:12px}
 .notif-msg{font-size:.62rem;color:#e8e8f5;line-height:1.4}
-.notif-time{font-size:.54rem;color:#5050a0;margin-top:2px}
-.notif-empty{text-align:center;padding:20px;color:#4040a0;font-size:.7rem}
+.notif-time{font-size:.54rem;color:#6060a0;margin-top:2px}
+.notif-empty{text-align:center;padding:20px;color:#6060a0;font-size:.7rem}
 
 /* NOTIF DETAIL */
 .nd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.2s}
 .nd-overlay.open{opacity:1;pointer-events:all}
-.nd-box{background:#181826;border:1px solid #252540;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s}
+.nd-box{background:#181826;border:1px solid #232338;border-radius:16px;max-width:340px;width:90%;padding:20px;transform:scale(.94);transition:.22s}
 .nd-overlay.open .nd-box{transform:scale(1)}
 .modal-close{background:rgba(123,47,255,.1);border:1px solid rgba(123,47,255,.2);width:26px;height:26px;border-radius:7px;display:grid;place-items:center;cursor:pointer;color:#a06bff}
 .modal-close svg{width:12px;height:12px}
 
-/* MUSIC VISUALIZER - 3 GIF ANIMASI */
-.music-visualizer {
-  position: fixed;
-  bottom: 100px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  z-index: 398;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.music-visualizer.show {
-  opacity: 1;
-}
-.music-visualizer img {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: transparent;
-}
-.music-visualizer .gif-left {
-  animation: bounceLeft 0.8s ease-in-out infinite;
-}
-.music-visualizer .gif-center {
-  width: 75px;
-  height: 75px;
-  animation: bounceCenter 0.6s ease-in-out infinite;
-}
-.music-visualizer .gif-right {
-  animation: bounceRight 0.8s ease-in-out infinite;
-}
-@keyframes bounceLeft {
-  0%,100%{transform:translateX(0) scale(1);}
-  50%{transform:translateX(-10px) scale(1.08);}
-}
-@keyframes bounceCenter {
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.2);}
-}
-@keyframes bounceRight {
-  0%,100%{transform:translateX(0) scale(1);}
-  50%{transform:translateX(10px) scale(1.08);}
-}
+/* MUSIC VISUALIZER */
+.music-visualizer{position:fixed;bottom:100px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:20px;z-index:398;pointer-events:none;opacity:0;transition:opacity 0.3s ease}
+.music-visualizer.show{opacity:1}
+.music-visualizer img{width:55px;height:55px;border-radius:50%;object-fit:cover;background:transparent}
+.music-visualizer .gif-left{animation:bounceLeft 0.8s ease-in-out infinite}
+.music-visualizer .gif-center{width:75px;height:75px;animation:bounceCenter 0.6s ease-in-out infinite}
+.music-visualizer .gif-right{animation:bounceRight 0.8s ease-in-out infinite}
+@keyframes bounceLeft{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(-10px) scale(1.08)}}
+@keyframes bounceCenter{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes bounceRight{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(10px) scale(1.08)}}
 
 /* MUSIC BAR */
 .music-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(0);z-index:400;max-width:460px;width:calc(100% - 24px);background:rgba(14,14,26,.92);backdrop-filter:blur(20px);border:1px solid rgba(123,47,255,.25);border-radius:99px;padding:7px 14px 7px 9px;display:flex;align-items:center;gap:9px;box-shadow:0 4px 24px rgba(0,0,0,.4);transition:transform .3s,opacity .3s;cursor:pointer}
@@ -274,11 +229,10 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 .bni svg{width:19px;height:19px}
 .trans-badge-icon{position:absolute;top:-5px;right:-8px;background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;display:none}
 
-/* TOAST */
-.toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(6px);background:#22bb72;color:#fff;padding:7px 16px;border-radius:10px;font-size:.78rem;font-weight:600;z-index:99999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none}
-.toast.warn{background:#f5c842;color:#111}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(34,187,114,.15);border:1px solid #22bb72;color:#22bb72;font-size:13px;font-weight:700;padding:9px 20px;border-radius:50px;opacity:0;pointer-events:none;transition:.25s;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.empty{text-align:center;padding:2rem 1rem;color:#4040a0;font-size:.82rem}
+.toast.warn{background:rgba(239,68,68,.15);border-color:#ef4444;color:#ef4444}
+.empty{text-align:center;padding:2rem 1rem;color:#6060a0;font-size:.82rem}
 </style>
 </head>
 <body>
@@ -287,9 +241,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 <!-- TOP NAV -->
 <nav id="topnav">
   <div class="logo">
-    <div class="logo-mark">
-      <img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID Logo">
-    </div>
+    <div class="logo-mark"><img src="https://files.catbox.moe/eeimlh.png" alt="Lapak ID Logo"></div>
   </div>
   <div class="nav-r">
     <div class="nav-icon" id="notifBtn" title="Notifikasi">
@@ -347,7 +299,7 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
     <div class="search-row">
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="searchInput" type="text" placeholder="Cari nomor ID..." onkeydown="if(event.key==='Enter'){tierPages={low:1,medium:1,high:1,legend:1};searchQ=this.value.trim();render()}"/>
+        <input id="searchInput" type="text" placeholder="Cari nomor ID..."/>
       </div>
       <button class="btn-search" onclick="tierPages={low:1,medium:1,high:1,legend:1};searchQ=document.getElementById('searchInput').value.trim();render()">Cari</button>
     </div>
@@ -418,7 +370,6 @@ html,body{width:100%;height:100%;background:#0e0e1a;color:#e8e8f5;font-family:'E
 </nav>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 <audio id="clickSfx" src="https://files.catbox.moe/u5zsfh.wav" preload="auto"></audio>
 <audio id="musicAudio" preload="none"></audio>
@@ -432,48 +383,11 @@ let tierPages={low:1,medium:1,high:1,legend:1};
 let songs=[],currentSong=0;
 let notifOpen=false;
 
-// DOM Elements
-const audio = document.getElementById('musicAudio');
-const musicBar = document.getElementById('musicBar');
-const musicFab = document.getElementById('musicFab');
-const musicAlb = document.getElementById('musicAlb');
-const musicTitle = document.getElementById('musicTitle');
-const musicSub = document.getElementById('musicSub');
-const visualizer = document.getElementById('musicVisualizer');
-let autoHideTimer = null;
-
-// Hardcoded Kicau Mania dengan link baru
-const KICAU_MANIA = {
-  title: 'Kicau Mania',
-  src: 'https://files.catbox.moe/wf7j5e.mp3'
-};
-
 const fmt=n=>'Rp '+Number(n).toLocaleString('id-ID');
 const TNAME={low:'Low',medium:'Medium',high:'High',legend:'Legend'};
 const TCLS={low:'tier-low',medium:'tier-medium',high:'tier-high',legend:'tier-legend'};
 
-// ========== MUSIC VISUALIZER ==========
-function updateVisualizer() {
-  if (!songs.length || !songs[currentSong]) {
-    visualizer.classList.remove('show');
-    return;
-  }
-  const currentSongObj = songs[currentSong];
-  const isPlaying = !audio.paused && audio.currentTime > 0;
-  const isKicauMania = currentSongObj.title === 'Kicau Mania' || 
-                        (currentSongObj.title && currentSongObj.title.toLowerCase().includes('kicau'));
-  
-  console.log('updateVisualizer - currentSong:', currentSongObj.title, 'isPlaying:', isPlaying, 'isKicauMania:', isKicauMania);
-  
-  if (isKicauMania && isPlaying) {
-    visualizer.classList.add('show');
-    console.log('GIF muncul!');
-  } else {
-    visualizer.classList.remove('show');
-  }
-}
-
-// ========== BANNER ==========
+// ── BANNER ──────────────────────────────────────────
 let bannerCur=0,bannerTotal=0,bannerTimer=null;
 async function loadBanners(){
   try{
@@ -489,7 +403,7 @@ async function loadBanners(){
     bannerAuto();
     applyMusic(settings);
     initPopup(settings);
-  }catch(e){console.error('loadBanners error:',e);}
+  }catch(e){}
 }
 function bannerGo(idx){bannerCur=(idx+bannerTotal)%bannerTotal;document.getElementById('bannerTrack').style.transform=`translateX(-${bannerCur*100}%)`;document.querySelectorAll('.banner-dot').forEach((d,i)=>d.classList.toggle('active',i===bannerCur));}
 function bannerAuto(){clearInterval(bannerTimer);bannerTimer=setInterval(()=>bannerGo(bannerCur+1),4200);}
@@ -501,7 +415,7 @@ let bTx=0;
 bw.addEventListener('touchstart',e=>{bTx=e.touches[0].clientX;clearInterval(bannerTimer);},{passive:true});
 bw.addEventListener('touchend',e=>{const d=bTx-e.changedTouches[0].clientX;if(Math.abs(d)>40)d>0?bannerGo(bannerCur+1):bannerGo(bannerCur-1);bannerAuto();},{passive:true});
 
-// ========== POPUP ==========
+// ── POPUP ──────────────────────────────────────────
 function initPopup(s){
   const KEY='lapakid_popup_hide';if(localStorage.getItem(KEY)==='1')return;
   const p=s.popup||{};if(!p.active)return;
@@ -517,7 +431,7 @@ function initPopup(s){
 }
 function copyPromo(){const code=document.getElementById('popupCode').textContent;navigator.clipboard.writeText(code).then(()=>showToast('Kode '+code+' disalin!')).catch(()=>showToast('Kode: '+code));}
 
-// ========== POPULAR ==========
+// ── POPULAR ────────────────────────────────────────
 async function loadPopular(){
   const r=await fetch(`${API}/ids/popular`).catch(()=>null);
   const el=document.getElementById('popScroll');
@@ -555,14 +469,14 @@ async function doLikeMini(number,btn){
 
 function goToDetail(idNumber){window.location.href=`detail.html?id=${encodeURIComponent(idNumber)}`;}
 
-// ========== LOAD IDS ==========
+// ── LOAD IDS ───────────────────────────────────────
 async function loadIds(){
   const r=await fetch(`${API}/ids`).catch(()=>null);
   if(!r||!r.ok){document.getElementById('cardlist').innerHTML='<div class="empty">Gagal memuat ID</div>';return;}
   const{data}=await r.json();allIds=data||[];render();
 }
 
-// ========== RENDER ==========
+// ── RENDER ─────────────────────────────────────────
 function render(){
   const filtered=filterIds();let total=0;Object.values(filtered).forEach(v=>total+=v.length);
   document.getElementById('totCount').textContent=total.toLocaleString('id-ID');
@@ -606,7 +520,14 @@ function buildCard(id,ani=0){
   const lc=id.likes||0;
   const price=settings.prices?fmt((id.price!=null?id.price:settings.prices[id.tier])||0):'—';
   const isNewId=isNew(id);
-  let cls='acard';if(id.sold)cls+=' is-sold';else if(isNewId)cls+=' is-new';
+  const isSold=id.sold||false;
+  let cls='acard';
+  if(isSold) cls+=' is-sold';
+  else if(isNewId) cls+=' is-new';
+  
+  // Jika sold, tombol beli tidak ditampilkan
+  const buyButton = isSold ? '' : `<button class="btn-beli" data-num="${id.number}">Beli</button>`;
+  
   return `<div class="${cls}" data-num="${id.number}" data-tier="${id.tier}" data-ani="${ani}">
     <div class="cleft">
       <div class="acc-id">${id.number}</div>
@@ -615,11 +536,11 @@ function buildCard(id,ani=0){
     <div class="cright">
       <div class="info-row">
         <div class="inf"><span class="inf-lbl">TIER</span><span class="inf-val">${TNAME[id.tier]}</span></div>
-        <div class="inf"><span class="inf-lbl">STATUS</span><span class="inf-val" style="color:${id.sold?'#ef4444':'#22bb72'}">${id.sold?'Terjual':'Tersedia'}</span></div>
+        <div class="inf"><span class="inf-lbl">STATUS</span><span class="inf-val" style="color:${isSold?'#ef4444':'#22bb72'}">${isSold?'Terjual':'Tersedia'}</span></div>
       </div>
       <div class="cbot">
         <span class="card-price">${price}</span>
-        <button class="btn-beli" data-num="${id.number}" ${id.sold?'disabled':''}>Beli</button>
+        ${buyButton}
       </div>
       <button class="like-btn${liked?' liked':''}" data-num="${id.number}">
         <svg viewBox="0 0 24 24" fill="${liked?'#7b2fff':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -658,7 +579,7 @@ function isNew(id){if(id.sold||!id.addedAt)return false;const a=new Date(id.adde
 function setFilter(el,f){activeFilter=f;tierPages={low:1,medium:1,high:1,legend:1};document.querySelectorAll('.fp').forEach(b=>b.classList.remove('act'));el.classList.add('act');render();}
 function scrollToAll(){document.getElementById('semua').scrollIntoView({behavior:'smooth'});}
 
-// ========== LIKE ==========
+// ── LIKE ───────────────────────────────────────────
 async function doLike(number,btn){
   if(likedSet.has(number)){showToast('Sudah menyukai ID ini','warn');return;}
   btn.disabled=true;
@@ -673,7 +594,7 @@ async function doLike(number,btn){
   }else{btn.disabled=false;showToast(d.message||'Gagal like','warn');}
 }
 
-// ========== CEK TRANSAKSI PENDING ==========
+// ── CEK TRANSAKSI PENDING UNTUK BADGE ──────────────────
 async function checkPendingTransaction() {
   try {
     const res = await fetch(`${API}/transactions/check`);
@@ -681,12 +602,16 @@ async function checkPendingTransaction() {
     const data = await res.json();
     const badge = document.getElementById('pendingBadge');
     if (badge) {
-      badge.style.display = data.hasPending ? 'block' : 'none';
+      if (data.hasPending) {
+        badge.style.display = 'block';
+      } else {
+        badge.style.display = 'none';
+      }
     }
   } catch (e) {}
 }
 
-// ========== NOTIF ==========
+// ── NOTIF ──────────────────────────────────────────
 document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();notifOpen=!notifOpen;document.getElementById('notifPanel').classList.toggle('open',notifOpen);if(notifOpen)loadNotifications();});
 document.addEventListener('click',e=>{if(notifOpen&&!document.getElementById('notifPanel').contains(e.target)&&e.target!==document.getElementById('notifBtn')){notifOpen=false;document.getElementById('notifPanel').classList.remove('open');}});
 async function loadNotifications(){
@@ -715,120 +640,90 @@ async function markAllRead(){await fetch(`${API}/notifications/read`,{method:'PU
 setInterval(loadNotifications,30000);
 setInterval(checkPendingTransaction,5000);
 
-// ========== MUSIC ==========
+// ── MUSIK ──────────────────────────────────────────
+const audio=document.getElementById('musicAudio');
+let autoHideTimer=null;
+
 function applyMusic(s){
-  // Ambil musik dari database
-  let dbSongs = (s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
-  
-  // Gabungkan dengan Kicau Mania (hardcoded) jika belum ada
-  const hasKicau = dbSongs.some(song => song.title === 'Kicau Mania' || (song.title && song.title.toLowerCase().includes('kicau')));
-  
-  if (!hasKicau) {
-    dbSongs.unshift(KICAU_MANIA);
-  }
-  
-  songs = dbSongs;
-  
+  const list=(s&&Array.isArray(s.music)&&s.music.length)?s.music:[];
+  songs=list;
   if(songs.length){
     loadSong(0);
-    musicBar.style.display='flex';
-    musicBar.classList.add('hidden');
-    musicFab.classList.add('show');
+    document.getElementById('musicBar').style.display='flex';
+    document.getElementById('musicBar').classList.add('hidden');
+    document.getElementById('musicFab').classList.add('show');
   }else{
-    musicTitle.textContent='Belum ada musik';
-    musicSub.textContent='—';
+    document.getElementById('musicTitle').textContent='Belum ada musik';
+    document.getElementById('musicSub').textContent='—';
   }
 }
 
 function showMusicBar(){
   if(!songs.length) return;
-  musicBar.classList.remove('hidden');
-  musicFab.classList.remove('show');
+  const bar=document.getElementById('musicBar');
+  bar.classList.remove('hidden');
+  document.getElementById('musicFab').classList.remove('show');
   if(autoHideTimer) clearTimeout(autoHideTimer);
   autoHideTimer=setTimeout(()=>{
-    musicBar.classList.add('hidden');
-    musicFab.classList.add('show');
+    bar.classList.add('hidden');
+    document.getElementById('musicFab').classList.add('show');
   },5000);
 }
 
 function loadSong(idx){
   currentSong=idx;
-  audio.src = songs[idx].src;
-  musicTitle.textContent = songs[idx].title;
-  musicSub.textContent = `Track ${idx+1} / ${songs.length}`;
-  const ti = musicTitle;
+  audio.src=songs[idx].src;
+  document.getElementById('musicTitle').textContent=songs[idx].title;
+  document.getElementById('musicSub').textContent=`Track ${idx+1} / ${songs.length}`;
+  const ti=document.getElementById('musicTitle');
   ti.classList.remove('marquee');
   setTimeout(()=>{
-    if(ti.scrollWidth > ti.parentElement.clientWidth) ti.classList.add('marquee');
+    if(ti.scrollWidth>ti.parentElement.clientWidth) ti.classList.add('marquee');
   },200);
-  updateVisualizer();
 }
 
 function togglePlay(){
   if(audio.paused){
-    audio.play().catch(e => console.log('Play error:', e));
-    musicAlb.classList.add('spin');
+    audio.play().catch(e=>console.log('Play error:', e));
+    document.getElementById('musicAlb').classList.add('spin');
     setPlayIcon(true);
   }else{
     audio.pause();
-    musicAlb.classList.remove('spin');
+    document.getElementById('musicAlb').classList.remove('spin');
     setPlayIcon(false);
   }
-  updateVisualizer();
 }
 
 function setPlayIcon(p){
-  const playIcon = document.getElementById('mcPlayIcon');
-  if(p){
-    playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>';
-  }else{
-    playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
-  }
+  document.getElementById('mcPlayIcon').innerHTML=p?'<rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/>':'<polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>';
 }
 
 function nextSong(){
-  currentSong = (currentSong+1) % songs.length;
+  currentSong=(currentSong+1)%songs.length;
   loadSong(currentSong);
-  audio.play().catch(e => console.log('Play error:', e));
-  musicAlb.classList.add('spin');
+  audio.play().catch(e=>console.log('Play error:', e));
+  document.getElementById('musicAlb').classList.add('spin');
   setPlayIcon(true);
-  updateVisualizer();
 }
 
 function prevSong(){
-  currentSong = (currentSong-1 + songs.length) % songs.length;
+  currentSong=(currentSong-1+songs.length)%songs.length;
   loadSong(currentSong);
-  audio.play().catch(e => console.log('Play error:', e));
-  musicAlb.classList.add('spin');
+  audio.play().catch(e=>console.log('Play error:', e));
+  document.getElementById('musicAlb').classList.add('spin');
   setPlayIcon(true);
-  updateVisualizer();
 }
 
-// Audio event listeners
-audio.addEventListener('ended', () => {
-  nextSong();
-});
-audio.addEventListener('pause', () => {
-  musicAlb.classList.remove('spin');
+audio.addEventListener('ended',nextSong);
+audio.addEventListener('pause',()=>{
+  document.getElementById('musicAlb').classList.remove('spin');
   setPlayIcon(false);
-  updateVisualizer();
-});
-audio.addEventListener('play', () => {
-  musicAlb.classList.add('spin');
-  setPlayIcon(true);
-  updateVisualizer();
-});
-audio.addEventListener('timeupdate', () => {
-  // Update visualizer setiap kali waktu berubah (untuk memastikan)
-  updateVisualizer();
 });
 
-// Button event listeners
-document.getElementById('mcPlay').addEventListener('click', togglePlay);
-document.getElementById('mcPrev').addEventListener('click', prevSong);
-document.getElementById('mcNext').addEventListener('click', nextSong);
+document.getElementById('mcPlay').addEventListener('click',togglePlay);
+document.getElementById('mcPrev').addEventListener('click',prevSong);
+document.getElementById('mcNext').addEventListener('click',nextSong);
 
-// ========== TOAST ==========
 let toastTimer;
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
@@ -838,7 +733,6 @@ function showToast(msg,type='success'){
   toastTimer=setTimeout(()=>{t.className='toast '+(type==='warn'?'warn':'');},2500);
 }
 
-// ========== POPUP ELEMENTS ==========
 const popupHTML=`
 <div class="popup-overlay" id="promoPopup">
   <div class="popup-box" style="position:relative">
@@ -857,7 +751,6 @@ const popupHTML=`
 </div>`;
 document.body.insertAdjacentHTML('beforeend',popupHTML);
 
-// ========== INIT ==========
 async function init(){
   loadNotifications();
   await loadBanners();
